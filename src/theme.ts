@@ -4,6 +4,7 @@ const config = defineConfig({
   globalCss: {
     html: {
       colorPalette: "red",
+      fontFamily: "'IRANRounded', sens-serif",
     },
   },
 });

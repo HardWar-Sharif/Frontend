@@ -1,15 +1,10 @@
-import { Box, Button, Input } from "@chakra-ui/react";
-import React from "react";
+import { Button } from "@chakra-ui/react";
+import { useTranslate } from "@tolgee/react";
 
 const Landing = () => {
-  return (
-    <Box>
-      <section>
-        <Input />
-      </section>
-      <Button>Hello</Button>
-    </Box>
-  );
+  const { t } = useTranslate();
+
+  return <Button>{t("title.hardwar")}</Button>;
 };
 
 export default Landing;

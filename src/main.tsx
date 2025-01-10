@@ -5,14 +5,39 @@ import Landing from "./pages/Landing";
 
 import { ColorModeProvider } from "@/components/ui/color-mode";
 import { system } from "./theme";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, LocaleProvider } from "@chakra-ui/react";
+import { DevTools, FormatSimple, Tolgee, TolgeeProvider } from "@tolgee/react";
+import Fonts from "./fonts";
+
+const tolgee = Tolgee()
+  .use(DevTools())
+  .use(FormatSimple())
+  .init({
+    language: "fa",
+
+    // for development
+    apiUrl: import.meta.env.VITE_APP_TOLGEE_API_URL,
+    apiKey: import.meta.env.VITE_APP_TOLGEE_API_KEY,
+
+    // for production
+    // staticData: {
+    //   ...
+    // }
+  });
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <ChakraProvider value={system}>
-      <ColorModeProvider>
-        <Landing />
-      </ColorModeProvider>
-    </ChakraProvider>
+    <LocaleProvider locale="fa">
+      <TolgeeProvider tolgee={tolgee}>
+        <ChakraProvider value={system}>
+          <Fonts />
+          <ColorModeProvider>
+            <div dir="rtl">
+              <Landing />
+            </div>
+          </ColorModeProvider>
+        </ChakraProvider>
+      </TolgeeProvider>
+    </LocaleProvider>
   </StrictMode>
 );
