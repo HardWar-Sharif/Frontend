@@ -13,7 +13,7 @@ const tolgee = Tolgee()
   .use(DevTools())
   .use(FormatSimple())
   .init({
-    language: "fa",
+    language: "en",
 
     // for development
     apiUrl: import.meta.env.VITE_APP_TOLGEE_API_URL,
@@ -27,12 +27,12 @@ const tolgee = Tolgee()
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <LocaleProvider locale="fa">
+    <LocaleProvider locale="en">
       <TolgeeProvider tolgee={tolgee}>
         <ChakraProvider value={system}>
           <Fonts />
           <ColorModeProvider>
-            <div dir="rtl">
+            <div dir="ltr">
               <Landing />
             </div>
           </ColorModeProvider>
