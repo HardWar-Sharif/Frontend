@@ -1,0 +1,45 @@
+image: hub.hamdocker.ir/library/docker:cli
+
+services:
+  - hub.hamdocker.ir/library/docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay2
+  IMAGE_NAME: registry.hamdocker.ir/hard-war/frontend
+  DOCKER_TLS_CERTDIR: ""
+
+stages:
+  - build
+  - deploy
+
+before_script:
+  - until docker info; do sleep 3; done
+  - echo "$REGISTRY_PASSWORD" | docker login registry.hamdocker.ir/hardwar -u "$REGISTRY_USERNAME" --password-stdin
+
+build:
+  stage: build
+  script:
+    - docker build -t $IMAGE_NAME:latest .
+    - docker push $IMAGE_NAME:latest
+  tags:
+    - front
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  before_script:
+    - mkdir -p ~/.ssh
+    - echo "$PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - chmod 600 ~/.ssh/id_rsa
+    - ssh-keyscan -p 2200 188.245.205.57 >> ~/.ssh/known_hosts
+  script:
+    - ssh -o StrictHostKeyChecking=no -p 2200 hardwar@188.245.205.57 "
+      docker pull $IMAGE_NAME:latest &&
+      cd /var/www/hardwar &&
+      docker-compose --env-file /home/hardwar/.env down &&
+      docker-compose --env-file /home/hardwar/.env up -d"
+  tags:
+    - front
+  only:
+    - main
