@@ -3,6 +3,8 @@ import { Global } from "@emotion/react";
 const Fonts = () => (
   <Global
     styles={`
+      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;600&display=swap');
+
       @font-face {
         font-family: 'IRANRounded';
         font-style: normal;
@@ -12,7 +14,7 @@ const Fonts = () => (
           url('../public/fonts/IRAN-Rounded.woff') format('woff'),  /* FF3.6+, IE9, Chrome6+, Saf5.1+*/
           url('../public/fonts/IRAN-Rounded.ttf') format('truetype');
       }
-      `}
+    `}
   />
 );
 
