@@ -73,7 +73,15 @@ const handleScroll = (id: string) => {
           </Link>
         </Box>
         <Box display={{ base: "none", md: "block" }}>
-          <Button rounded="full" height="56px" width="125px" fontSize="md" fontFamily="DM Sans" fontWeight="600" {...props}>
+          <Button 
+          rounded="full" 
+          height="56px" 
+          width="125px" 
+          fontSize="md" 
+          fontFamily="DM Sans" 
+          fontWeight="600" 
+          borderWidth="2px" 
+          {...props}>
             {children}
           </Button>
         </Box>
@@ -98,7 +106,7 @@ const handleScroll = (id: string) => {
           pt={[4, 4, 0, 0]}
           gap={{ base: "2", md: "6" }}
         >
-          <MenuItem to="contact" {...props}>{t('navbar.about')}</MenuItem>
+          <MenuItem to="about" {...props}>{t('navbar.about')}</MenuItem>
           <MenuItem to="/how" {...props}>{t('navbar.timeline')}</MenuItem>
           <MenuItem to="/how" {...props}>{t('navbar.blog')}</MenuItem>
           <MenuItem to="/how" {...props}>{t('navbar.contact')}</MenuItem>
@@ -110,7 +118,7 @@ const handleScroll = (id: string) => {
           pt={[4, 4, 0, 0]}
           gap={{ base: "2", md: "6" }}
         >
-          <MenuButton to="/" variant='outline' borderWidth='2px' borderColor="primary.800">{t('navbar.signin')}</MenuButton>
+          <MenuButton to="/" variant='outline' borderColor="colorPalette.600">{t('navbar.signin')}</MenuButton>
           <MenuButton to="/">{t('navbar.signup')}</MenuButton>
         </Stack>
         
@@ -130,7 +138,7 @@ const handleScroll = (id: string) => {
         p={8}
         bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
         color={["white", "white", "primary.700", "primary.700"]}
-        padding="1.5% 10% 0 10%"
+        padding="1.5% 10% 0.75% 10%"
         {...props}
       >
         {children}
@@ -144,7 +152,7 @@ const handleScroll = (id: string) => {
   
     return (
       <NavBarContainer {...props}>
-        <Box display="flex">
+        <Box display="flex" alignContent="center">
           <Logo
             w="80px"
             color={["white", "white", "primary.500", "primary.500"]}
