@@ -6,7 +6,7 @@ const Organizers: React.FC<StackProps> = (props) => {
       <Heading size="4xl">
         Organizers
       </Heading>
-      <Text fontSize="lg">
+      <Text fontSize="lg" padding="0 10%">
         Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse eveniet eum debitis voluptates nam. 
       </Text>
       <Logos />
