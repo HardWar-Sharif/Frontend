@@ -2,13 +2,17 @@ import { Box, BoxProps } from "@chakra-ui/react";
 import NavBar from "../../components/ui/NavBar";
 import Title from "./title"
 import Organizers from "./Organizers";
+import Timeline from "./timeline"
 
 const Landing = () => {
+  
+
   return (
     <Box fontFamily="DM Sans" overflow="hidden" maxWidth="100vw" position="relative" clipPath="inset(0 0 0 0)">
       <NavBar position="fixed" backgroundColor="black" zIndex={3}/>
       <Title/>
       <Organizers mt="20vh"/>
+      <Timeline id="timeline" />
       <Splash  top="20vh" left="-15vw" width="50vw" height="50vh"/>
       <Splash  top="70vh" right="0vw" width="50vw" height="70vh" transform="translateX(20vw)"/>
     </Box>

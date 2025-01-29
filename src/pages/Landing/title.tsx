@@ -4,16 +4,16 @@ import useTimer from "../../components/ui/timer";
 
 const Title: React.FC<StackProps> = (props) => {
   return (
-    <Flex justify="space-between" align="center" flexWrap="wrap">
-      <Stack gap={30} width={{ base: "100%", md: "60%" }} padding="calc(100px + 10%) 10%" {...props}>
+    <Flex justify={{base: "flex-end", md: "space-between"}} align="center" flexWrap="wrap">
+      <Stack gap={30} width={{ base: "100%", md: "60%" }} padding="calc(100px + 10%) 10%" justifySelf="flex-start" {...props}>
         <HardWarTitle id="about"/>
         <Description />
         <Info />
         <Timer />
       </Stack>
-      <Box width={{ base: "100%", md: "auto" }} height="100%" alignSelf="flex-end" mt={{ base: 6, md: 0 }}>
+      <Flex justify="flex-end" width={{ base: "100%", md: "40%" }} height="100%" alignSelf="flex-end" mt={{ base: 6, md: 0 }}>
         <Image src="Landing/Arduino.svg" />
-      </Box>
+      </Flex>
     </Flex>
     
   );
