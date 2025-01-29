@@ -91,8 +91,8 @@ const Timeline:React.FC<FlexProps> = (props) => {
         />
       ))}
     </Box>
-      <Flex width={{ base: "100%", md: "50%" }} height="100%" padding="50px 10%" alignSelf="start" mt={{ base: 6, md: 0 }}>
-        <Image src="Landing/Raspberry.svg" />
+      <Flex width={{ base: "100%", md: "50%" }} height="100%" padding="50px 10%" alignSelf="center" justify="center" mt={{ base: 6, md: 0 }}>
+        <Image src="Landing/Raspberry.svg" alignSelf="center" />
       </Flex>
     </Flex>
     
