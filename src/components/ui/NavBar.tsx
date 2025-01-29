@@ -107,7 +107,7 @@ const handleScroll = (id: string) => {
           gap={{ base: "2", md: "6" }}
         >
           <MenuItem to="about" {...props}>{t('navbar.about')}</MenuItem>
-          <MenuItem to="/how" {...props}>{t('navbar.timeline')}</MenuItem>
+          <MenuItem to="timeline" {...props}>{t('navbar.timeline')}</MenuItem>
           <MenuItem to="/how" {...props}>{t('navbar.blog')}</MenuItem>
           <MenuItem to="/how" {...props}>{t('navbar.contact')}</MenuItem>
         </Stack>
