@@ -79,7 +79,7 @@ const MenuButton = ({ children, to = "/", ...props }: { children: ReactNode; to?
         width="125px" 
         fontSize="md" 
         fontFamily="DM Sans" 
-        fontWeight="600" 
+        fontWeight="bold" 
         borderWidth="2px" 
         {...props}>
           {children}
