@@ -109,7 +109,7 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean; }) => {
         <MenuItem to="about" {...props}>{t('navbar.about')}</MenuItem>
         <MenuItem to="timeline" {...props}>{t('navbar.timeline')}</MenuItem>
         <MenuItem to="honors" {...props}>{t('navbar.honors')}</MenuItem>
-        <MenuItem to="/how" {...props}>{t('navbar.contact')}</MenuItem>
+        <MenuItem to="contact" {...props}>{t('navbar.contact')}</MenuItem>
       </Stack>
       <Stack
         align="center"

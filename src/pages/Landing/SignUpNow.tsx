@@ -11,7 +11,7 @@ const SignUpNow: React.FC<StackProps> = (props) => {
       background={`linear-gradient(to bottom, transparent 28%, ${stripColor} 28%, ${stripColor} 72%, transparent 72%)`}
     >
       <Stack gap={30} width={{ base: "100%", md: "40%" }} padding="calc(100px + 10%) 5%" height="100%" justifySelf="flex-start" {...props}>
-        <HardWarTitle id="about"/>
+        <Title id="about"/>
         <Timer />
         <Flex justify="space-around">
           <Button 
@@ -34,7 +34,7 @@ const SignUpNow: React.FC<StackProps> = (props) => {
   );
 }
 
-const HardWarTitle: React.FC<HeadingProps> = (props) => {
+const Title: React.FC<HeadingProps> = (props) => {
   return (
     <Heading
       as="h1"
