@@ -4,6 +4,7 @@ import Title from "./title";
 import Organizers from "./Organizers";
 import Timeline from "./timeline";
 import Honors from './honors';
+import StaffBar from "./StaffBar";
 
 const Landing = () => {
   
@@ -14,7 +15,8 @@ const Landing = () => {
       <Title/>
       <Organizers mt="20vh"/>
       <Timeline id="timeline" />
-      <Honors />
+      <Honors id="honors" />
+      <StaffBar marginTop="50px"/>
       <Splash  top="20vh" left="-15vw" width="50vw" height="50vh"/>
       <Splash  top="70vh" right="0vw" width="50vw" height="70vh" transform="translateX(20vw)"/>
     </Box>
