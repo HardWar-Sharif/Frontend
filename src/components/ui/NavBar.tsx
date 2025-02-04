@@ -1,6 +1,7 @@
 import { Button, Box, Text, BoxProps, Link, Flex, Stack, Image, ButtonProps } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 import { useState, ReactNode} from "react"
+import { NavLink, useNavigate } from "react-router";
 
 const handleScroll = (id: string) => {
   if (id == '') {
@@ -63,24 +64,27 @@ const MenuItem = ({ children, to = "", ...rest }: { children: ReactNode; to?: st
 }
 
 const MenuButton = ({ children, to = "/", ...props }: { children: ReactNode; to?: string; } & ButtonProps) => {
+  const navigate = useNavigate();
+
   return (
     <Box>
       <Box display={{ base: "block", md: "none" }}>
-        <Link href={to}>
+        <NavLink to={to}>
           <Text display="block">
             {children}
           </Text>
-        </Link>
+        </NavLink>
       </Box>
       <Box display={{ base: "none", md: "block" }}>
-        <Button 
+        <Button
         rounded="full" 
         height="56px" 
         width="125px" 
         fontSize="md" 
         fontFamily="DM Sans" 
         fontWeight="bold" 
-        borderWidth="2px" 
+        borderWidth="2px"
+        onClick={() => navigate(to)}
         {...props}>
           {children}
         </Button>
@@ -119,7 +123,7 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean; }) => {
         gap={{ base: "2", md: "6" }}
       >
         <MenuButton to="/" variant='outline' borderColor="colorPalette.600">{t('navbar.signin')}</MenuButton>
-        <MenuButton to="/">{t('navbar.signup')}</MenuButton>
+        <MenuButton to="/signup">{t('navbar.signup')}</MenuButton>
       </Stack>
       
     </Box>

@@ -1,28 +1,36 @@
 import { Box, BoxProps } from "@chakra-ui/react";
-import NavBar from "../../components/ui/NavBar";
 import Title from "./title";
 import Organizers from "./Organizers";
 import Timeline from "./timeline";
-import Honors from './honors';
+import Honors from "./honors";
 import StaffBar from "./StaffBar";
 import SignUpNow from "./SignUpNow";
-import Footer from "./Footer"
+import Footer from "./Footer";
 
 const Landing = () => {
-  
-
   return (
-    <Box fontFamily="DM Sans" overflow="hidden" maxWidth="100vw" position="relative" clipPath="inset(0 0 0 0)">
-      <NavBar position="fixed" backgroundColor="black" zIndex={3}/>
-      <Title/>
-      <Organizers mt="20vh"/>
+    <Box
+      fontFamily="DM Sans"
+      overflow="hidden"
+      maxWidth="100vw"
+      position="relative"
+      clipPath="inset(0 0 0 0)"
+    >
+      <Title />
+      <Organizers mt="20vh" />
       <Timeline id="timeline" />
       <Honors id="honors" />
-      <StaffBar marginTop="50px"/>
+      <StaffBar marginTop="50px" />
       <SignUpNow />
-      <Footer id="contact"/>
-      <Splash  top="20vh" left="-15vw" width="50vw" height="50vh"/>
-      <Splash  top="70vh" right="0vw" width="50vw" height="70vh" transform="translateX(20vw)"/>
+      <Footer id="contact" />
+      <Splash top="25vh" left="-15vw" width="50vw" height="50vh" />
+      <Splash
+        top="70vh"
+        right="0vw"
+        width="50vw"
+        height="70vh"
+        transform="translateX(20vw)"
+      />
     </Box>
   );
 };
@@ -40,7 +48,6 @@ const Splash: React.FC<BoxProps> = (props) => {
       {...props}
     />
   );
-}
-
+};
 
 export default Landing;
