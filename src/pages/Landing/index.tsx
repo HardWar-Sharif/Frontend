@@ -1,8 +1,8 @@
 import { Box, BoxProps } from "@chakra-ui/react";
-import Title from "./title";
+import Title from "./Title";
 import Organizers from "./Organizers";
-import Timeline from "./timeline";
-import Honors from "./honors";
+import Timeline from "./Timeline";
+import Honors from "./Honors";
 import StaffBar from "./StaffBar";
 import SignUpNow from "./SignUpNow";
 import Footer from "./Footer";
