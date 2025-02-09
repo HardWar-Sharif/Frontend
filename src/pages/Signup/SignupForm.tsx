@@ -4,13 +4,17 @@ import {
   Center,
   Collapsible,
   Flex,
+  Link,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import FloatField from "./FloatField";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const SignupForm = () => {
   const [showVerification, setShowVerification] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   return (
     <Card.Root
@@ -22,6 +26,7 @@ const SignupForm = () => {
       bgColor="bg"
       shadow="0 0 60px var(--shadow-color)"
       shadowColor="red.subtle"
+      borderWidth={2}
     >
       <Center>
         <Card.Header>
@@ -43,7 +48,11 @@ const SignupForm = () => {
               <Collapsible.Trigger>
                 <Button
                   size="lg"
-                  variant="subtle"
+                  variant="surface"
+                  borderWidth={2}
+                  borderColor="red.emphasized"
+                  shadow="none"
+                  _hover={{ bgColor: "red.emphasized" }}
                   onClick={() => setShowVerification(true)}
                 >
                   Send Code
@@ -51,20 +60,33 @@ const SignupForm = () => {
               </Collapsible.Trigger>
             </Flex>
             <Collapsible.Content mt={3}>
-              <FloatField label="Email Verification" marginTop={3} />
+              <FloatField label="Verification Code" marginTop={3} />
             </Collapsible.Content>
           </Collapsible.Root>
           <FloatField label="Password" />
           <FloatField label="Repeat Password" />
         </Stack>
       </Card.Body>
-      <Card.Footer justifyContent="flex-end" gap={3}>
-        <Button variant="outline" size="lg">
-          Cancel
-        </Button>
-        <Button variant="solid" size="lg">
-          Sign Up
-        </Button>
+      <Card.Footer flexDirection="column" alignItems="flex-start">
+        <Flex gap={3}>
+          <Button variant="solid" size="lg">
+            Sign Up
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            borderWidth={2}
+            onClick={() => navigate("/")}
+          >
+            Cancel
+          </Button>
+        </Flex>
+        <Flex align="center" gap={1}>
+          <Text color="red.solid" fontSize="sm">
+            Already have an account?
+          </Text>
+          <Link fontSize="sm">Log in</Link>
+        </Flex>
       </Card.Footer>
     </Card.Root>
   );

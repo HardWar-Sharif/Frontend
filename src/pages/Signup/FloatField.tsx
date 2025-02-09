@@ -13,6 +13,7 @@ const FloatField = ({ label, marginTop = 2 }: FloatFieldProps) => {
           className="peer"
           placeholder=""
           size="lg"
+          borderWidth={2}
           borderColor="red.muted"
           bgColor="red.950"
           focusRingColor="bg"
@@ -27,7 +28,6 @@ const FloatField = ({ label, marginTop = 2 }: FloatFieldProps) => {
 
 const floatingStyles = defineStyle({
   pos: "absolute",
-  bg: "bg/0",
   px: "0.5",
   top: "-3",
   insetStart: "2",
@@ -37,11 +37,13 @@ const floatingStyles = defineStyle({
   transition: "position",
   color: "red.200",
   _peerPlaceholderShown: {
+    bgColor: "bg/0",
     color: "red.fg",
     top: "2.5",
     insetStart: "3",
   },
   _peerFocusVisible: {
+    bgColor: "bg",
     color: "red.200",
     top: "-3",
     insetStart: "2",
