@@ -14,21 +14,21 @@ import NavBar from "./components/ui/NavBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Main/Dashboard";
+import en from "./locales/en.json";
+import fa from "./locales/fa.json";
 
 const tolgee = Tolgee()
-  .use(DevTools())
+  // .use(DevTools())
   .use(FormatSimple())
   .init({
     language: "en",
 
     // for development
-    apiUrl: import.meta.env.VITE_APP_TOLGEE_API_URL,
-    apiKey: import.meta.env.VITE_APP_TOLGEE_API_KEY,
+    // apiUrl: import.meta.env.VITE_APP_TOLGEE_API_URL,
+    // apiKey: import.meta.env.VITE_APP_TOLGEE_API_KEY,
 
     // for production
-    // staticData: {
-    //   ...
-    // }
+    staticData: { en, fa },
   });
 
 const queryClient = new QueryClient();
