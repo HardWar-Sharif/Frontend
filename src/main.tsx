@@ -13,6 +13,7 @@ import Signup from "./pages/Signup";
 import NavBar from "./components/ui/NavBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "./pages/Login";
+import Dashboard from "./pages/Main/Dashboard";
 
 const tolgee = Tolgee()
   .use(DevTools())
@@ -39,7 +40,7 @@ createRoot(document.getElementById("root")!).render(
         <TolgeeProvider tolgee={tolgee}>
           <ChakraProvider value={system}>
             <Fonts />
-            <ColorModeProvider>
+            <ColorModeProvider forcedTheme="dark">
               <div dir="ltr">
                 <BrowserRouter>
                   <Routes>
@@ -59,6 +60,7 @@ createRoot(document.getElementById("root")!).render(
                       <Route index element={<Landing />} />
                       <Route path="signup" element={<Signup />} />
                       <Route path="login" element={<Login />} />
+                      <Route path="dashboard" element={<Dashboard />} />
                     </Route>
                   </Routes>
                 </BrowserRouter>
