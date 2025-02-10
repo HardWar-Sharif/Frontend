@@ -63,16 +63,16 @@ const SignupForm = () => {
   };
 
   const signup = () => {
-    const data = {
-      email: getEmail("email"),
-      password: getValues("password"),
-    };
-    console.log("d", data);
-
-    mutate(data, {
-      onSuccess: () => console.log("success"),
-      onError: () => console.log("error"),
-    });
+    mutate(
+      {
+        email: getEmail("email"),
+        password: getValues("password"),
+      },
+      {
+        onSuccess: () => console.log("success"),
+        onError: () => console.log("error"),
+      }
+    );
   };
 
   return (
@@ -196,7 +196,9 @@ const SignupForm = () => {
           <Text color="red.solid" fontSize="sm">
             Already have an account?
           </Text>
-          <Link fontSize="sm">Log in</Link>
+          <Link fontSize="sm" onClick={() => navigate("/login")}>
+            Log in
+          </Link>
         </Flex>
       </Card.Footer>
     </Card.Root>
