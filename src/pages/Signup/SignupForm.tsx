@@ -8,13 +8,57 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
-import FloatField from "./FloatField";
+import FloatField from "../../components/ui/FloatField";
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useForm } from "react-hook-form";
+import { FloatPasswordField } from "@/components/ui/FloatPasswordField";
+
+interface EmailValues {
+  email: string;
+}
+
+interface SignupFormValues {
+  verificationCode: string;
+  password: string;
+  confirmPassword: string;
+}
 
 const SignupForm = () => {
   const [showVerification, setShowVerification] = useState<boolean>(false);
+  const [codeSent, setCodeSent] = useState<boolean>(false);
   const navigate = useNavigate();
+  const {
+    register: registerEmail,
+    handleSubmit: handleEmail,
+    formState: { errors: emailErrors },
+  } = useForm<EmailValues>({ mode: "onSubmit" });
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<SignupFormValues>({ mode: "onSubmit" });
+
+  const sendCodeOrEdit = () => {
+    if (!codeSent) {
+      if (!emailErrors.email) {
+        setShowVerification(true);
+        setCodeSent(true);
+      }
+    } else {
+      setShowVerification(false);
+      setCodeSent(false);
+    }
+  };
+
+  const validateConfirmPassword = (value: string) => {
+    return value == getValues("password");
+  };
+
+  const signup = () => {
+    console.log("signup");
+  };
 
   return (
     <Card.Root
@@ -41,10 +85,18 @@ const SignupForm = () => {
         </Card.Header>
       </Center>
       <Card.Body>
-        <Stack gap="4" w="full">
+        <Stack w="full" gap={0}>
           <Collapsible.Root open={showVerification} unmountOnExit>
             <Flex gap={4} align="end">
-              <FloatField label="Email" />
+              <FloatField
+                label="Email"
+                formInput={registerEmail("email", {
+                  pattern: /^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}$/,
+                  required: true,
+                })}
+                invalid={!!emailErrors.email}
+                disabled={codeSent}
+              />
               <Collapsible.Trigger>
                 <Button
                   size="lg"
@@ -53,23 +105,65 @@ const SignupForm = () => {
                   borderColor="red.emphasized"
                   shadow="none"
                   _hover={{ bgColor: "red.emphasized" }}
-                  onClick={() => setShowVerification(true)}
+                  onClick={handleEmail(sendCodeOrEdit)}
                 >
-                  Send Code
+                  {!codeSent ? "Send Code" : "Edit Email"}
                 </Button>
               </Collapsible.Trigger>
             </Flex>
+            {emailErrors.email && (
+              <Text fontSize="sm" mt={1} color="red.solid">
+                {emailErrors.email.type == "required"
+                  ? "Email is required."
+                  : "Email is invalid."}
+              </Text>
+            )}
             <Collapsible.Content mt={3}>
-              <FloatField label="Verification Code" marginTop={3} />
+              <FloatField
+                label="Verification Code"
+                formInput={register("verificationCode", { required: true })}
+                invalid={!!errors.verificationCode}
+                marginTop={3}
+              />
+              {errors.verificationCode && (
+                <Text fontSize="sm" mt={1} color="red.solid">
+                  Verification Code is required.
+                </Text>
+              )}
             </Collapsible.Content>
           </Collapsible.Root>
-          <FloatField label="Password" />
-          <FloatField label="Repeat Password" />
+          <FloatPasswordField
+            label="Password"
+            {...register("password", { required: true })}
+            invalid={!!errors.password}
+          />
+          {errors.password && (
+            <Text fontSize="sm" mt={1} color="red.solid">
+              Password is required.
+            </Text>
+          )}
+          <FloatPasswordField
+            label="Confirm Password"
+            {...register("confirmPassword", {
+              validate: validateConfirmPassword,
+            })}
+            invalid={!!errors.confirmPassword}
+          />
+          {errors.confirmPassword && (
+            <Text fontSize="sm" mt={1} color="red.solid">
+              Password Confirmation does not match.
+            </Text>
+          )}
         </Stack>
       </Card.Body>
       <Card.Footer flexDirection="column" alignItems="flex-start">
         <Flex gap={3}>
-          <Button variant="solid" size="lg">
+          <Button
+            variant="solid"
+            size="lg"
+            onClick={handleSubmit(signup)}
+            disabled={!codeSent}
+          >
             Sign Up
           </Button>
           <Button
