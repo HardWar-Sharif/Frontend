@@ -122,7 +122,7 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean; }) => {
         pt={[4, 4, 0, 0]}
         gap={{ base: "2", md: "6" }}
       >
-        <MenuButton to="/" variant='outline' borderColor="colorPalette.600">{t('navbar.signin')}</MenuButton>
+        <MenuButton to="/login" variant='outline' borderColor="colorPalette.600">{t('navbar.signin')}</MenuButton>
         <MenuButton to="/signup">{t('navbar.signup')}</MenuButton>
       </Stack>
       

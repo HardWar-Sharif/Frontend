@@ -12,6 +12,7 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import Signup from "./pages/Signup";
 import NavBar from "./components/ui/NavBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Login from "./pages/Login";
 
 const tolgee = Tolgee()
   .use(DevTools())
@@ -57,6 +58,7 @@ createRoot(document.getElementById("root")!).render(
                     >
                       <Route index element={<Landing />} />
                       <Route path="signup" element={<Signup />} />
+                      <Route path="login" element={<Login />} />
                     </Route>
                   </Routes>
                 </BrowserRouter>
