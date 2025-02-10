@@ -110,6 +110,7 @@ const inputStyles = {
 
 const floatingStyles = defineStyle({
   pos: "absolute",
+  bgColor: "bg",
   px: "0.5",
   top: "-3",
   insetStart: "2",

@@ -12,7 +12,8 @@ import FloatField from "../../components/ui/FloatField";
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
-import { FloatPasswordField } from "@/components/ui/FloatPasswordField";
+import { FloatPasswordField } from "../../components/ui/FloatPasswordField";
+import { useSignup } from "../../hooks/signup";
 
 interface EmailValues {
   email: string;
@@ -32,6 +33,7 @@ const SignupForm = () => {
     register: registerEmail,
     handleSubmit: handleEmail,
     formState: { errors: emailErrors },
+    getValues: getEmail,
   } = useForm<EmailValues>({ mode: "onSubmit" });
   const {
     register,
@@ -39,6 +41,7 @@ const SignupForm = () => {
     formState: { errors },
     getValues,
   } = useForm<SignupFormValues>({ mode: "onSubmit" });
+  const { mutate } = useSignup();
 
   const sendCodeOrEdit = () => {
     if (!codeSent) {
@@ -52,12 +55,24 @@ const SignupForm = () => {
     }
   };
 
+  const validateVerificationCode = (value: string) => {
+    return value == "1234";
+  };
   const validateConfirmPassword = (value: string) => {
     return value == getValues("password");
   };
 
   const signup = () => {
-    console.log("signup");
+    const data = {
+      email: getEmail("email"),
+      password: getValues("password"),
+    };
+    console.log("d", data);
+
+    mutate(data, {
+      onSuccess: () => console.log("success"),
+      onError: () => console.log("error"),
+    });
   };
 
   return (
@@ -121,13 +136,15 @@ const SignupForm = () => {
             <Collapsible.Content mt={3}>
               <FloatField
                 label="Verification Code"
-                formInput={register("verificationCode", { required: true })}
+                formInput={register("verificationCode", {
+                  validate: validateVerificationCode,
+                })}
                 invalid={!!errors.verificationCode}
                 marginTop={3}
               />
               {errors.verificationCode && (
                 <Text fontSize="sm" mt={1} color="red.solid">
-                  Verification Code is required.
+                  Verification Code is incorrect.
                 </Text>
               )}
             </Collapsible.Content>
