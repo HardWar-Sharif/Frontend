@@ -6,7 +6,7 @@ import Landing from "./pages/Landing";
 import { ColorModeProvider } from "./components/ui/color-mode";
 import { system } from "./theme";
 import { ChakraProvider, LocaleProvider } from "@chakra-ui/react";
-import { DevTools, FormatSimple, Tolgee, TolgeeProvider } from "@tolgee/react";
+import { FormatSimple, Tolgee, TolgeeProvider } from "@tolgee/react";
 import Fonts from "./fonts";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import Signup from "./pages/Signup";
