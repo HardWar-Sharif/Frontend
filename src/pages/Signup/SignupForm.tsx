@@ -15,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { FloatPasswordField } from "../../components/ui/FloatPasswordField";
 import { useSignup } from "../../hooks/signup";
 import { toaster, Toaster } from "@/components/ui/toaster";
+import { useSendCode } from "@/hooks/send-code";
 
 interface EmailValues {
   email: string;
@@ -43,12 +44,25 @@ const SignupForm = () => {
     getValues,
   } = useForm<SignupFormValues>({ mode: "onSubmit" });
   const { mutate } = useSignup();
+  const { mutate: codeMutate } = useSendCode();
 
   const sendCodeOrEdit = () => {
     if (!codeSent) {
       if (!emailErrors.email) {
-        setShowVerification(true);
-        setCodeSent(true);
+        codeMutate(
+          { email: getEmail("email") },
+          {
+            onSuccess: () => {
+              setShowVerification(true);
+              setCodeSent(true);
+            },
+            onError: () =>
+              toaster.create({
+                title: "Verification Code Error",
+                type: "error",
+              }),
+          }
+        );
       }
     } else {
       setShowVerification(false);
@@ -57,7 +71,7 @@ const SignupForm = () => {
   };
 
   const validateVerificationCode = (value: string) => {
-    return value == "1234";
+    return value.length == 5;
   };
   const validateConfirmPassword = (value: string) => {
     return value == getValues("password");
@@ -68,6 +82,7 @@ const SignupForm = () => {
       {
         email: getEmail("email"),
         password: getValues("password"),
+        verificationCode: getValues("verificationCode"),
       },
       {
         onSuccess: (data) => {
@@ -153,7 +168,7 @@ const SignupForm = () => {
                 />
                 {errors.verificationCode && (
                   <Text fontSize="sm" mt={1} color="red.solid">
-                    Verification Code is incorrect.
+                    Verification Code should be 5 digits.
                   </Text>
                 )}
               </Collapsible.Content>

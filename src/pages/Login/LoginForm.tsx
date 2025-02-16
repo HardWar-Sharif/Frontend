@@ -42,7 +42,7 @@ const LoginForm = () => {
         },
         onError: () =>
           toaster.create({
-            title: "Signup Error",
+            title: "Login Error",
             type: "error",
           }),
       }
