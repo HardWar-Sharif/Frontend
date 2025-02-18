@@ -22,8 +22,10 @@ const handleScroll = (id: string) => {
 };
 
 const Logo: React.FC<BoxProps> = (props) => {
+  const navigate = useNavigate();
+
   return (
-    <Box {...props}>
+    <Box {...props} onClick={() => navigate("/")}>
       <Image src="hardwar.svg"/>
     </Box>
   )

@@ -102,8 +102,7 @@ const SignupForm = () => {
     <>
       <Card.Root
         size="lg"
-        w="35vw"
-        minW="500px"
+        w={{ base: "90vw", sm: "70vw", md: "55vw", lg: "35vw" }}
         mb="5vh"
         borderColor="red.emphasized"
         bgColor="bg"
