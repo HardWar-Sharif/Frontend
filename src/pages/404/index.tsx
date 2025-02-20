@@ -42,7 +42,7 @@ const NotFound = () => {
             color="white"
             onClick={() => navigate("/")}
           >
-            BACK TO HOME
+            HOME PAGE
           </Button>
         </Flex>
       </Stack>
