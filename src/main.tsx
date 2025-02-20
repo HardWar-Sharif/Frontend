@@ -10,6 +10,7 @@ import { FormatSimple, Tolgee, TolgeeProvider } from "@tolgee/react";
 import Fonts from "./fonts";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import Signup from "./pages/Signup";
+import NotFound from "./pages/404";
 import NavBar from "./components/ui/NavBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "./pages/Login";
@@ -62,6 +63,7 @@ createRoot(document.getElementById("root")!).render(
                       <Route path="login" element={<Login />} />
                       <Route path="dashboard" element={<Dashboard />} />
                     </Route>
+                    <Route path="*" element={<NotFound />} />
                   </Routes>
                 </BrowserRouter>
               </div>
