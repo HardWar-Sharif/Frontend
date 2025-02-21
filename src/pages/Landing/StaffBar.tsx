@@ -1,5 +1,6 @@
 import { Heading, Text, Stack, StackProps, Flex, Image, Box, BoxProps, Button } from "@chakra-ui/react";
 import { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 const cardWidth = 210;
 
@@ -73,6 +74,8 @@ const StaffBar: React.FC<StackProps> = (props) => {
     return () => clearInterval(interval);
   }, [shouldScroll]);
 
+  const navigate = useNavigate();
+
   return (
     <Stack width="100%" textAlign="center" gap={4} {...props}>
       <Heading size="4xl" fontWeight="bold">
@@ -125,7 +128,7 @@ const StaffBar: React.FC<StackProps> = (props) => {
       </Flex>
 
       <Flex justify="space-around">
-        <Button size="xl" borderRadius="full" fontWeight="bold" fontSize="sm">
+        <Button size="xl" borderRadius="full" fontWeight="bold" fontSize="sm" onClick={() => navigate('/staff-members')}>
           VIEW ALL
           <Image
             height="1em"

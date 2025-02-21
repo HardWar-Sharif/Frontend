@@ -11,6 +11,7 @@ import Fonts from "./fonts";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router";
 import Signup from "./pages/Signup";
 import NotFound from "./pages/404";
+import StaffPage from "./pages/Staff";
 import NavBar from "./components/ui/NavBar";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Login from "./pages/Login";
@@ -62,6 +63,7 @@ createRoot(document.getElementById("root")!).render(
                       <Route path="signup" element={<Signup />} />
                       <Route path="login" element={<Login />} />
                       <Route path="dashboard" element={<Dashboard />} />
+                      <Route path="staff-members" element={<StaffPage />} />
                     </Route>
                     <Route path="*" element={<NotFound />} />
                   </Routes>
