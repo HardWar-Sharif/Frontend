@@ -1,51 +1,35 @@
 import { Box, Stack, Flex } from "@chakra-ui/react"
 import Footer from "../Landing/Footer";
 import StaffSection from "./StaffSection";
+import { useEffect, useState } from "react";
 
-// Move to a separate json file
-const staff = [
-  {
-    "team": "Technical Team",
-    "members": [
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati with a very long name", "subtitle": "President is a veryyyy long title", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-    ]
-  },
-  {
-    "team": "Technical Team",
-    "members": [
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-    ]
-  },
-  {
-    "team": "Technical Team",
-    "members": [
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-      {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-    ]
-  },
-]
+interface Member {
+  name: string;
+  subtitle: string;
+  image: string;
+}
+
+interface Team {
+  team: string;
+  members: Member[];
+}
+
+type StaffData = Team[];
 
 const StaffPage = () => {
+  const [staff, setStaff] = useState<StaffData | null>(null);
+
+  useEffect(() => {
+    fetch('staff/all-staff.json')
+      .then((response) => response.json())
+      .then((data: StaffData) => setStaff(data))
+      .catch((error) => console.error('Error loading JSON file:', error));
+  }, []);
+
+  if (!staff) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <Box
       fontFamily="DM Sans"
