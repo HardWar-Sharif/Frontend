@@ -10,7 +10,7 @@ import { UseFormRegisterReturn } from "react-hook-form";
 interface FloatFieldProps {
   label: string;
   marginTop?: number;
-  formInput: UseFormRegisterReturn;
+  formInput: UseFormRegisterReturn | null;
   invalid?: boolean;
   disabled?: boolean;
 }
