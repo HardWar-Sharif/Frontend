@@ -16,6 +16,10 @@ import { FloatPasswordField } from "../../components/ui/FloatPasswordField";
 import { useSignup } from "../../hooks/signup";
 import { toaster, Toaster } from "@/components/ui/toaster";
 import { useSendCode } from "@/hooks/send-code";
+import {
+  validateConfirmPassword,
+  validateVerificationCode,
+} from "@/utils/validations";
 
 interface EmailValues {
   email: string;
@@ -70,13 +74,6 @@ const SignupForm = () => {
     }
   };
 
-  const validateVerificationCode = (value: string) => {
-    return value.length == 5;
-  };
-  const validateConfirmPassword = (value: string) => {
-    return value == getValues("password");
-  };
-
   const signup = () => {
     mutate(
       {
@@ -129,8 +126,11 @@ const SignupForm = () => {
                 <FloatField
                   label="Email"
                   formInput={registerEmail("email", {
-                    pattern: /^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}$/,
-                    required: true,
+                    pattern: {
+                      value: /^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}$/,
+                      message: "Email is invalid.",
+                    },
+                    required: "Email is required.",
                   })}
                   invalid={!!emailErrors.email}
                   disabled={codeSent}
@@ -151,9 +151,7 @@ const SignupForm = () => {
               </Flex>
               {emailErrors.email && (
                 <Text fontSize="sm" mt={1} color="red.solid">
-                  {emailErrors.email.type == "required"
-                    ? "Email is required."
-                    : "Email is invalid."}
+                  {emailErrors.email.message}
                 </Text>
               )}
               <Collapsible.Content mt={3}>
@@ -185,7 +183,8 @@ const SignupForm = () => {
             <FloatPasswordField
               label="Confirm Password"
               {...register("confirmPassword", {
-                validate: validateConfirmPassword,
+                validate: (value) =>
+                  validateConfirmPassword(value, getValues("password")),
               })}
               invalid={!!errors.confirmPassword}
             />

@@ -1,18 +1,17 @@
-import { Checkbox } from "@/components/ui/checkbox";
+import CheckboxField from "@/components/ui/CheckboxField";
 import FloatField from "@/components/ui/FloatField";
-import {
-  SelectContent,
-  SelectItem,
-  SelectRoot,
-  SelectTrigger,
-  SelectValueText,
-} from "@/components/ui/select";
+import SelectField from "@/components/ui/SelectField";
 import {
   StepsContent,
   StepsItem,
   StepsList,
   StepsRoot,
 } from "@/components/ui/steps";
+import {
+  validateNationalCode,
+  validatePhoneNumber,
+  validateStudentId,
+} from "@/utils/validations";
 import {
   Card,
   Center,
@@ -22,26 +21,19 @@ import {
   GridItem,
   createListCollection,
   useBreakpointValue,
+  Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-const inputStyles = {
-  borderWidth: 1,
-  borderColor: "red.muted",
-  bgColor: "red.950",
-  focusRingColor: "bg",
-  color: "red.50",
-  _invalid: { bgColor: "red.muted" },
-};
-
-const universityItems = createListCollection({
+const universities = createListCollection({
   items: [
     { label: "Sharif University of Technology", value: "SUT" },
     { label: "Other", value: "other" },
   ],
 });
 
-const departmentItems = createListCollection({
+const departments = createListCollection({
   items: [
     { label: "Computer Engineering", value: "CE" },
     { label: "Electrical Engineering", value: "EE" },
@@ -49,7 +41,7 @@ const departmentItems = createListCollection({
   ],
 });
 
-const courseItems = createListCollection({
+const courses = createListCollection({
   items: [
     { label: "Logical Design", value: "LD" },
     { label: "Digital System Design", value: "DSD" },
@@ -58,10 +50,41 @@ const courseItems = createListCollection({
   ],
 });
 
+export interface GeneralProfileFormValues {
+  persianFirstName: string;
+  persianLastName: string;
+  englishFirstName: string;
+  englishLastName: string;
+  phoneNumber: string;
+  nationalCode: string;
+  university: string;
+  department: string;
+  acceptTerms: "true" | "false";
+  dataToSponsor: "true" | "false";
+}
+
+export interface SemesterProfileFormValues {
+  studentId: string;
+  coursesList: Array<string>;
+}
+
 const Profile = () => {
   const [step, setStep] = useState<number>(0);
-  const [universitySelected, setUniversitySelected] = useState<boolean>(false);
-  const [departmentSelected, setDepartmentSelected] = useState<boolean>(false);
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors },
+    getValues,
+  } = useForm<GeneralProfileFormValues>({ mode: "onSubmit" });
+
+  const {
+    register: semesterRegister,
+    handleSubmit: semesterSubmit,
+    control: semesterControl,
+    formState: { errors: semesterErrors },
+    getValues: getSemesterValues,
+  } = useForm<SemesterProfileFormValues>({ mode: "onSubmit" });
 
   const responsiveFirstTitle = useBreakpointValue({
     base: undefined,
@@ -79,93 +102,171 @@ const Profile = () => {
     xl: "Semester Information",
   });
 
+  const submitForm = () => {
+    if (step == 0) setStep(step + 1);
+    else console.log("s", getValues(), getSemesterValues());
+  };
+
   const firstStepContent = (
     <SimpleGrid w="full" gap={4} columns={{ base: 1, md: 2 }}>
       <GridItem>
-        <FloatField label="First Name (Persian)" formInput={null} />
+        <FloatField
+          label="First Name (Persian)"
+          formInput={register("persianFirstName", {
+            pattern: {
+              value: /^[\u0621-\u0651\u066B-\u06CC\s]+$/,
+              message: "This field should be in persian.",
+            },
+            required: "First Name (Persian) is required.",
+          })}
+          invalid={!!errors.persianFirstName}
+        />
+        {errors.persianFirstName && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {errors.persianFirstName.message}
+          </Text>
+        )}
       </GridItem>
       <GridItem>
-        <FloatField label="Last Name (Persian)" formInput={null} />
+        <FloatField
+          label="Last Name (Persian)"
+          formInput={register("persianLastName", {
+            pattern: {
+              value: /^[\u0621-\u0651\u066B-\u06CC\s]+$/,
+              message: "This field should be in persian.",
+            },
+            required: "Last Name (Persian) is required.",
+          })}
+          invalid={!!errors.persianLastName}
+        />
+        {errors.persianLastName && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {errors.persianLastName.message}
+          </Text>
+        )}
       </GridItem>
       <GridItem>
-        <FloatField label="First Name (English)" formInput={null} />
+        <FloatField
+          label="First Name (English)"
+          formInput={register("englishFirstName", {
+            pattern: {
+              value: /^[a-zA-Z\s]+$/,
+              message: "This field should be in english.",
+            },
+            required: "First Name (English) is required.",
+          })}
+          invalid={!!errors.englishFirstName}
+        />
+        {errors.englishFirstName && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {errors.englishFirstName.message}
+          </Text>
+        )}
       </GridItem>
       <GridItem>
-        <FloatField label="Last Name (English)" formInput={null} />
+        <FloatField
+          label="Last Name (English)"
+          formInput={register("englishLastName", {
+            pattern: {
+              value: /^[a-zA-Z\s]+$/,
+              message: "This field should be in english.",
+            },
+            required: "Last Name (English) is required.",
+          })}
+          invalid={!!errors.englishLastName}
+        />
+        {errors.englishLastName && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {errors.englishLastName.message}
+          </Text>
+        )}
       </GridItem>
       <GridItem>
-        <FloatField label="Phone Number" formInput={null} />
+        <FloatField
+          label="Phone Number"
+          formInput={register("phoneNumber", {
+            validate: validatePhoneNumber,
+            required: true,
+          })}
+          invalid={!!errors.phoneNumber}
+        />
+        {errors.phoneNumber && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {errors.phoneNumber.type == "validate"
+              ? "Phone Number should start with 0."
+              : "Phone Number is required."}
+          </Text>
+        )}
       </GridItem>
       <GridItem>
-        <FloatField label="National Code" formInput={null} />
+        <FloatField
+          label="National Code"
+          formInput={register("nationalCode", {
+            validate: validateNationalCode,
+            required: true,
+          })}
+          invalid={!!errors.nationalCode}
+        />
+        {errors.nationalCode && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {errors.nationalCode.type == "validate"
+              ? "National Code is invalid."
+              : "National Code is required."}
+          </Text>
+        )}
       </GridItem>
       <GridItem>
-        <SelectRoot
-          mt={2}
-          collection={universityItems}
-          size="lg"
-          onValueChange={({ value }) =>
-            !!value.length && setUniversitySelected(true)
-          }
-        >
-          <SelectTrigger>
-            <SelectValueText
-              placeholder="University"
-              color={universitySelected ? "fg" : "red.fg"}
-            />
-          </SelectTrigger>
-          <SelectContent {...inputStyles}>
-            {universityItems.items.map((university) => (
-              <SelectItem
-                item={university}
-                key={university.value}
-                _hover={{ bgColor: "red.muted" }}
-                _selected={{ bgColor: "red.muted" }}
-              >
-                {university.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </SelectRoot>
+        <SelectField
+          name="university"
+          placeholder="University"
+          collection={universities}
+          control={control}
+          getValues={getValues}
+          invalid={!!errors.university}
+          errorText="University is required."
+        />
+        {errors.university && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {errors.university.message}
+          </Text>
+        )}
       </GridItem>
       <GridItem>
-        <SelectRoot
-          mt={2}
-          collection={departmentItems}
-          size="lg"
-          onValueChange={({ value }) =>
-            !!value.length && setDepartmentSelected(true)
-          }
-        >
-          <SelectTrigger>
-            <SelectValueText
-              placeholder="Department"
-              color={departmentSelected ? "fg" : "red.fg"}
-            />
-          </SelectTrigger>
-          <SelectContent {...inputStyles}>
-            {departmentItems.items.map((department) => (
-              <SelectItem
-                item={department}
-                key={department.value}
-                _hover={{ bgColor: "red.muted" }}
-                _selected={{ bgColor: "red.muted" }}
-              >
-                {department.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </SelectRoot>
+        <SelectField
+          name="department"
+          placeholder="Department"
+          collection={departments}
+          control={control}
+          getValues={getValues}
+          invalid={!!errors.department}
+          errorText="Department is required."
+        />
+        {errors.department && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {errors.department.message}
+          </Text>
+        )}
       </GridItem>
       <GridItem colSpan={{ base: 1, md: 2 }}>
-        <Checkbox variant="outline" _hover={{ cursor: "pointer" }}>
-          I accept the Hardwar terms and conditions.
-        </Checkbox>
+        <CheckboxField
+          name="acceptTerms"
+          content="I accept the Hardwar terms and conditions."
+          control={control}
+          invalid={!!errors.acceptTerms}
+          required
+        />
+        {errors.acceptTerms && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            You should check this.
+          </Text>
+        )}
       </GridItem>
       <GridItem colSpan={{ base: 1, md: 2 }}>
-        <Checkbox variant="outline" _hover={{ cursor: "pointer" }}>
-          I am OK to share my data and resume with sponsors of Hardwar.
-        </Checkbox>
+        <CheckboxField
+          name="dataToSponsor"
+          content="I am OK to share my data and resume with sponsors of Hardwar."
+          control={control}
+        />
       </GridItem>
     </SimpleGrid>
   );
@@ -173,37 +274,38 @@ const Profile = () => {
   const secondStepContent = (
     <SimpleGrid w="full" gap={4} columns={4}>
       <GridItem colStart={2} colSpan={2}>
-        <FloatField label="Student ID" formInput={null} />
+        <FloatField
+          label="Student ID"
+          formInput={semesterRegister("studentId", {
+            validate: validateStudentId,
+            required: true,
+          })}
+          invalid={!!semesterErrors.studentId}
+        />
+        {semesterErrors.studentId && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {semesterErrors.studentId.type == "validate"
+              ? "Student ID is invalid."
+              : "student ID is required."}
+          </Text>
+        )}
       </GridItem>
       <GridItem colStart={2} colSpan={2}>
-        <SelectRoot
+        <SelectField
+          name="coursesList"
+          placeholder="Your Courses"
+          collection={courses}
+          control={semesterControl}
+          getValues={getSemesterValues}
+          invalid={!!semesterErrors.coursesList}
+          errorText="Courses is required."
           multiple
-          mt={2}
-          collection={courseItems}
-          size="lg"
-          onValueChange={({ value }) =>
-            !!value.length && setUniversitySelected(true)
-          }
-        >
-          <SelectTrigger>
-            <SelectValueText
-              placeholder="Your Courses"
-              color={universitySelected ? "fg" : "red.fg"}
-            />
-          </SelectTrigger>
-          <SelectContent {...inputStyles}>
-            {courseItems.items.map((course) => (
-              <SelectItem
-                item={course}
-                key={course.value}
-                _hover={{ bgColor: "red.muted" }}
-                _selected={{ bgColor: "red.muted" }}
-              >
-                {course.label}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </SelectRoot>
+        />
+        {semesterErrors.coursesList && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {semesterErrors.coursesList.message}
+          </Text>
+        )}
       </GridItem>
     </SimpleGrid>
   );
@@ -237,8 +339,10 @@ const Profile = () => {
             <StepsItem index={0} title={responsiveFirstTitle} />
             <StepsItem index={1} title={responsiveSecondTitle} />
           </StepsList>
-          <StepsContent index={0}>{firstStepContent}</StepsContent>
-          <StepsContent index={1}>{secondStepContent}</StepsContent>
+          <StepsContent index={0}>{step == 0 && firstStepContent}</StepsContent>
+          <StepsContent index={1}>
+            {step == 1 && secondStepContent}
+          </StepsContent>
         </StepsRoot>
       </Card.Body>
       <Card.Footer flexDirection="column" alignItems="flex-end">
@@ -252,7 +356,13 @@ const Profile = () => {
           >
             Previous
           </Button>
-          <Button variant="solid" size="lg" onClick={() => setStep(step + 1)}>
+          <Button
+            variant="solid"
+            size="lg"
+            onClick={
+              step == 0 ? handleSubmit(submitForm) : semesterSubmit(submitForm)
+            }
+          >
             {step == 0 ? "Next" : "Complete Profile"}
           </Button>
         </Flex>
