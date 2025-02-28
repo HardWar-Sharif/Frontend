@@ -7,7 +7,7 @@ import {
   StepsList,
   StepsRoot,
 } from "@/components/ui/steps";
-import { toaster } from "@/components/ui/toaster";
+import { Toaster, toaster } from "@/components/ui/toaster";
 import { useProfile } from "@/hooks/profile";
 import {
   validateNationalCode,
@@ -28,7 +28,6 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 
 const universities = createListCollection({
   items: [
@@ -51,6 +50,7 @@ const courses = createListCollection({
     { label: "Digital System Design", value: "DSD" },
     { label: "Computer Architecture", value: "CA" },
     { label: "Operating Systems", value: "OS" },
+    { label: "None", value: "none" },
   ],
 });
 
@@ -73,7 +73,6 @@ export interface SemesterProfileFormValues {
 }
 
 const Profile = () => {
-  const navigate = useNavigate();
   const [step, setStep] = useState<number>(0);
   const [isCeSut, setIsCeSut] = useState<boolean>(true);
   const {
@@ -124,14 +123,23 @@ const Profile = () => {
         national_code: getValues("nationalCode"),
         university_name: getValues("university"),
         department_name: getValues("department"),
+        data_to_sponsor: getValues("dataToSponsor"),
       };
       if (isCeSut) {
         payload.student_id = getSemesterValues("studentId");
         payload.courses_list = getSemesterValues("coursesList");
+        if (
+          payload.courses_list?.length == 1 &&
+          payload.courses_list[0] == "none"
+        )
+          payload.courses_list = [];
       }
       mutate(payload, {
         onSuccess: () => {
-          navigate("/");
+          toaster.create({
+            title: "Profile Completed",
+            type: "success",
+          });
         },
         onError: () =>
           toaster.create({
@@ -356,63 +364,70 @@ const Profile = () => {
   );
 
   return (
-    <Card.Root
-      size="lg"
-      w={{ base: "90vw", sm: "70vw", md: "65vw", lg: "50vw" }}
-      mb="5vh"
-      borderColor="red.emphasized"
-      bgColor="bg"
-      shadow="0 0 60px var(--shadow-color)"
-      shadowColor="red.subtle"
-      borderWidth={2}
-    >
-      <Center>
-        <Card.Header>
-          <Card.Title
-            fontSize={36}
-            color="red.solid"
-            textShadow="0 0 20px var(--shadow-color)"
-            shadowColor="red.solid"
-          >
-            Profile
-          </Card.Title>
-        </Card.Header>
-      </Center>
-      <Card.Body>
-        <StepsRoot step={step} count={2} linear>
-          <StepsList>
-            <StepsItem index={0} title={responsiveFirstTitle} />
-            <StepsItem index={1} title={responsiveSecondTitle} />
-          </StepsList>
-          <StepsContent index={0}>{step == 0 && firstStepContent}</StepsContent>
-          <StepsContent index={1}>
-            {step == 1 && secondStepContent}
-          </StepsContent>
-        </StepsRoot>
-      </Card.Body>
-      <Card.Footer flexDirection="column" alignItems="flex-end">
-        <Flex gap={3}>
-          <Button
-            variant="outline"
-            size="lg"
-            borderWidth={2}
-            onClick={() => setStep(step - 1)}
-            disabled={step == 0}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="solid"
-            size="lg"
-            onClick={
-              step == 0 ? handleSubmit(submitForm) : semesterSubmit(submitForm)
-            }
-          >
-            {step == 0 ? "Next" : "Complete Profile"}
-          </Button>
-        </Flex>
-      </Card.Footer>
-    </Card.Root>
+    <>
+      <Card.Root
+        size="lg"
+        w={{ base: "90vw", sm: "70vw", md: "65vw", lg: "50vw" }}
+        mb="5vh"
+        borderColor="red.emphasized"
+        bgColor="bg"
+        shadow="0 0 60px var(--shadow-color)"
+        shadowColor="red.subtle"
+        borderWidth={2}
+      >
+        <Center>
+          <Card.Header>
+            <Card.Title
+              fontSize={36}
+              color="red.solid"
+              textShadow="0 0 20px var(--shadow-color)"
+              shadowColor="red.solid"
+            >
+              Profile
+            </Card.Title>
+          </Card.Header>
+        </Center>
+        <Card.Body>
+          <StepsRoot step={step} count={2} linear>
+            <StepsList>
+              <StepsItem index={0} title={responsiveFirstTitle} />
+              <StepsItem index={1} title={responsiveSecondTitle} />
+            </StepsList>
+            <StepsContent index={0}>
+              {step == 0 && firstStepContent}
+            </StepsContent>
+            <StepsContent index={1}>
+              {step == 1 && secondStepContent}
+            </StepsContent>
+          </StepsRoot>
+        </Card.Body>
+        <Card.Footer flexDirection="column" alignItems="flex-end">
+          <Flex gap={3}>
+            <Button
+              variant="outline"
+              size="lg"
+              borderWidth={2}
+              onClick={() => setStep(step - 1)}
+              disabled={step == 0}
+            >
+              Previous
+            </Button>
+            <Button
+              variant="solid"
+              size="lg"
+              onClick={
+                step == 0
+                  ? handleSubmit(submitForm)
+                  : semesterSubmit(submitForm)
+              }
+            >
+              {step == 0 ? "Next" : "Complete Profile"}
+            </Button>
+          </Flex>
+        </Card.Footer>
+      </Card.Root>
+      <Toaster />
+    </>
   );
 };
 

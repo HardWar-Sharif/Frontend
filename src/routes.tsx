@@ -6,8 +6,13 @@ import Dashboard from "./pages/Main/Dashboard";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Main/Profile";
 import MainPage from "./pages/Main";
+import ProtectedRoute from "./pages/ProtectedRoute";
+import { ReactNode } from "react";
 
 const AppRoutes = () => {
+  const protectedPage = (page: ReactNode) => (
+    <ProtectedRoute>{page}</ProtectedRoute>
+  );
   return (
     <BrowserRouter>
       <Routes>
@@ -23,10 +28,9 @@ const AppRoutes = () => {
           <Route index element={<Landing />} />
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route element={<MainPage />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="profile" element={<Profile />} />
+          <Route element={protectedPage(<MainPage />)}>
+            <Route path="dashboard" element={protectedPage(<Dashboard />)} />
+            <Route path="profile" element={protectedPage(<Profile />)} />
           </Route>
         </Route>
       </Routes>
