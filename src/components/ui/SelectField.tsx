@@ -34,6 +34,7 @@ interface SelectFieldProps<T extends FieldValues> {
   invalid?: boolean;
   errorText: string;
   multiple?: boolean;
+  disabled?: boolean;
 }
 
 const SelectField = <T extends FieldValues>({
@@ -45,6 +46,7 @@ const SelectField = <T extends FieldValues>({
   invalid = false,
   errorText,
   multiple = false,
+  disabled = false,
 }: SelectFieldProps<T>) => {
   const [itemSelected, setItemSelected] = useState<boolean>(!!getValues(name));
 
@@ -53,10 +55,11 @@ const SelectField = <T extends FieldValues>({
       <Controller
         control={control}
         name={name}
-        rules={{ required: errorText }}
+        rules={{ required: { value: !disabled, message: errorText } }}
         render={({ field }) => (
           <SelectRoot
             multiple={multiple}
+            disabled={disabled}
             mt={2}
             name={field.name}
             value={multiple ? field.value : [field.value]}

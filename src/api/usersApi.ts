@@ -14,3 +14,8 @@ export const login = async (payload: UserLogin) => {
   const response = await axiosInstance.post(`/users/login/`, payload);
   return response.data;
 };
+
+export const profile = async (payload: UserProfile) => {
+  const response = await axiosInstance.post(`/users/profile/`, payload);
+  return response.data;
+};

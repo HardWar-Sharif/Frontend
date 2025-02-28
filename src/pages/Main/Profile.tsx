@@ -7,6 +7,8 @@ import {
   StepsList,
   StepsRoot,
 } from "@/components/ui/steps";
+import { toaster } from "@/components/ui/toaster";
+import { useProfile } from "@/hooks/profile";
 import {
   validateNationalCode,
   validatePhoneNumber,
@@ -22,9 +24,11 @@ import {
   createListCollection,
   useBreakpointValue,
   Text,
+  Alert,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 const universities = createListCollection({
   items: [
@@ -69,7 +73,9 @@ export interface SemesterProfileFormValues {
 }
 
 const Profile = () => {
+  const navigate = useNavigate();
   const [step, setStep] = useState<number>(0);
+  const [isCeSut, setIsCeSut] = useState<boolean>(true);
   const {
     register,
     handleSubmit,
@@ -77,7 +83,6 @@ const Profile = () => {
     formState: { errors },
     getValues,
   } = useForm<GeneralProfileFormValues>({ mode: "onSubmit" });
-
   const {
     register: semesterRegister,
     handleSubmit: semesterSubmit,
@@ -85,11 +90,12 @@ const Profile = () => {
     formState: { errors: semesterErrors },
     getValues: getSemesterValues,
   } = useForm<SemesterProfileFormValues>({ mode: "onSubmit" });
+  const { mutate } = useProfile();
 
   const responsiveFirstTitle = useBreakpointValue({
     base: undefined,
     sm: undefined,
-    md: undefined,
+    md: "General Information",
     lg: "General Information",
     xl: "General Information",
   });
@@ -97,14 +103,43 @@ const Profile = () => {
   const responsiveSecondTitle = useBreakpointValue({
     base: undefined,
     sm: undefined,
-    md: undefined,
+    md: "General Information",
     lg: "Semester Information",
     xl: "Semester Information",
   });
 
   const submitForm = () => {
-    if (step == 0) setStep(step + 1);
-    else console.log("s", getValues(), getSemesterValues());
+    if (step == 0) {
+      setIsCeSut(
+        getValues("university") === "SUT" && getValues("department") === "CE"
+      );
+      setStep(step + 1);
+    } else {
+      const payload: UserProfile = {
+        first_name: getValues("englishFirstName"),
+        last_name: getValues("englishLastName"),
+        persian_first_name: getValues("persianFirstName"),
+        persian_last_name: getValues("persianLastName"),
+        phone_number: getValues("phoneNumber"),
+        national_code: getValues("nationalCode"),
+        university_name: getValues("university"),
+        department_name: getValues("department"),
+      };
+      if (isCeSut) {
+        payload.student_id = getSemesterValues("studentId");
+        payload.courses_list = getSemesterValues("coursesList");
+      }
+      mutate(payload, {
+        onSuccess: () => {
+          navigate("/");
+        },
+        onError: () =>
+          toaster.create({
+            title: "Profile Error",
+            type: "error",
+          }),
+      });
+    }
   };
 
   const firstStepContent = (
@@ -273,14 +308,15 @@ const Profile = () => {
 
   const secondStepContent = (
     <SimpleGrid w="full" gap={4} columns={4}>
-      <GridItem colStart={2} colSpan={2}>
+      <GridItem colStart={{ base: 1, md: 2 }} colSpan={{ base: 4, md: 2 }}>
         <FloatField
           label="Student ID"
           formInput={semesterRegister("studentId", {
-            validate: validateStudentId,
-            required: true,
+            validate: (value) => validateStudentId(value, isCeSut),
+            required: isCeSut,
           })}
           invalid={!!semesterErrors.studentId}
+          disabled={!isCeSut}
         />
         {semesterErrors.studentId && (
           <Text fontSize="sm" mt={1} color="red.solid">
@@ -290,7 +326,7 @@ const Profile = () => {
           </Text>
         )}
       </GridItem>
-      <GridItem colStart={2} colSpan={2}>
+      <GridItem colStart={{ base: 1, md: 2 }} colSpan={{ base: 4, md: 2 }}>
         <SelectField
           name="coursesList"
           placeholder="Your Courses"
@@ -300,6 +336,7 @@ const Profile = () => {
           invalid={!!semesterErrors.coursesList}
           errorText="Courses is required."
           multiple
+          disabled={!isCeSut}
         />
         {semesterErrors.coursesList && (
           <Text fontSize="sm" mt={1} color="red.solid">
@@ -307,6 +344,14 @@ const Profile = () => {
           </Text>
         )}
       </GridItem>
+      {!isCeSut && (
+        <GridItem colStart={{ base: 1, md: 2 }} colSpan={{ base: 4, md: 2 }}>
+          <Alert.Root status="info">
+            <Alert.Indicator />
+            <Alert.Title>You should skip this step.</Alert.Title>
+          </Alert.Root>
+        </GridItem>
+      )}
     </SimpleGrid>
   );
 

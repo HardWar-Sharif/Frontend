@@ -32,6 +32,6 @@ export const validateAcceptTerms = (value: string) => {
   return value === "true";
 };
 
-export const validateStudentId = (value: string) => {
-  return value.length === 9 || value.length === 8;
+export const validateStudentId = (value: string, isCeSut: boolean) => {
+  return !isCeSut || value.length === 9 || value.length === 8;
 };
