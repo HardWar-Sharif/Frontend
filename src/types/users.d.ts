@@ -24,4 +24,5 @@ declare interface UserProfile {
   department_name: string;
   student_id?: string;
   courses_list?: Array<string>;
+  data_to_sponsor: "false" | "true";
 }
