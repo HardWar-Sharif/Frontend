@@ -2,7 +2,7 @@ import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "https://api.hardwar-sharif.ir/api",
   headers: {
     "Content-Type": "application/json",
   },
