@@ -10,8 +10,11 @@ const MainPage = () => {
       position="relative"
       clipPath="inset(0 0 0 0)"
     >
-      <Flex justify="center" align="center" mt="25vh">
+      <Flex justify="center" align="center" mt="25vh" gap={8}>
         <Outlet />
+        {/* <Box>
+          <Button>Hello</Button>
+        </Box> */}
       </Flex>
     </Box>
   );

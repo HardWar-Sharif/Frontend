@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 import { FloatPasswordField } from "../../components/ui/FloatPasswordField";
 import { useLogin } from "../../hooks/login";
 import { toaster, Toaster } from "@/components/ui/toaster";
+import { useAuthStore } from "@/hooks/auth";
 
 interface LoginFormValues {
   email: string;
@@ -27,6 +28,7 @@ const LoginForm = () => {
     formState: { errors },
     getValues,
   } = useForm<LoginFormValues>({ mode: "onSubmit" });
+  const setToken = useAuthStore((state) => state.setToken);
   const { mutate } = useLogin();
 
   const login = () => {
@@ -37,7 +39,7 @@ const LoginForm = () => {
       },
       {
         onSuccess: (data) => {
-          localStorage.setItem("AuthToken", `auth ${data.token}`);
+          setToken(data.token);
           navigate("/dashboard");
         },
         onError: () =>

@@ -23,7 +23,7 @@ const Landing = () => {
       <StaffBar marginTop="50px" />
       <SignUpNow />
       <Footer id="contact" />
-      <Splash top="25vh" left="-15vw" width="50vw" height="50vh" />
+      <Splash top="25vh" left="-15  vw" width="50vw" height="50vh" />
       <Splash
         top="70vh"
         right="0vw"

@@ -20,6 +20,7 @@ import {
   validateConfirmPassword,
   validateVerificationCode,
 } from "@/utils/validations";
+import { useAuthStore } from "@/hooks/auth";
 
 interface EmailValues {
   email: string;
@@ -47,6 +48,7 @@ const SignupForm = () => {
     formState: { errors },
     getValues,
   } = useForm<SignupFormValues>({ mode: "onSubmit" });
+  const setToken = useAuthStore((state) => state.setToken);
   const { mutate } = useSignup();
   const { mutate: codeMutate } = useSendCode();
 
@@ -83,7 +85,7 @@ const SignupForm = () => {
       },
       {
         onSuccess: (data) => {
-          localStorage.setItem("AuthToken", `auth ${data.token}`);
+          setToken(data.token);
           navigate("/dashboard");
         },
         onError: () =>

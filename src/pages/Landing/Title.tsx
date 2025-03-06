@@ -19,7 +19,7 @@ const Title: React.FC<StackProps> = (props) => {
       <Stack
         gap={30}
         width={{ base: "100%", md: "60%" }}
-        padding="calc(100px + 10%) 10%"
+        padding="10% 10%"
         justifySelf="flex-start"
         {...props}
       >
