@@ -5,7 +5,7 @@ import { useAuthStore } from "@/hooks/auth";
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const tokenIsValid = useAuthStore((state) => state.isValid);
 
-  if (tokenIsValid) return children;
+  if (tokenIsValid()) return children;
   else return <Navigate to="/login" />;
 };
 

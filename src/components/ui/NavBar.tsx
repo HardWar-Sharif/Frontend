@@ -160,15 +160,15 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
         pt={[4, 4, 0, 0]}
         gap={{ base: "2", md: "6" }}
       >
-        {tokenIsValid ? (
+        {tokenIsValid() ? (
           <>
             <MenuButton
               to="/"
               variant="outline"
               borderColor="colorPalette.600"
               onClick={() => {
+                clearToken();
                 navigate("/");
-                setTimeout(() => clearToken(), 200);
               }}
             >
               Logout

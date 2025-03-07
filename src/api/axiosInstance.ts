@@ -19,7 +19,7 @@ axiosInstance.interceptors.request.use(
     if (!isPublicEndpoint) {
       const token = useAuthStore((state) => state.token);
       const tokenIsValid = useAuthStore((state) => state.isValid);
-      if (tokenIsValid) {
+      if (tokenIsValid()) {
         config.headers.Authorization = `auth ${token}`;
         return config;
       }
