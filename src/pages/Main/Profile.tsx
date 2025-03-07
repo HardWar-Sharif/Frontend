@@ -367,8 +367,8 @@ const Profile = () => {
     <>
       <Card.Root
         size="lg"
-        w={{ base: "90vw", sm: "70vw", md: "65vw", lg: "50vw" }}
-        mb="5vh"
+        // w={{ base: "90vw", sm: "70vw", md: "65vw", lg: "50vw" }}
+        mb={{ base: "100px", md: "5vh" }}
         borderColor="red.emphasized"
         bgColor="bg"
         shadow="0 0 60px var(--shadow-color)"
