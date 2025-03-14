@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Main/Dashboard";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Main/Profile";
+import Questions from "./pages/QuestionsPage";
 import MainPage from "./pages/Main";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { ReactNode } from "react";
@@ -31,6 +32,7 @@ const AppRoutes = () => {
           <Route element={protectedPage(<MainPage />)}>
             <Route path="dashboard" element={protectedPage(<Dashboard />)} />
             <Route path="profile" element={protectedPage(<Profile />)} />
+            <Route path="questions" element={protectedPage(<Questions />)} />
           </Route>
         </Route>
       </Routes>
