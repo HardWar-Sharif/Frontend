@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Main/Dashboard";
 import Signup from "./pages/Signup";
 import Profile from "./pages/Main/Profile";
+import Questions from "./pages/QuestionsPage";
 import MainPage from "./pages/Main";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { ReactNode } from "react";
