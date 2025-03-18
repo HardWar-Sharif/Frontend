@@ -368,6 +368,9 @@ const Profile = () => {
       <Card.Root
         size="lg"
         // w={{ base: "90vw", sm: "70vw", md: "65vw", lg: "50vw" }}
+        overflowY="scroll"
+        scrollbar={{ md: "hidden" }}
+        h={{ base: "72vh" }}
         mb={{ base: "100px", md: "5vh" }}
         borderColor="red.emphasized"
         bgColor="bg"

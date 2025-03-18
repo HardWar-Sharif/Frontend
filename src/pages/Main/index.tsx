@@ -32,7 +32,7 @@ const MainPage = () => {
 
   const sidebar = (
     <Box
-      h={{ md: "55vh" }}
+      h={{ md: "72vh" }}
       w={{ mdDown: "85vw" }}
       bgColor="red.950"
       borderColor="red.muted"
@@ -109,7 +109,7 @@ const MainPage = () => {
       clipPath="inset(0 0 0 0)"
       minH="100vh"
     >
-      <SimpleGrid mt="25vh" columns={48}>
+      <SimpleGrid mt={{ base: "15vh", md: "20vh" }} columns={48}>
         <GridItem
           colSpan={{ base: 44, sm: 34, md: 32, lg: 24 }}
           colStart={{ base: 3, sm: 8, md: 6, lg: 13 }}
