@@ -8,6 +8,7 @@ import Profile from "./pages/Main/Profile";
 import MainPage from "./pages/Main";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { ReactNode } from "react";
+import Team from "./pages/Main/TeamUp";
 
 const AppRoutes = () => {
   const protectedPage = (page: ReactNode) => (
@@ -31,6 +32,7 @@ const AppRoutes = () => {
           <Route element={protectedPage(<MainPage />)}>
             <Route path="dashboard" element={protectedPage(<Dashboard />)} />
             <Route path="profile" element={protectedPage(<Profile />)} />
+            <Route path="team" element={protectedPage(<Team />)} />
           </Route>
         </Route>
       </Routes>

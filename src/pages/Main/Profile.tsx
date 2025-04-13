@@ -370,7 +370,7 @@ const Profile = () => {
         // w={{ base: "90vw", sm: "70vw", md: "65vw", lg: "50vw" }}
         overflowY="scroll"
         scrollbar={{ md: "hidden" }}
-        h={{ base: "72vh" }}
+        h={{ base: "72vh", md: "60vh" }}
         mb={{ base: "100px", md: "5vh" }}
         borderColor="red.emphasized"
         bgColor="bg"
