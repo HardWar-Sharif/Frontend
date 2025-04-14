@@ -11,7 +11,7 @@ import { LuUser, LuLogOut } from "react-icons/lu";
 import { RxDashboard } from "react-icons/rx";
 import { HiChevronDoubleDown, HiChevronDoubleRight } from "react-icons/hi2";
 import { ReactNode, useState } from "react";
-import { useAuthStore } from "@/hooks/auth";
+import { useAuthStore } from "@/stores/auth";
 
 interface SidebarButton {
   page: string;

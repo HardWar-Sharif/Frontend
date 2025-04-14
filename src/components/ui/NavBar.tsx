@@ -1,4 +1,5 @@
 import { useAuthStore } from "@/stores/auth";
+import { useLanguageStore } from "@/stores/language";
 import {
   Button,
   Box,
@@ -9,6 +10,7 @@ import {
   Stack,
   Image,
   ButtonProps,
+  Switch,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 import { useState, ReactNode } from "react";
@@ -119,6 +121,27 @@ const MenuButton = ({
   );
 };
 
+const LanguageSwitch = () => {
+  const language = useLanguageStore((state) => state.language);
+  const setLanguage = useLanguageStore((state) => state.setLanguage);
+
+  return (
+    <Switch.Root
+      size="lg"
+      checked={language == "fa"}
+      onCheckedChange={() => setLanguage(language == "fa" ? "en" : "fa")}
+    >
+      <Switch.HiddenInput />
+      <Switch.Control dir={language == "fa" ? "ltr" : "rtl"}>
+        <Switch.Thumb ml="auto" />
+        <Switch.Indicator fallback="En" ml={5} mt={0.5}>
+          Fa
+        </Switch.Indicator>
+      </Switch.Control>
+    </Switch.Root>
+  );
+};
+
 const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
   const navigate = useNavigate();
   const { t } = useTranslate();
@@ -160,6 +183,7 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
         pt={[4, 4, 0, 0]}
         gap={{ base: "2", md: "6" }}
       >
+        <LanguageSwitch />
         {tokenIsValid() ? (
           <>
             <MenuButton

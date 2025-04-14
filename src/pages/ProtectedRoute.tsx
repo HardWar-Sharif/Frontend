@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { Navigate } from "react-router";
-import { useAuthStore } from "@/hooks/auth";
+import { useAuthStore } from "@/stores/auth";
 
 const ProtectedRoute = ({ children }: { children: ReactNode }) => {
   const tokenIsValid = useAuthStore((state) => state.isValid);

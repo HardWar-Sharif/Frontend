@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import { FloatPasswordField } from "../../components/ui/FloatPasswordField";
 import { useLogin } from "../../hooks/login";
 import { toaster, Toaster } from "@/components/ui/toaster";
-import { useAuthStore } from "@/hooks/auth";
+import { useAuthStore } from "@/stores/auth";
 
 interface LoginFormValues {
   email: string;

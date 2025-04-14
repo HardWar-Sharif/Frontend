@@ -11,32 +11,26 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import en from "./locales/en.json";
 import fa from "./locales/fa.json";
 import AppRoutes from "./routes";
-
-const tolgee = Tolgee()
-  // .use(DevTools())
-  .use(FormatSimple())
-  .init({
-    language: "en",
-
-    // for development
-    // apiUrl: import.meta.env.VITE_APP_TOLGEE_API_URL,
-    // apiKey: import.meta.env.VITE_APP_TOLGEE_API_KEY,
-
-    // for production
-    staticData: { en, fa },
-  });
+import { useLanguageStore } from "./stores/language";
 
 const queryClient = new QueryClient();
 
-createRoot(document.getElementById("root")!).render(
-  <StrictMode>
+const App = () => {
+  const language = useLanguageStore((state) => state.language);
+
+  const tolgee = Tolgee().use(FormatSimple()).init({
+    language,
+    staticData: { en, fa },
+  });
+
+  return (
     <QueryClientProvider client={queryClient}>
-      <LocaleProvider locale="en">
+      <LocaleProvider locale={language}>
         <TolgeeProvider tolgee={tolgee}>
           <ChakraProvider value={system}>
             <Fonts />
             <ColorModeProvider forcedTheme="dark">
-              <div dir="ltr">
+              <div dir={language == "fa" ? "rtl" : "ltr"}>
                 <AppRoutes />
               </div>
             </ColorModeProvider>
@@ -44,5 +38,11 @@ createRoot(document.getElementById("root")!).render(
         </TolgeeProvider>
       </LocaleProvider>
     </QueryClientProvider>
+  );
+};
+
+createRoot(document.getElementById("root")!).render(
+  <StrictMode>
+    <App />
   </StrictMode>
 );

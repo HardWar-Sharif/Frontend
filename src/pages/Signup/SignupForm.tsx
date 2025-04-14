@@ -20,7 +20,7 @@ import {
   validateConfirmPassword,
   validateVerificationCode,
 } from "@/utils/validations";
-import { useAuthStore } from "@/hooks/auth";
+import { useAuthStore } from "@/stores/auth";
 
 interface EmailValues {
   email: string;
