@@ -1,34 +1,46 @@
-import { Heading, Text, Stack, StackProps, Flex, Image, Box, BoxProps, Button } from "@chakra-ui/react";
+import {
+  Heading,
+  Text,
+  Stack,
+  StackProps,
+  Flex,
+  Image,
+  Box,
+  BoxProps,
+  Button,
+} from "@chakra-ui/react";
+import { useTranslate } from "@tolgee/react";
 import { useRef, useEffect, useState } from "react";
 
 const cardWidth = 210;
 
 const StaffBar: React.FC<StackProps> = (props) => {
+  const { t } = useTranslate();
   const items = [
     {
-      imagePath: 'staff/example-staff.png',
-      name: 'Saeed Forati',
-      title: 'Presidentttttttt',
+      imagePath: "staff/example-staff.png",
+      name: "Saeed Forati",
+      title: "Presidentttttttt",
     },
     {
-      imagePath: 'staff/example-staff.png',
-      name: 'Saeed Forati',
-      title: 'President',
+      imagePath: "staff/example-staff.png",
+      name: "Saeed Forati",
+      title: "President",
     },
     {
-      imagePath: 'staff/example-staff.png',
-      name: 'Saeed Forati',
-      title: 'President',
+      imagePath: "staff/example-staff.png",
+      name: "Saeed Forati",
+      title: "President",
     },
     {
-      imagePath: 'staff/example-staff.png',
-      name: 'Saeed Forati',
-      title: 'President',
+      imagePath: "staff/example-staff.png",
+      name: "Saeed Forati",
+      title: "President",
     },
     {
-      imagePath: 'staff/example-staff.png',
-      name: 'Saeed Forati',
-      title: 'President',
+      imagePath: "staff/example-staff.png",
+      name: "Saeed Forati",
+      title: "President",
     },
   ];
 
@@ -76,14 +88,14 @@ const StaffBar: React.FC<StackProps> = (props) => {
   return (
     <Stack width="100%" textAlign="center" gap={4} {...props}>
       <Heading size="4xl" fontWeight="bold">
-        Staff Members
+        {t("title.staff")}
       </Heading>
       <Text fontSize="lg" padding="0 10%">
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Esse eveniet eum debitis voluptates nam. 
+        {t("landing.staff")}
       </Text>
-      <Flex 
+      <Flex
         ref={containerRef}
-        gap={4} 
+        gap={4}
         justify="space-around"
         overflow="hidden"
         position="relative"
@@ -101,57 +113,52 @@ const StaffBar: React.FC<StackProps> = (props) => {
             },
           }}
         >
-          {
-          shouldScroll ?
-          [...items, ...items].map((item, index) => (
-            <StaffItem
-              key={index}
-              imagePath={item.imagePath}
-              title={item.title}
-              name={item.name}
-            />
-          )) : 
-          items.map((item, index) => (
-            <StaffItem
-              key={index}
-              imagePath={item.imagePath}
-              title={item.title}
-              name={item.name}
-            />
-          ))
-          
-          }
+          {shouldScroll
+            ? [...items, ...items].map((item, index) => (
+                <StaffItem
+                  key={index}
+                  imagePath={item.imagePath}
+                  title={item.title}
+                  name={item.name}
+                />
+              ))
+            : items.map((item, index) => (
+                <StaffItem
+                  key={index}
+                  imagePath={item.imagePath}
+                  title={item.title}
+                  name={item.name}
+                />
+              ))}
         </Box>
       </Flex>
 
       <Flex justify="space-around">
         <Button size="xl" borderRadius="full" fontWeight="bold" fontSize="sm">
-          VIEW ALL
-          <Image
-            height="1em"
-            src="Landing/Right-arrow.svg"
-          />
+          {t("label.view_all") }
+          <Image height="1em" src="Landing/Right-arrow.svg" />
         </Button>
       </Flex>
-      
     </Stack>
   );
 };
 
-const StaffItem: React.FC<{ imagePath: string, title: string, name: string } & BoxProps> = ({ imagePath, title, name, ...props }) => {
+const StaffItem: React.FC<
+  { imagePath: string; title: string; name: string } & BoxProps
+> = ({ imagePath, title, name, ...props }) => {
   return (
     <Box
-    width={cardWidth}
-    backgroundColor="colorPalette.900"
-    padding="15px"
-    borderRadius="xl"
-    alignItems="center"
-    display="inline-block"
-    mx={2}
-    {...props}
+      width={cardWidth}
+      backgroundColor="colorPalette.900"
+      padding="15px"
+      borderRadius="xl"
+      alignItems="center"
+      display="inline-block"
+      mx={2}
+      {...props}
     >
       <Image src={imagePath} w="180px" h="180px" />
-      <Heading fontWeight="bold" fontSize="md" >
+      <Heading fontWeight="bold" fontSize="md">
         {name}
       </Heading>
       <Text textAlign="start" fontSize="sm" textAlignLast="center">

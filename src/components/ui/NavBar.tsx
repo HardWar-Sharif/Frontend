@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/hooks/auth";
+import { useAuthStore } from "@/stores/auth";
 import {
   Button,
   Box,

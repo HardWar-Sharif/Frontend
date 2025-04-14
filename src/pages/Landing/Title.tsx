@@ -8,6 +8,7 @@ import {
   HeadingProps,
 } from "@chakra-ui/react";
 import Timer from "./Timer";
+import { useTranslate } from "@tolgee/react";
 
 const Title: React.FC<StackProps> = (props) => {
   return (
@@ -42,6 +43,7 @@ const Title: React.FC<StackProps> = (props) => {
 };
 
 const HardWarTitle: React.FC<HeadingProps> = (props) => {
+  const { t } = useTranslate();
   return (
     <Heading
       as="h1"
@@ -51,36 +53,35 @@ const HardWarTitle: React.FC<HeadingProps> = (props) => {
       fontWeight="700"
       {...props}
     >
-      HardWar
+      {t("title.hardwar")}
     </Heading>
   );
 };
 
 const Description: React.FC<HeadingProps> = (props) => {
+  const { t } = useTranslate();
   return (
     <Heading as="h3" size="xl" color="white" {...props}>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo nostrum
-      perferendis nihil. Aut illo tenetur, quas ipsa provident, non iusto vero
-      excepturi nostrum necessitatibus porro ad omnis consectetur eveniet
-      officiis.
+      {t("landing.intro")}
     </Heading>
   );
 };
 
 const Info: React.FC<StackProps> = (props) => {
+  const { t } = useTranslate();
   return (
     <Stack {...props}>
       <Flex justify="flex-start" align="center" gap={2}>
         <Image src="Landing/Location.svg" w="14px" margin="2px" />
         <Text color="gray.300" fontSize="1.1em">
-          Sharif University of Technology - Tehran, Iran
+          {t("landing.location")}
         </Text>
       </Flex>
 
       <Flex justify="flex-start" align="center" gap={2}>
         <Image src="Landing/Calendar.svg" w="18px" margin="0px" />
         <Text color="gray.300" fontSize="1.1em">
-          Apr 6th, 2023 -Apr 9th, 2023
+          {t("landing.date")}
         </Text>
       </Flex>
     </Stack>
