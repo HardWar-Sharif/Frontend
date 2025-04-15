@@ -108,7 +108,6 @@ const MenuButton = ({
           height="56px"
           width="125px"
           fontSize="md"
-          fontFamily="DM Sans"
           fontWeight="bold"
           borderWidth="2px"
           onClick={() => navigate(to)}

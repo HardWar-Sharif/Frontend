@@ -4,7 +4,18 @@ const config = defineConfig({
   globalCss: {
     html: {
       colorPalette: "red",
-      fontFamily: "'IRANRounded', sens-serif",
+    },
+    "*": {
+      fontFamily: "'Vazir', sens-serif",
+    },
+  },
+  theme: {
+    tokens: {
+      fonts: {
+        body: { value: "'Vazir', sens-serif" },
+        heading: { value: "'Vazir', sens-serif" },
+        Text: { value: "'Vazir', sens-serif" },
+      },
     },
   },
 });

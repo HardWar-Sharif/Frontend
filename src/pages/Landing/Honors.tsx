@@ -83,11 +83,11 @@ const HonorItem = ({
     >
       <Flex gap={6}>
         <Image src={imagePath} w="50px" h="50px" />
-        <Stack align="start" gap={6}>
+        <Stack align="start" gap={6} pe={8}>
           <Heading fontWeight="bold" fontSize="lg">
             {title}
           </Heading>
-          <Text textAlign="start" fontSize="lg">
+          <Text textAlign="justify" fontSize="lg">
             {text}
           </Text>
         </Stack>

@@ -61,7 +61,7 @@ const HardWarTitle: React.FC<HeadingProps> = (props) => {
 const Description: React.FC<HeadingProps> = (props) => {
   const { t } = useTranslate();
   return (
-    <Heading as="h3" size="xl" color="white" {...props}>
+    <Heading as="h3" size="xl" color="white" {...props} textAlign="justify">
       {t("landing.intro")}
     </Heading>
   );
