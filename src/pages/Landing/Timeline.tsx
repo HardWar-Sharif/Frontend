@@ -1,4 +1,5 @@
-import { Flex, Box, Text, Image, Heading, FlexProps } from "@chakra-ui/react";
+import { useLanguageStore } from "@/stores/language";
+import { Flex, Box, Image, Heading, FlexProps } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 import React from "react";
 
@@ -6,7 +7,6 @@ const TimelineItem = ({
   imagePath,
   title,
   date,
-  text,
   isLast,
 }: {
   imagePath: string;
@@ -14,7 +14,9 @@ const TimelineItem = ({
   date: string;
   text: string;
   isLast: boolean;
-}) => {
+  }) => {
+  const { language } = useLanguageStore();
+  
   return (
     <Flex>
       <Box position="relative" width="100px" mr={4} display="flex">
@@ -23,14 +25,13 @@ const TimelineItem = ({
             position="absolute"
             top="0"
             bottom="0"
-            left="50%"
-            right="0"
+            left={language == "fa" ? "0" : "50%"}
+            right={language == "fa" ? "50%" : "0"}
             width="1px"
             height="100%"
             bgColor="gray.500"
           />
         )}
-
         <Box
           width="47px"
           position="absolute"
@@ -94,13 +95,13 @@ const Timeline: React.FC<FlexProps> = (props) => {
 
   return (
     <Flex
-      justify={{ base: "flex-end", md: "space-between" }}
-      align="top"
+      justify={{ base: "flex-end", md: "center" }}
+      align="center"
       flexWrap="wrap"
       mt="100px"
       {...props}
     >
-      <Box padding="50px 0 0 12%" width={{ base: "100%", md: "50%" }}>
+      <Box width={{ base: "100%", md: "50%" }}>
         {items.map((item, index) => (
           <TimelineItem
             key={index}
@@ -113,9 +114,8 @@ const Timeline: React.FC<FlexProps> = (props) => {
         ))}
       </Box>
       <Flex
-        width={{ base: "100%", md: "50%" }}
+        width={{ base: "60%", md: "30%" }}
         height="100%"
-        padding="50px 10%"
         alignSelf="center"
         justify="center"
         mt={{ base: 6, md: 0 }}

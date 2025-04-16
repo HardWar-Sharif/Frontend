@@ -1,3 +1,4 @@
+import { useLanguageStore } from "@/stores/language";
 import {
   Heading,
   Text,
@@ -11,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 import { useRef, useEffect, useState } from "react";
+import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 
 const cardWidth = 210;
 
@@ -18,35 +20,41 @@ const StaffBar: React.FC<StackProps> = (props) => {
   const { t } = useTranslate();
   const items = [
     {
-      imagePath: "staff/example-staff.png",
+      imagePath: "staff/saeed-forati.jpg",
       name: "Saeed Forati",
-      title: "Presidentttttttt",
+      title: t("staff.president"),
     },
     {
-      imagePath: "staff/example-staff.png",
-      name: "Saeed Forati",
-      title: "President",
+      imagePath: "staff/amirhossein-souri.jpg",
+      name: "Amirhossein Souri",
+      title: t("staff.vice_president"),
     },
     {
-      imagePath: "staff/example-staff.png",
-      name: "Saeed Forati",
-      title: "President",
+      imagePath: "staff/mahdi-alinejad.jpg",
+      name: "Mahdi Alinejad",
+      title: t("staff.scientific_head"),
     },
     {
-      imagePath: "staff/example-staff.png",
-      name: "Saeed Forati",
-      title: "President",
+      imagePath: "staff/amirhossein-shahidi.jpg",
+      name: "Amirhossein Shahidi",
+      title: t("staff.executive_head"),
     },
     {
-      imagePath: "staff/example-staff.png",
-      name: "Saeed Forati",
-      title: "President",
+      imagePath: "staff/majid-hajilou.jpg",
+      name: "Majid Hajilou",
+      title: t("staff.sponsor_head"),
+    },
+    {
+      imagePath: "staff/ahmad-mousavi.png",
+      name: "Ahmad Mousave",
+      title: t("staff.graphics_head"),
     },
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<HTMLDivElement>(null);
   const [shouldScroll, setShouldScroll] = useState(false);
+  const { language } = useLanguageStore();
 
   useEffect(() => {
     const checkOverflow = () => {
@@ -135,8 +143,8 @@ const StaffBar: React.FC<StackProps> = (props) => {
 
       <Flex justify="space-around">
         <Button size="xl" borderRadius="full" fontWeight="bold" fontSize="sm">
-          {t("label.view_all") }
-          <Image height="1em" src="Landing/Right-arrow.svg" />
+          {t("label.view_all")}
+          {language == "fa" ? <FiArrowLeft /> : <FiArrowRight />}
         </Button>
       </Flex>
     </Stack>
@@ -151,14 +159,14 @@ const StaffItem: React.FC<
       width={cardWidth}
       backgroundColor="colorPalette.900"
       padding="15px"
-      borderRadius="xl"
+      borderRadius="3xl"
       alignItems="center"
       display="inline-block"
       mx={2}
       {...props}
     >
-      <Image src={imagePath} w="180px" h="180px" />
-      <Heading fontWeight="bold" fontSize="md">
+      <Image src={imagePath} w="180px" h="180px" rounded="3xl" />
+      <Heading fontWeight="bold" fontSize="md" mt={2}>
         {name}
       </Heading>
       <Text textAlign="start" fontSize="sm" textAlignLast="center">
