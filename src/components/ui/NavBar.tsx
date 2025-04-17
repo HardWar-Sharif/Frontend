@@ -10,11 +10,14 @@ import {
   Stack,
   Image,
   ButtonProps,
-  Switch,
+  Menu,
+  Portal,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 import { useState, ReactNode } from "react";
 import { NavLink, useNavigate } from "react-router";
+import { CiGlobe } from "react-icons/ci";
+import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
 
 const handleScroll = (id: string) => {
   if (id == "") {
@@ -121,23 +124,71 @@ const MenuButton = ({
 };
 
 const LanguageSwitch = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const language = useLanguageStore((state) => state.language);
   const setLanguage = useLanguageStore((state) => state.setLanguage);
+  const languages = [
+    { label: "فارسی", value: "fa" },
+    { label: "English", value: "en" },
+  ];
+  const inputStyles = {
+    borderWidth: 1,
+    borderColor: "red.muted",
+    bgColor: "red.950",
+    focusRingColor: "bg",
+    color: "red.50",
+    _invalid: { bgColor: "red.muted" },
+  };
 
   return (
-    <Switch.Root
-      size="lg"
-      checked={language == "fa"}
-      onCheckedChange={() => setLanguage(language == "fa" ? "en" : "fa")}
-    >
-      <Switch.HiddenInput />
-      <Switch.Control dir={language == "fa" ? "ltr" : "rtl"}>
-        <Switch.Thumb ml="auto" />
-        <Switch.Indicator fallback="En" ml={5} mt={0.5}>
-          Fa
-        </Switch.Indicator>
-      </Switch.Control>
-    </Switch.Root>
+    // <Switch.Root
+    //   size="lg"
+    //   checked={language == "fa"}
+    //   onCheckedChange={() => setLanguage(language == "fa" ? "en" : "fa")}
+    // >
+    //   <Switch.HiddenInput />
+    //   <Switch.Control dir={language == "fa" ? "ltr" : "rtl"}>
+    //     <Switch.Thumb ml="auto" />
+    //     <Switch.Indicator fallback="En" ml={5} mt={0.5}>
+    //       Fa
+    //     </Switch.Indicator>
+    //   </Switch.Control>
+    // </Switch.Root>
+    <Menu.Root>
+      <Menu.Trigger asChild>
+        <Button
+          variant="ghost"
+          size="sm"
+          rounded="full"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <CiGlobe />
+          {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
+        </Button>
+      </Menu.Trigger>
+      <Portal>
+        <Menu.Positioner>
+          <Menu.Content minW="5rem" {...inputStyles}>
+            <Menu.RadioItemGroup
+              value={language}
+              onValueChange={(e) => setLanguage(e.value == "en" ? "en" : "fa")}
+            >
+              {languages.map((lang) => (
+                <Menu.RadioItem
+                  key={lang.value}
+                  value={lang.value}
+                  _hover={{ bgColor: "red.muted" }}
+                  _selected={{ bgColor: "red.muted" }}
+                >
+                  {lang.label}
+                  <Menu.ItemIndicator />
+                </Menu.RadioItem>
+              ))}
+            </Menu.RadioItemGroup>
+          </Menu.Content>
+        </Menu.Positioner>
+      </Portal>
+    </Menu.Root>
   );
 };
 
