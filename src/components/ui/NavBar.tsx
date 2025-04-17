@@ -14,7 +14,7 @@ import {
   Portal,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { CiGlobe } from "react-icons/ci";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
@@ -71,10 +71,12 @@ const MenuToggle = ({ toggle, isOpen }: MenuToggleProps) => {
 const MenuItem = ({
   children,
   to = "",
+  onNavigate,
   ...rest
 }: {
   children: ReactNode;
   to?: string;
+  onNavigate?: () => void;
 }) => {
   return (
     <Link
@@ -82,6 +84,7 @@ const MenuItem = ({
       onClick={(e) => {
         e.preventDefault();
         handleScroll(to);
+        if (onNavigate) onNavigate();
       }}
     >
       <Text display="block" {...rest} color="white" fontWeight="bold">
@@ -94,13 +97,14 @@ const MenuItem = ({
 const MenuButton = ({
   children,
   to = "/",
+  onNavigate,
   ...props
-}: { children: ReactNode; to?: string } & ButtonProps) => {
+}: { children: ReactNode; to?: string; onNavigate?: () => void } & ButtonProps) => {
   const navigate = useNavigate();
 
   return (
     <Box>
-      <Box display={{ base: "block", md: "none" }}>
+      <Box display={{ base: "block", md: "none" }} onClick={onNavigate}>
         <NavLink to={to}>
           <Text display="block">{children}</Text>
         </NavLink>
@@ -112,7 +116,10 @@ const MenuButton = ({
           fontSize="md"
           fontWeight="bold"
           borderWidth="2px"
-          onClick={() => navigate(to)}
+          onClick={() => {
+            navigate(to); 
+            if (onNavigate) onNavigate();
+          }}
           {...props}
         >
           {children}
@@ -178,7 +185,7 @@ const LanguageSwitch = () => {
   );
 };
 
-const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
+const MenuLinks = ({ isOpen, closeMenu, ...props }: { isOpen: boolean; closeMenu: () => void }) => {
   const navigate = useNavigate();
   const { t } = useTranslate();
   const tokenIsValid = useAuthStore((state) => state.isValid);
@@ -199,13 +206,13 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
         pt={[4, 4, 0, 0]}
         gap={{ base: "2", md: "6" }}
       >
-        <MenuItem to="timeline" {...props}>
+        <MenuItem to="timeline" onNavigate={closeMenu} {...props}>
           {t("navbar.timeline")}
         </MenuItem>
-        <MenuItem to="about" {...props}>
+        <MenuItem to="about" onNavigate={closeMenu} {...props}>
           {t("navbar.about")}
         </MenuItem>
-        <MenuItem to="contact" {...props}>
+        <MenuItem to="contact" onNavigate={closeMenu} {...props}>
           {t("navbar.contact")}
         </MenuItem>
       </Stack>
@@ -230,7 +237,7 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
             >
               {t("label.logout")}
             </MenuButton>
-            <MenuButton to="/dashboard">{t("label.dashboard")}</MenuButton>
+            <MenuButton to="/dashboard" onNavigate={closeMenu}>{t("label.dashboard")}</MenuButton>
           </>
         ) : (
           <>
@@ -238,10 +245,11 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
               to="/login"
               variant="outline"
               borderColor="colorPalette.600"
+              onNavigate={closeMenu}
             >
               {t("label.login")}
             </MenuButton>
-            <MenuButton to="/signup">{t("label.signup")}</MenuButton>
+            <MenuButton to="/signup" onNavigate={closeMenu}>{t("label.signup")}</MenuButton>
           </>
         )}
       </Stack>
@@ -249,7 +257,7 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
   );
 };
 
-const NavBarContainer = ({ children, ...props }: { children: ReactNode }) => {
+const NavBarContainer = ({ children, isScrolled = false, ...props }: { children: ReactNode;  isScrolled?: boolean; }) => {
   return (
     <Flex
       as="nav"
@@ -259,9 +267,24 @@ const NavBarContainer = ({ children, ...props }: { children: ReactNode }) => {
       w="100%"
       mb={8}
       p={8}
-      bg={["primary.500", "primary.500", "primary.500", "primary.500"]}
-      color={["white", "white", "primary.700", "primary.700"]}
       padding="1.5% 10% 0.75% 10%"
+      top="0"
+      left="0"
+      bg={
+        isScrolled
+          ? "rgba(10, 10, 10, 0.4)" // translucent white
+          : "black"
+      }
+      color={
+        isScrolled
+          ? "primary.700"
+          : ["white", "white", "primary.700", "primary.700"]
+      }
+      boxShadow={isScrolled ? "0 4px 12px rgba(0, 0, 0, 0.1)" : "none"}
+      backdropFilter={isScrolled ? "saturate(180%) blur(20px)" : "none"}
+      borderBottom="1.5px solid"
+      borderColor={isScrolled ? "rgba(255, 100, 100, 0.2)" : "transparent"}
+      transition="all 0.3s ease, border-color 0.15s ease"
       {...props}
     >
       {children}
@@ -270,11 +293,37 @@ const NavBarContainer = ({ children, ...props }: { children: ReactNode }) => {
 };
 
 const NavBar: React.FC<BoxProps> = (props) => {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const navRef = useRef<HTMLDivElement>(null);
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        isOpen &&
+        navRef.current &&
+        !navRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
+    }
+  }, []);
+
   return (
-    <NavBarContainer {...props}>
+  <Box ref={navRef}>
+    <NavBarContainer isScrolled={isScrolled} {...props}>
       <Box display="flex" alignContent="center">
         <Link
           href={"#hardwar"}
@@ -293,7 +342,7 @@ const NavBar: React.FC<BoxProps> = (props) => {
           />
         </Link>
         <Box
-          h="70px"
+          h="50px"
           w="1px"
           bg="red.600"
           mx={4}
@@ -302,9 +351,10 @@ const NavBar: React.FC<BoxProps> = (props) => {
       </Box>
 
       <MenuToggle toggle={toggle} isOpen={isOpen} />
-      <MenuLinks isOpen={isOpen} />
+      <MenuLinks isOpen={isOpen} closeMenu={() => setIsOpen(false)} />
     </NavBarContainer>
-  );
+  </Box>
+);
 };
 
 export default NavBar;

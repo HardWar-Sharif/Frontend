@@ -20,7 +20,7 @@ const AppRoutes = () => {
           path="/"
           element={
             <>
-              <NavBar position="fixed" backgroundColor="black" zIndex={3} />
+              <NavBar position="fixed" zIndex={3} />
               <Outlet />
             </>
           }
