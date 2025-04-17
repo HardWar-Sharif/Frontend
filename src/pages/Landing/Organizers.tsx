@@ -12,7 +12,7 @@ import { useTranslate } from "@tolgee/react";
 const Organizers: React.FC<StackProps> = (props) => {
   const { t } = useTranslate();
   return (
-    <Stack width="100%" textAlign="center" gap={4} {...props}>
+    <Stack width="100%" textAlign="center" gap={4} {...props} mt={8}>
       <Heading size="4xl">{t("title.organizers")}</Heading>
       <Text fontSize="lg" padding="0 10%">
         {t("landing.organizers")}

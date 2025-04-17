@@ -53,7 +53,7 @@ const About: React.FC<StackProps> = (props) => {
         placeItems="center"
       >
         {items.map((item, index) => (
-          <HonorItem
+          <AboutItem
             key={index}
             imagePath={item.imagePath}
             title={item.title}
@@ -65,7 +65,7 @@ const About: React.FC<StackProps> = (props) => {
   );
 };
 
-const HonorItem = ({
+const AboutItem = ({
   imagePath,
   title,
   text,
@@ -84,10 +84,10 @@ const HonorItem = ({
       <Flex gap={6}>
         <Image src={imagePath} w="50px" h="50px" />
         <Stack align="start" gap={6} pe={8}>
-          <Heading fontWeight="bold" fontSize="lg">
+          <Heading fontWeight="bold" fontSize="xl">
             {title}
           </Heading>
-          <Text textAlign="justify" fontSize="lg">
+          <Text textAlign="justify" fontSize="md" opacity="0.8">
             {text}
           </Text>
         </Stack>

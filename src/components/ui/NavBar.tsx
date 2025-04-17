@@ -84,7 +84,7 @@ const MenuItem = ({
         handleScroll(to);
       }}
     >
-      <Text display="block" {...rest} color="white">
+      <Text display="block" {...rest} color="white" fontWeight="bold">
         {children}
       </Text>
     </Link>
@@ -107,9 +107,8 @@ const MenuButton = ({
       </Box>
       <Box display={{ base: "none", md: "block" }}>
         <Button
+          size="lg"
           rounded="full"
-          height="56px"
-          width="125px"
           fontSize="md"
           fontWeight="bold"
           borderWidth="2px"
@@ -141,19 +140,6 @@ const LanguageSwitch = () => {
   };
 
   return (
-    // <Switch.Root
-    //   size="lg"
-    //   checked={language == "fa"}
-    //   onCheckedChange={() => setLanguage(language == "fa" ? "en" : "fa")}
-    // >
-    //   <Switch.HiddenInput />
-    //   <Switch.Control dir={language == "fa" ? "ltr" : "rtl"}>
-    //     <Switch.Thumb ml="auto" />
-    //     <Switch.Indicator fallback="En" ml={5} mt={0.5}>
-    //       Fa
-    //     </Switch.Indicator>
-    //   </Switch.Control>
-    // </Switch.Root>
     <Menu.Root>
       <Menu.Trigger asChild>
         <Button

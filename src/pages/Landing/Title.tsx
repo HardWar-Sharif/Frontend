@@ -13,7 +13,7 @@ import { useTranslate } from "@tolgee/react";
 const Title: React.FC<StackProps> = (props) => {
   return (
     <Flex
-      justify={{ base: "flex-end", md: "space-between" }}
+      justify={{ base: "center", md: "space-between" }}
       align="center"
       flexWrap="wrap"
       id="hardwar"
@@ -31,13 +31,13 @@ const Title: React.FC<StackProps> = (props) => {
         <Timer />
       </Stack>
       <Flex
-        justify="flex-end"
+        justify="center"
         width={{ base: "100%", md: "40%" }}
         height="100%"
-        alignSelf="flex-end"
-        mt={{ base: 6, md: 0 }}
+        alignSelf="center"
+        mt={48}
       >
-        <Image src="Landing/Arduino.svg" />
+        <Image src="Landing/Raspberry_Pi.svg" width="90%" />
       </Flex>
     </Flex>
   );
