@@ -8,6 +8,13 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
+import { ReactNode } from "react";
+import {
+  RiTelegram2Fill,
+  RiLinkedinFill,
+  RiInstagramLine,
+  RiGoogleFill,
+} from "react-icons/ri";
 
 const Footer: React.FC<StackProps> = (props) => {
   const { t } = useTranslate();
@@ -28,10 +35,22 @@ const Footer: React.FC<StackProps> = (props) => {
               gap="10px"
               justifyContent={{ base: "center", md: "flex-end" }}
             >
-              <Bubble to="" image="Landing/Instagram.svg" />
-              <Bubble to="" image="Landing/Linked-in.svg" />
-              <Bubble to="" image="Landing/Instagram.svg" />
-              <Bubble to="" image="Landing/Linked-in.svg" />
+              <Bubble
+                to="https://t.me/hardwar_sharif"
+                image={<RiTelegram2Fill />}
+              />
+              <Bubble
+                to="https://instagram.com/hardwar_sharif"
+                image={<RiInstagramLine />}
+              />
+              <Bubble
+                to="mailto:hardwarsharif@gmail.com"
+                image={<RiGoogleFill />}
+              />
+              <Bubble
+                to="https://linkedin.com/company/hardwar"
+                image={<RiLinkedinFill />}
+              />
             </Flex>
           </Box>
         </Flex>
@@ -51,7 +70,7 @@ const Logo = ({ to, image }: { to: string; image: string }) => {
     <Link href={to}>
       <Image
         src={image}
-        h={image == "hardwar.svg" ? `80px` : `60px`}
+        h="60px"
         cursor="pointer"
         _hover={{
           opacity: 0.8,
@@ -61,17 +80,20 @@ const Logo = ({ to, image }: { to: string; image: string }) => {
   );
 };
 
-const Bubble = ({ to, image }: { to: string; image: string }) => {
+const Bubble = ({ to, image }: { to: string; image: ReactNode }) => {
   return (
     <Link href={to}>
-      <Image
-        src={image}
-        h="45px"
-        cursor="pointer"
-        _hover={{
-          opacity: 0.8,
-        }}
-      />
+      <Box
+        color="gray.300"
+        _hover={{ opacity: "0.8" }}
+        borderColor="gray.300"
+        borderWidth={1}
+        rounded="full"
+        p={2}
+        fontSize="2xl"
+      >
+        {image}
+      </Box>
     </Link>
   );
 };

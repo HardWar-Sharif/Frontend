@@ -284,7 +284,7 @@ const NavBar: React.FC<BoxProps> = (props) => {
           }}
         >
           <Logo
-            w="80px"
+            w="60px"
             color={["white", "white", "primary.500", "primary.500"]}
             cursor="pointer"
             _hover={{
