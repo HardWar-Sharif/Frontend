@@ -2,7 +2,7 @@ import { Box, BoxProps } from "@chakra-ui/react";
 import Title from "./Title";
 import Organizers from "./Organizers";
 import Timeline from "./Timeline";
-import Honors from "./Honors";
+import About from "./About";
 import StaffBar from "./StaffBar";
 import SignUpNow from "./SignUpNow";
 import Footer from "./Footer";
@@ -19,7 +19,7 @@ const Landing = () => {
       <Title />
       <Organizers mt="20vh" />
       <Timeline id="timeline" />
-      <Honors id="honors" />
+      <About id="about" />
       <StaffBar marginTop="50px" />
       <SignUpNow />
       <Footer id="contact" />

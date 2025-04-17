@@ -162,14 +162,11 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
         pt={[4, 4, 0, 0]}
         gap={{ base: "2", md: "6" }}
       >
-        <MenuItem to="about" {...props}>
-          {t("navbar.about")}
-        </MenuItem>
         <MenuItem to="timeline" {...props}>
           {t("navbar.timeline")}
         </MenuItem>
-        <MenuItem to="honors" {...props}>
-          {t("navbar.honors")}
+        <MenuItem to="about" {...props}>
+          {t("navbar.about")}
         </MenuItem>
         <MenuItem to="contact" {...props}>
           {t("navbar.contact")}
@@ -194,9 +191,9 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
                 navigate("/");
               }}
             >
-              Logout
+              {t("label.logout")}
             </MenuButton>
-            <MenuButton to="/dashboard">Dashboard</MenuButton>
+            <MenuButton to="/dashboard">{t("label.dashboard")}</MenuButton>
           </>
         ) : (
           <>
@@ -205,9 +202,9 @@ const MenuLinks = ({ isOpen, ...props }: { isOpen: boolean }) => {
               variant="outline"
               borderColor="colorPalette.600"
             >
-              {t("navbar.signin")}
+              {t("label.login")}
             </MenuButton>
-            <MenuButton to="/signup">{t("navbar.signup")}</MenuButton>
+            <MenuButton to="/signup">{t("label.signup")}</MenuButton>
           </>
         )}
       </Stack>
@@ -242,18 +239,22 @@ const NavBar: React.FC<BoxProps> = (props) => {
   return (
     <NavBarContainer {...props}>
       <Box display="flex" alignContent="center">
-        <Logo
-          w="80px"
-          color={["white", "white", "primary.500", "primary.500"]}
+        <Link
+          href={"#hardwar"}
           onClick={(e) => {
             e.preventDefault();
-            handleScroll("");
+            handleScroll("hardwar");
           }}
-          cursor="pointer"
-          _hover={{
-            opacity: 0.8,
-          }}
-        />
+        >
+          <Logo
+            w="80px"
+            color={["white", "white", "primary.500", "primary.500"]}
+            cursor="pointer"
+            _hover={{
+              opacity: 0.8,
+            }}
+          />
+        </Link>
         <Box
           h="70px"
           w="1px"

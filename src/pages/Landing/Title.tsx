@@ -16,6 +16,7 @@ const Title: React.FC<StackProps> = (props) => {
       justify={{ base: "flex-end", md: "space-between" }}
       align="center"
       flexWrap="wrap"
+      id="hardwar"
     >
       <Stack
         gap={30}
@@ -24,7 +25,7 @@ const Title: React.FC<StackProps> = (props) => {
         justifySelf="flex-start"
         {...props}
       >
-        <HardWarTitle id="about" />
+        <HardWarTitle />
         <Description />
         <Info />
         <Timer />

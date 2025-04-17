@@ -10,7 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 
-const Honors: React.FC<StackProps> = (props) => {
+const About: React.FC<StackProps> = (props) => {
   const { t } = useTranslate();
 
   const items = [
@@ -96,4 +96,4 @@ const HonorItem = ({
   );
 };
 
-export default Honors;
+export default About;

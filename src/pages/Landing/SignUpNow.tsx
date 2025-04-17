@@ -13,6 +13,8 @@ import { useTranslate } from "@tolgee/react";
 
 const SignUpNow: React.FC<StackProps> = (props) => {
   const stripColor = useToken("colors", "colorPalette.900");
+  const { t } = useTranslate();
+
   return (
     <Flex
       justify="space-around"
@@ -39,7 +41,7 @@ const SignUpNow: React.FC<StackProps> = (props) => {
             fontWeight="bold"
             borderWidth="2px"
           >
-            SIGN UP
+            {t("label.signup")}
           </Button>
         </Flex>
       </Stack>

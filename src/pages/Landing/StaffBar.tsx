@@ -21,32 +21,32 @@ const StaffBar: React.FC<StackProps> = (props) => {
   const items = [
     {
       imagePath: "staff/saeed-forati.jpg",
-      name: "Saeed Forati",
+      name: t("name.saeed_forati"),
       title: t("staff.president"),
     },
     {
       imagePath: "staff/amirhossein-souri.jpg",
-      name: "Amirhossein Souri",
+      name: t("name.amirhossein_souri"),
       title: t("staff.vice_president"),
     },
     {
       imagePath: "staff/mahdi-alinejad.jpg",
-      name: "Mahdi Alinejad",
+      name: t("name.mahdi_alinejad"),
       title: t("staff.scientific_head"),
     },
     {
       imagePath: "staff/amirhossein-shahidi.jpg",
-      name: "Amirhossein Shahidi",
+      name: t("name.amirhossein_shahidi"),
       title: t("staff.executive_head"),
     },
     {
       imagePath: "staff/majid-hajilou.jpg",
-      name: "Majid Hajilou",
+      name: t("name.majid_hajilou"),
       title: t("staff.sponsor_head"),
     },
     {
       imagePath: "staff/ahmad-mousavi.png",
-      name: "Ahmad Mousave",
+      name: t("name.ahmad_mousavi"),
       title: t("staff.graphics_head"),
     },
   ];
