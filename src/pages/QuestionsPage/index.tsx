@@ -1,10 +1,12 @@
 import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
+import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
-import { Box, Code, Heading, chakra, Text } from "@chakra-ui/react";
+import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link } from "@chakra-ui/react";
 import "katex/dist/katex.min.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import React from "react";
 
 const markdown = `
 *این متن برای آشنایی با نحوه‌ی نوشتن به زبان مارک‌دان و قالب استاندارد صورت سوال قرار گرفته است.*
@@ -19,6 +21,12 @@ const markdown = `
 
 **تابع فیبوناچی**، تابعی معروف است که نمایش *بازگشتی* آن به این صورت است که هر جمله‌ی آن با توجه به دو جمله قبلی‌اش محاسبه می‌شود. (برای نوشتن رابطه‌های ریاضی می‌توانید از دستورات ریاضی $LaTeX$  استفاده کنید)
 
+| Tables        | Are           | Cool  |
+| ------------- |:-------------:| -----:|
+| col 3 is      | right-aligned | $1600 |
+| col 2 is      | centered      |   $12 |
+| zebra stripes | are neat      |    $1 |
+
 $$ 
 fib(0) = fib(1) = 1 
 $$
@@ -26,6 +34,11 @@ $$
 $$ 
 fib(n) = fib(n-1) + fib(n-2) 
 $$
+
+# تیتر
+## تیتر
+### تیتر
+#### تیتر
 
 در جدول زیر نمونه‌هایی از ورودی و خروجی‌های این تابع داده شده است:
 
@@ -37,7 +50,7 @@ $$
  **پیاده‌سازی بازگشتی:**
 کد زیر که به زبان \`C\` نوشته شده است، این تابع را به صورت بازگشتی پیاده‌سازی می‌کند: (برای نوشتن inline code به این صورت عمل کنید: \`inline code\`)
 
-\`\`\`
+\`\`\`text
 int fib(int n)
 {
 	if(n==1 || n==0)
@@ -157,12 +170,92 @@ $$
 
 برای اضافه کردن \`caption\` به تصاویر کافیست بشکل زیر عمل کنید:
 
-| آدرس عکس |
-|:--------:|
-| *توضیحات* |
+## Proper List Example
+
+### Unordered List
+- First item
+- Second item
+  - Nested item
+  - Another nested item 
+    - lol
+- Third item
+
+### Ordered List
+1. Primary item
+2. Secondary item
+   1. Nested ordered
+   2. Another nested
+      1. lol
+3. Final item
+
+Emphasis, aka italics, with *asterisks* or _underscores_
+
+Strong emphasis, aka bold, with **asterisks** or __underscores__
+
+Combined emphasis with **asterisks and _underscores_**
+
+Strikethrough uses two tildes. ~~Scratch this~~
+
+[I'm an inline-style link](https://www.google.com)
+
+[I'm an inline-style link with title](https://www.google.com "Google's Homepage")
+
+[I'm a reference-style link][Arbitrary case-insensitive reference text]
+
+[I'm a relative reference to a repository file](../blob/master/LICENSE)
+
+[You can use numbers for reference-style link definitions][1]
+
+Or leave it empty and use the [link text itself].
+
+URLs and URLs in angle brackets will automatically get turned into links. 
+http://www.example.com or <http://www.example.com> and sometimes 
+example.com (but not on Github, for example).
+
+Some text to show that the reference links can follow later.
+
+[arbitrary case-insensitive reference text]: https://www.mozilla.org
+[1]: http://slashdot.org
+[link text itself]: http://www.reddit.com
 `;
 
-const MarkdownWithMath = () => {
+// Defined Interfaces
+interface TextProps {
+  node?: any;
+  children?: React.ReactNode;
+  strong?: boolean;
+  emphasis?: boolean;
+}
+
+interface LinkProps {
+  node?: any;
+  href?: string;
+  children?: React.ReactNode;
+}
+
+// Defined Components
+const ListContext = React.createContext(0);
+  
+const ListWrapper = ({ children, ordered }: { children: React.ReactNode, ordered?: boolean }) => {
+  const depth = React.useContext(ListContext);
+  
+  return (
+    <List.Root 
+      as={ordered ? 'ol' : 'ul'}
+      ps={depth * 5}
+    >
+      <ListContext.Provider value={depth + 1}>
+        {children}
+      </ListContext.Provider>
+    </List.Root>
+  );
+};
+
+const ListItem = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <List.Item> {children} </List.Item>
+  );
+};
 
 const Pre = chakra("pre", {
   base: {
@@ -177,45 +270,63 @@ const Pre = chakra("pre", {
   },
 });
 
+const CustomCode = ({className, children, ...props}: {className: string | undefined, children: React.ReactNode}) => {
+  const match = /language-(\w+)/.exec(className || "");
+  if (match) {
+    return (
+      <SyntaxHighlighter
+        style={oneDark}
+        language={match ? match[1] : "text"} 
+        PreTag="div"
+        customStyle={{
+          borderRadius: "8px",
+          marginTop: "8px",
+          marginBottom: "8px",
+          overflowX: "auto",
+        } as React.CSSProperties} // Ensure correct typing
+        {...props}
+      >
+        {String(children).trim()}
+      </SyntaxHighlighter>
+    );
+  }
+  return <Code {...props} >{children}</Code>;
+}
+
+
+
+const MarkdownFile = () => {
   return (
     <div dir="rtl">
       <Box p={4}>
         <ReactMarkdown
-          remarkPlugins={[remarkMath]}
+          remarkPlugins={[remarkMath, remarkGfm]}
           rehypePlugins={[rehypeKatex]}
           components={{
             p: ({ node, ...props }) => <Text my={3} {...props} />,
-            h1: ({ node, ...props }) => (
-              <Heading as="h1" size="xl" my={4} {...props} />
-            ),
+            h1: ({ node, ...props }) => <Heading as="h1" size="2xl" my={4} {...props} />,
+            h2: ({ node, ...props }) => <Heading as="h2" size="xl" my={4} {...props} />,
+            h3: ({ node, ...props }) => <Heading as="h3" size="lg" my={4} {...props} />,
+            h4: ({ node, ...props }) => <Heading as="h4" size="md" my={4} {...props} />,
+
             span: ({ node, ...props }) => (<span dir="ltr" {...props}></span>),
-            code({ className, children, ...props }) {
-              const match = /language-(\w+)/.exec(className || "");
-    
-              if (match) {
-                return (
-                  <SyntaxHighlighter
-                    style={oneDark}
-                    language={match ? match[1] : "text"} // Fallback to "text" if no language is provided
-                    PreTag="div"
-                    // Use a plain object for the custom style to match expected type
-                    customStyle={{
-                      borderRadius: "8px",
-                      marginTop: "8px",
-                      marginBottom: "8px",
-                      overflowX: "auto",
-                    } as React.CSSProperties} // Ensure correct typing
-                    {...props}
-                  >
-                    {String(children).trim()}
-                  </SyntaxHighlighter>
-                );
-              }
-    
-              return <Code {...props} >{children}</Code>;
-            },
+            code: ({node, className, children, ...props}) => (<CustomCode className={className} {...props}>{children}</CustomCode>),
             pre: ({ node, ...props }) => (<Pre dir="ltr" {...props} ></Pre>),
-            // Add more custom components as needed
+
+            table: ({ node, ...props }) => <TableRoot my={4} variant="outline" showColumnBorder {...props} />,
+            thead: ({ node, ...props }) => <TableHeader {...props} />,
+            tbody: ({ node, ...props }) => <TableBody {...props} />,
+            tr: ({ node, ...props }) => <TableRow {...props} />,
+            th: ({ node, ...props }) => <TableColumnHeader {...props} />,
+            td: ({ node, ...props }) => <TableCell {...props} />,
+
+            ul: ({ node, children, ...props }) => <ListWrapper {...props}>{children}</ListWrapper>,
+            ol: ({ node, children, ...props }) => <ListWrapper ordered {...props}>{children}</ListWrapper>,
+            li: ({ node, children, ...props }) => <ListItem {...props}>{children}</ListItem>,
+
+            strong: ({ node, children, ...props }: TextProps) => <Text as="span" fontWeight="bold" {...props}>{children}</Text>,
+            em: ({ node, children, ...props }: TextProps) => <Text as="span" fontStyle="italic" {...props}>{children}</Text>,
+            a: ({ node, href, children, ...props }: LinkProps) => <Link href={href} {...props}>{children}</Link>,
           }}
         >
           {markdown}
@@ -225,4 +336,4 @@ const Pre = chakra("pre", {
   );
 };
 
-export default MarkdownWithMath;
+export default MarkdownFile;
