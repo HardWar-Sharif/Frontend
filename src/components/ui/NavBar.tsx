@@ -18,6 +18,7 @@ import { useState, ReactNode, useEffect, useRef } from "react";
 import { NavLink, useNavigate } from "react-router";
 import { CiGlobe } from "react-icons/ci";
 import { IoIosArrowDown, IoIosArrowUp } from "react-icons/io";
+import { RxHamburgerMenu, RxCross2 } from "react-icons/rx";
 
 const handleScroll = (id: string) => {
   if (id == "") {
@@ -63,7 +64,11 @@ type MenuToggleProps = {
 const MenuToggle = ({ toggle, isOpen }: MenuToggleProps) => {
   return (
     <Box display={{ base: "block", md: "none" }} onClick={toggle}>
-      {isOpen ? <CloseIcon /> : <MenuIcon />}
+      {isOpen ? (
+        <RxCross2 size="32px" cursor="pointer" />
+      ) : (
+        <RxHamburgerMenu size="32px" cursor="pointer" />
+      )}
     </Box>
   );
 };
@@ -204,7 +209,7 @@ const MenuLinks = ({ isOpen, closeMenu, ...props }: { isOpen: boolean; closeMenu
         justify={["center", "space-between", "flex-start", "flex-start"]}
         direction={["column", "row", "row", "row"]}
         pt={[4, 4, 0, 0]}
-        gap={{ base: "2", md: "6" }}
+        gap={{ base: "1", md: "6" }}
       >
         <MenuItem to="timeline" onNavigate={closeMenu} {...props}>
           {t("navbar.timeline")}
@@ -265,14 +270,13 @@ const NavBarContainer = ({ children, isScrolled = false, ...props }: { children:
       justify="space-between"
       wrap="wrap"
       w="100%"
-      mb={8}
-      p={8}
-      padding="1.5% 10% 0.75% 10%"
+      mb={0}
+      padding="15px 10% 8px 10%"
       top="0"
       left="0"
       bg={
         isScrolled
-          ? "rgba(10, 10, 10, 0.4)" // translucent white
+          ? "rgba(10, 10, 10, 0.45)" // translucent white
           : "black"
       }
       color={
@@ -281,7 +285,7 @@ const NavBarContainer = ({ children, isScrolled = false, ...props }: { children:
           : ["white", "white", "primary.700", "primary.700"]
       }
       boxShadow={isScrolled ? "0 4px 12px rgba(0, 0, 0, 0.1)" : "none"}
-      backdropFilter={isScrolled ? "saturate(180%) blur(20px)" : "none"}
+      backdropFilter={isScrolled ? "saturate(200%) blur(20px)" : "none"}
       borderBottom="1.5px solid"
       borderColor={isScrolled ? "rgba(255, 100, 100, 0.2)" : "transparent"}
       transition="all 0.3s ease, border-color 0.15s ease"
@@ -319,7 +323,7 @@ const NavBar: React.FC<BoxProps> = (props) => {
       window.removeEventListener('scroll', handleScroll);
       document.removeEventListener("mousedown", handleClickOutside);
     }
-  }, []);
+  }, [isOpen]);
 
   return (
   <Box ref={navRef}>

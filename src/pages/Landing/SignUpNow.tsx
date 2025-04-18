@@ -27,7 +27,7 @@ const SignUpNow: React.FC<StackProps> = (props) => {
         width={{ base: "100%", md: "40%" }}
         padding="calc(100px + 10%) 5%"
         height="100%"
-        justifySelf="flex-start"
+        justifySelf={"flex-start"}
         {...props}
       >
         <Title id="about" />
@@ -35,8 +35,8 @@ const SignUpNow: React.FC<StackProps> = (props) => {
         <Flex justify="space-around">
           <Button
             rounded="full"
-            height="56px"
-            width="125px"
+            height={{base: "43px", md: "56px"}}
+            width={{base: "98px", md: "125px"}}
             fontSize="md"
             fontWeight="bold"
             borderWidth="2px"
@@ -63,12 +63,13 @@ const Title: React.FC<HeadingProps> = (props) => {
   return (
     <Heading
       as="h1"
-      size={{ base: "5xl", md: "6xl" }}
+      size={{ base: "4xl", md: "6xl" }}
       textShadow="0 0 5px #ff0000ff, 0 0 10px #ff0000a0, 0 0 20px #ff000060"
       color="white"
       fontWeight="700"
       whiteSpace="nowrap"
       zIndex={2}
+      textAlign={{ base: "center", md: "left" }} // ← add this
       {...props}
     >
       {t("title.signup")}

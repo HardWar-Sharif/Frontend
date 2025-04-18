@@ -16,7 +16,7 @@ const Landing = () => {
       position="relative"
       clipPath="inset(0 0 0 0)"
     >
-      <Title />
+      <Title mt={{base: 10, md: 0}} />
       <Organizers mt="20vh" />
       <Timeline id="timeline" />
       <About id="about" />

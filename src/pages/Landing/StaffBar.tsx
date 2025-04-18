@@ -13,8 +13,10 @@ import {
 import { useTranslate } from "@tolgee/react";
 import { useRef, useEffect, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
+import { keyframes } from "@emotion/react";
 
 const cardWidth = 210;
+
 
 const StaffBar: React.FC<StackProps> = (props) => {
   const { t } = useTranslate();
@@ -52,7 +54,6 @@ const StaffBar: React.FC<StackProps> = (props) => {
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const itemsRef = useRef<HTMLDivElement>(null);
   const [shouldScroll, setShouldScroll] = useState(false);
   const { language } = useLanguageStore();
 
@@ -67,31 +68,15 @@ const StaffBar: React.FC<StackProps> = (props) => {
     return () => window.removeEventListener("resize", checkOverflow);
   }, []);
 
-  useEffect(() => {
-    if (!shouldScroll) return;
+  const scrollPos = keyframes`
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(+50%); }
+  `;
 
-    const container = containerRef.current;
-    if (!container) return;
-
-    let scrollAmount = 0;
-    const scrollSpeed = 0.4;
-
-    const scroll = () => {
-      if (container) {
-        scrollAmount += scrollSpeed;
-        container.scrollLeft = scrollAmount;
-
-        if (scrollAmount >= container.scrollWidth / 2) {
-          scrollAmount = 0;
-          container.scrollLeft = 0;
-        }
-      }
-    };
-
-    const interval = setInterval(scroll, 10);
-
-    return () => clearInterval(interval);
-  }, [shouldScroll]);
+  const scrollNeg = keyframes`
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-50%); }
+  `;
 
   return (
     <Stack width="100%" textAlign="center" gap={4} {...props}>
@@ -104,40 +89,24 @@ const StaffBar: React.FC<StackProps> = (props) => {
       <Flex
         ref={containerRef}
         gap={4}
-        justify="space-around"
         overflow="hidden"
         position="relative"
+        justifyContent={shouldScroll ? "flex-start" : "space-around"}
         width="100%"
-        whiteSpace="nowrap"
       >
         <Box
-          ref={itemsRef}
           display="inline-block"
-          animation="scroll 10s linear infinite"
-          css={{
-            "@keyframes scroll": {
-              "0%": { transform: "translateX(100%)" },
-              "100%": { transform: "translateX(-100%)" },
-            },
-          }}
+          whiteSpace="nowrap"
+          animation={shouldScroll ? `${language == 'fa' ? scrollPos : scrollNeg} 20s linear infinite` : undefined}
         >
-          {shouldScroll
-            ? [...items, ...items].map((item, index) => (
-                <StaffItem
-                  key={index}
-                  imagePath={item.imagePath}
-                  title={item.title}
-                  name={item.name}
-                />
-              ))
-            : items.map((item, index) => (
-                <StaffItem
-                  key={index}
-                  imagePath={item.imagePath}
-                  title={item.title}
-                  name={item.name}
-                />
-              ))}
+          {(shouldScroll ? [...items, ...items] : items).map((item, index) => (
+            <StaffItem
+              key={index}
+              imagePath={item.imagePath}
+              title={item.title}
+              name={item.name}
+            />
+          ))}
         </Box>
       </Flex>
 

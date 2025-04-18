@@ -9,6 +9,7 @@ import {
 } from "@chakra-ui/react";
 import Timer from "./Timer";
 import { useTranslate } from "@tolgee/react";
+import { FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
 
 const Title: React.FC<StackProps> = (props) => {
   return (
@@ -35,7 +36,7 @@ const Title: React.FC<StackProps> = (props) => {
         width={{ base: "100%", md: "40%" }}
         height="100%"
         alignSelf="center"
-        mt={48}
+        mt={{base: 5, md: 48}}
       >
         <Image src="Landing/Raspberry_Pi.svg" width="90%" />
       </Flex>
@@ -73,14 +74,14 @@ const Info: React.FC<StackProps> = (props) => {
   return (
     <Stack {...props}>
       <Flex justify="flex-start" align="center" gap={2}>
-        <Image src="Landing/Location.svg" w="14px" margin="2px" />
+        <FaMapMarkerAlt />
         <Text color="gray.300" fontSize="1.1em">
           {t("landing.location")}
         </Text>
       </Flex>
 
       <Flex justify="flex-start" align="center" gap={2}>
-        <Image src="Landing/Calendar.svg" w="18px" margin="0px" />
+        <FaCalendarAlt />
         <Text color="gray.300" fontSize="1.1em">
           {t("landing.date")}
         </Text>

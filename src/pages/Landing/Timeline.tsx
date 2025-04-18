@@ -120,7 +120,7 @@ const Timeline: React.FC<FlexProps> = (props) => {
         justify="center"
         mt={{ base: 6, md: 0 }}
       >
-        <Image src="Landing/Raspberry.svg" alignSelf="center" width="70%" />
+        <Image src="Landing/Raspberry.svg" alignSelf="center" width="70%" display={{base: "none", md: "block"}} />
       </Flex>
     </Flex>
   );

@@ -30,7 +30,7 @@ const Footer: React.FC<StackProps> = (props) => {
             </Flex>
           </Box>
 
-          <Box width={{ base: "100%", md: "30%" }}>
+          <Box width={{ base: "100%", md: "30%" }} mt={{ base: 4, md: 0 }}>
             <Flex
               gap="10px"
               justifyContent={{ base: "center", md: "flex-end" }}

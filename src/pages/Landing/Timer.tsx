@@ -6,15 +6,15 @@ const Timer = () => {
   return (
     <Flex justify="space-between" align="center" dir="ltr">
       <TimeComponent type="day" />
-      <Text fontSize="6xl" color="colorPalette.500">
+      <Text fontSize={{base: "4xl", md: "6xl"}} color="colorPalette.500">
         :
       </Text>
       <TimeComponent type="hour" />
-      <Text fontSize="6xl" color="colorPalette.500">
+      <Text fontSize={{base: "4xl", md: "6xl"}} color="colorPalette.500">
         :
       </Text>
       <TimeComponent type="min" />
-      <Text fontSize="6xl" color="colorPalette.500">
+      <Text fontSize={{base: "4xl", md: "6xl"}} color="colorPalette.500">
         :
       </Text>
       <TimeComponent type="sec" />
@@ -44,7 +44,7 @@ const TimeComponent = ({ type }: { type: "day" | "hour" | "min" | "sec" }) => {
   return (
     <Stack align="center">
       <SevenSegmentText text={num} />
-      <Text mt={-8} fontSize="small" fontWeight="lighter">
+      <Text mt={-8} fontSize={{base: "xs" ,md: "small"}} fontWeight="lighter">
         {t(text)}
       </Text>
     </Stack>
@@ -72,7 +72,7 @@ const SevenSegmentText = ({ text }: { text: string }) => {
 
 const MonospaceSevenSegmentText = ({ text }: { text: string }) => {
   return (
-    <Box fontSize="7xl" whiteSpace="pre">
+    <Box fontSize={{base: "5xl", md: "7xl"}} whiteSpace="pre">
       {text.split("").map((char, index) => (
         <MonospaceCharacter key={index}>{char}</MonospaceCharacter>
       ))}
