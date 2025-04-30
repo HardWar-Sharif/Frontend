@@ -1,10 +1,59 @@
 import FloatField from "@/components/ui/FloatField";
-import { Button, Flex } from "@chakra-ui/react";
+import { toaster } from "@/components/ui/toaster";
+import { useCreateTeam } from "@/hooks/create-team";
+import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 
-const CreateTeamForm = () => {
+interface CreateTeamFormProps {
+  refetch: () => void;
+}
+
+interface CreateTeamValues {
+  teamName: string;
+}
+
+const CreateTeamForm = ({ refetch }: CreateTeamFormProps) => {
+  const { mutate, isPending } = useCreateTeam();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<CreateTeamValues>({ mode: "onSubmit" });
+
+  const create = () => {
+    mutate(
+      {
+        name: getValues("teamName"),
+      },
+      {
+        onSuccess: (data) => {
+          console.log("success", data);
+          refetch();
+        },
+        onError: () =>
+          toaster.create({
+            title: "Team Creation Error",
+            type: "error",
+          }),
+      }
+    );
+  };
+
   return (
     <Flex direction="column" w="full" gap={4} alignItems="center">
-      <FloatField label="Team Name" formInput={null} />
+      <FloatField
+        label="Team Name"
+        formInput={register("teamName", {
+          required: true,
+        })}
+        invalid={!!errors.teamName}
+      />
+      {errors.teamName && (
+        <Text fontSize="sm" mt={1} color="red.solid">
+          Team Name is required.
+        </Text>
+      )}
       {/* <FileUpload.Root gap="1" maxWidth="300px">
         <FileUpload.HiddenInput />
         <FileUpload.Label>Upload file</FileUpload.Label>
@@ -15,7 +64,9 @@ const CreateTeamForm = () => {
         </Input>
       </FileUpload.Root> */}
       <Flex>
-        <Button>Create</Button>
+        <Button onClick={handleSubmit(create)}>
+          {isPending && <Spinner size="sm" />} Create
+        </Button>
       </Flex>
     </Flex>
   );
