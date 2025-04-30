@@ -23,7 +23,7 @@ interface SidebarButton {
 const sidebarButtons: Array<SidebarButton> = [
   { page: "dashboard", icon: <RxDashboard />, text: "Dashboard" },
   { page: "profile", icon: <LuUser />, text: "Profile" },
-  { page: "team", icon: <HiOutlineUserGroup />, text: "Profile" },
+  { page: "team", icon: <HiOutlineUserGroup />, text: "Team" },
 ];
 
 const MainPage = () => {
