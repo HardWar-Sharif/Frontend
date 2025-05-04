@@ -32,8 +32,8 @@ const AppRoutes = () => {
           <Route element={protectedPage(<MainPage />)}>
             <Route path="dashboard" element={protectedPage(<Dashboard />)} />
             <Route path="profile" element={protectedPage(<Profile />)} />
-            <Route path="questions" element={protectedPage(<Questions />)} />
           </Route>
+          <Route path="questions" element={protectedPage(<Questions />)} />
         </Route>
       </Routes>
     </BrowserRouter>
