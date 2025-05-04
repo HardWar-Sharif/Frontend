@@ -65,7 +65,7 @@ const Team = () => {
           mb={{ base: 4, md: 0 }}
         >
           <img
-            src="/src/assets/images/no-team.svg"
+            src="/public/team/no-team.svg"
             alt="no team"
             style={{ height: "230px" }}
           />
@@ -96,7 +96,7 @@ const Team = () => {
           mb={{ base: 4, md: 0 }}
         >
           <img
-            src="/src/assets/images/team.svg"
+            src="/public/team/team.svg"
             alt="team"
             style={{ height: "230px" }}
           />
