@@ -59,7 +59,7 @@ const StaffBar: React.FC<StackProps> = (props) => {
 
   useEffect(() => {
     const checkOverflow = () => {
-      setShouldScroll(cardWidth * items.length > window.innerWidth);
+      setShouldScroll((cardWidth + 16) * items.length > window.innerWidth);
     };
 
     checkOverflow();

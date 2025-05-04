@@ -50,7 +50,8 @@ const About: React.FC<StackProps> = (props) => {
         gap={4}
         width="100%"
         padding="0 15%"
-        placeItems="center"
+        // placeItems="center"
+        placeItems="stretch"
       >
         {items.map((item, index) => (
           <AboutItem
@@ -78,20 +79,26 @@ const AboutItem = ({
     <Box
       width={{ base: "70vw", md: "35vw" }}
       backgroundColor="colorPalette.900"
-      padding="10% 5%"
+      padding="5% 5%"
       borderRadius="30px"
+      height="100%"
     >
-      <Flex gap={6}>
-        <Image src={imagePath} w="50px" h="50px" />
-        <Stack align="start" gap={6} pe={8}>
-          <Heading fontWeight="bold" fontSize="xl">
-            {title}
-          </Heading>
+      <Stack gap={4}>
+        <Flex 
+          gap={6} 
+          alignItems="center"
+        >
+          <Image src={imagePath} w="50px" h="50px" />
+          {/* <Stack align="start" gap={6} pe={8}> */}
+            <Heading fontWeight="bold" fontSize="xl">
+              {title}
+            </Heading>
+          {/* </Stack> */}
+        </Flex>
           <Text textAlign="justify" fontSize="md" opacity="0.8">
             {text}
           </Text>
-        </Stack>
-      </Flex>
+      </Stack>
     </Box>
   );
 };

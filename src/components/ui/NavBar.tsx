@@ -48,14 +48,6 @@ const Logo: React.FC<BoxProps> = (props) => {
   );
 };
 
-const CloseIcon = () => {
-  return <Image src="navbar/close.png" w="40px" cursor="pointer" />;
-};
-
-const MenuIcon = () => {
-  return <Image src="navbar/menu.png" w="40px" cursor="pointer" />;
-};
-
 type MenuToggleProps = {
   toggle: () => void;
   isOpen: boolean;
@@ -91,6 +83,7 @@ const MenuItem = ({
         handleScroll(to);
         if (onNavigate) onNavigate();
       }}
+      _focus={{ boxShadow: "none", outline: "none" }}
     >
       <Text display="block" {...rest} color="white" fontWeight="bold">
         {children}
@@ -159,6 +152,7 @@ const LanguageSwitch = () => {
           size="sm"
           rounded="full"
           onClick={() => setIsOpen(!isOpen)}
+          _focus={{ boxShadow: "none", outline: "none" }}
         >
           <CiGlobe />
           {isOpen ? <IoIosArrowUp /> : <IoIosArrowDown />}
@@ -335,6 +329,7 @@ const NavBar: React.FC<BoxProps> = (props) => {
             e.preventDefault();
             handleScroll("hardwar");
           }}
+          _focus={{ boxShadow: "none", outline: "none" }}
         >
           <Logo
             w="60px"
