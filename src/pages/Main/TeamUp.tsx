@@ -65,7 +65,7 @@ const Team = () => {
           mb={{ base: 4, md: 0 }}
         >
           <img
-            src="/public/team/no-team.svg"
+            src="/team/no-team.svg"
             alt="no team"
             style={{ height: "230px" }}
           />
@@ -95,11 +95,7 @@ const Team = () => {
           justifyItems="center"
           mb={{ base: 4, md: 0 }}
         >
-          <img
-            src="/public/team/team.svg"
-            alt="team"
-            style={{ height: "230px" }}
-          />
+          <img src="/team/team.svg" alt="team" style={{ height: "230px" }} />
         </GridItem>
         <GridItem colSpan={{ base: 24, md: 12 }} w="full">
           {team?.data && (
