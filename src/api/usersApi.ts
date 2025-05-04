@@ -19,3 +19,11 @@ export const profile = async (payload: UserProfile) => {
   const response = await axiosInstance.put(`/users/profile/`, payload);
   return response.data;
 };
+
+export const team = async () => {
+  const response = await axiosInstance.get(`/users/team/my`);
+  return {
+    data: response.data,
+    status: response.status,
+  };
+};

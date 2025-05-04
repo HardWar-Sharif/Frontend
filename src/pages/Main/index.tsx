@@ -10,6 +10,7 @@ import { Outlet, useLocation, useNavigate } from "react-router";
 import { LuUser, LuLogOut } from "react-icons/lu";
 import { RxDashboard } from "react-icons/rx";
 import { HiChevronDoubleDown, HiChevronDoubleRight } from "react-icons/hi2";
+import { HiOutlineUserGroup } from "react-icons/hi2";
 import { ReactNode, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
 
@@ -22,6 +23,7 @@ interface SidebarButton {
 const sidebarButtons: Array<SidebarButton> = [
   { page: "dashboard", icon: <RxDashboard />, text: "Dashboard" },
   { page: "profile", icon: <LuUser />, text: "Profile" },
+  { page: "team", icon: <HiOutlineUserGroup />, text: "Team" },
 ];
 
 const MainPage = () => {
@@ -32,7 +34,7 @@ const MainPage = () => {
 
   const sidebar = (
     <Box
-      h={{ md: "72vh" }}
+      h={{ md: "60vh" }}
       w={{ mdDown: "85vw" }}
       bgColor="red.950"
       borderColor="red.muted"
@@ -109,7 +111,7 @@ const MainPage = () => {
       clipPath="inset(0 0 0 0)"
       minH="100vh"
     >
-      <SimpleGrid mt={{ base: "15vh", md: "20vh" }} columns={48}>
+      <SimpleGrid mt={{ base: "15vh", md: "25vh" }} columns={48}>
         <GridItem
           colSpan={{ base: 44, sm: 34, md: 32, lg: 24 }}
           colStart={{ base: 3, sm: 8, md: 6, lg: 13 }}

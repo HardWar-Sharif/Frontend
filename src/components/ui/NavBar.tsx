@@ -97,7 +97,11 @@ const MenuButton = ({
   to = "/",
   onNavigate,
   ...props
-}: { children: ReactNode; to?: string; onNavigate?: () => void } & ButtonProps) => {
+}: {
+  children: ReactNode;
+  to?: string;
+  onNavigate?: () => void;
+} & ButtonProps) => {
   const navigate = useNavigate();
 
   return (
@@ -115,7 +119,7 @@ const MenuButton = ({
           fontWeight="bold"
           borderWidth="2px"
           onClick={() => {
-            navigate(to); 
+            navigate(to);
             if (onNavigate) onNavigate();
           }}
           {...props}
@@ -184,7 +188,14 @@ const LanguageSwitch = () => {
   );
 };
 
-const MenuLinks = ({ isOpen, closeMenu, ...props }: { isOpen: boolean; closeMenu: () => void }) => {
+const MenuLinks = ({
+  isOpen,
+  closeMenu,
+  ...props
+}: {
+  isOpen: boolean;
+  closeMenu: () => void;
+}) => {
   const navigate = useNavigate();
   const { t } = useTranslate();
   const tokenIsValid = useAuthStore((state) => state.isValid);
@@ -236,7 +247,9 @@ const MenuLinks = ({ isOpen, closeMenu, ...props }: { isOpen: boolean; closeMenu
             >
               {t("label.logout")}
             </MenuButton>
-            <MenuButton to="/dashboard" onNavigate={closeMenu}>{t("label.dashboard")}</MenuButton>
+            <MenuButton to="/dashboard" onNavigate={closeMenu}>
+              {t("label.dashboard")}
+            </MenuButton>
           </>
         ) : (
           <>
@@ -248,7 +261,9 @@ const MenuLinks = ({ isOpen, closeMenu, ...props }: { isOpen: boolean; closeMenu
             >
               {t("label.login")}
             </MenuButton>
-            <MenuButton to="/signup" onNavigate={closeMenu}>{t("label.signup")}</MenuButton>
+            <MenuButton to="/signup" onNavigate={closeMenu}>
+              {t("label.signup")}
+            </MenuButton>
           </>
         )}
       </Stack>
@@ -256,7 +271,14 @@ const MenuLinks = ({ isOpen, closeMenu, ...props }: { isOpen: boolean; closeMenu
   );
 };
 
-const NavBarContainer = ({ children, isScrolled = false, ...props }: { children: ReactNode;  isScrolled?: boolean; }) => {
+const NavBarContainer = ({
+  children,
+  isScrolled = false,
+  ...props
+}: {
+  children: ReactNode;
+  isScrolled?: boolean;
+}) => {
   return (
     <Flex
       as="nav"
@@ -300,7 +322,7 @@ const NavBar: React.FC<BoxProps> = (props) => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 0);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -314,9 +336,9 @@ const NavBar: React.FC<BoxProps> = (props) => {
     document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
       document.removeEventListener("mousedown", handleClickOutside);
-    }
+    };
   }, [isOpen]);
 
   return (
@@ -349,11 +371,11 @@ const NavBar: React.FC<BoxProps> = (props) => {
         />
       </Box>
 
-      <MenuToggle toggle={toggle} isOpen={isOpen} />
-      <MenuLinks isOpen={isOpen} closeMenu={() => setIsOpen(false)} />
-    </NavBarContainer>
-  </Box>
-);
+        <MenuToggle toggle={toggle} isOpen={isOpen} />
+        <MenuLinks isOpen={isOpen} closeMenu={() => setIsOpen(false)} />
+      </NavBarContainer>
+    </Box>
+  );
 };
 
 export default NavBar;
