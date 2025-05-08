@@ -1,7 +1,7 @@
 declare interface UserSignup {
   email: string;
   password: string;
-  verificationCode: string;
+  // verificationCode: string;
 }
 
 declare interface UserLogin {

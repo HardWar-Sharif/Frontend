@@ -2,46 +2,29 @@ import {
   Button,
   Card,
   Center,
-  Collapsible,
   Flex,
   Link,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
 import FloatField from "../../components/ui/FloatField";
-import { useState } from "react";
 import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import { FloatPasswordField } from "../../components/ui/FloatPasswordField";
 import { useSignup } from "../../hooks/signup";
 import { toaster, Toaster } from "@/components/ui/toaster";
-import { useSendCode } from "@/hooks/send-code";
-import {
-  validateConfirmPassword,
-  validateVerificationCode,
-} from "@/utils/validations";
+import { validateConfirmPassword } from "@/utils/validations";
 import { useAuthStore } from "@/stores/auth";
 
-interface EmailValues {
-  email: string;
-}
-
 interface SignupFormValues {
-  verificationCode: string;
+  email: string;
   password: string;
   confirmPassword: string;
 }
 
 const SignupForm = () => {
-  const [showVerification, setShowVerification] = useState<boolean>(false);
-  const [codeSent, setCodeSent] = useState<boolean>(false);
   const navigate = useNavigate();
-  const {
-    register: registerEmail,
-    handleSubmit: handleEmail,
-    formState: { errors: emailErrors },
-    getValues: getEmail,
-  } = useForm<EmailValues>({ mode: "onSubmit" });
   const {
     register,
     handleSubmit,
@@ -49,39 +32,13 @@ const SignupForm = () => {
     getValues,
   } = useForm<SignupFormValues>({ mode: "onSubmit" });
   const setToken = useAuthStore((state) => state.setToken);
-  const { mutate } = useSignup();
-  const { mutate: codeMutate } = useSendCode();
-
-  const sendCodeOrEdit = () => {
-    if (!codeSent) {
-      if (!emailErrors.email) {
-        codeMutate(
-          { email: getEmail("email") },
-          {
-            onSuccess: () => {
-              setShowVerification(true);
-              setCodeSent(true);
-            },
-            onError: () =>
-              toaster.create({
-                title: "Verification Code Error",
-                type: "error",
-              }),
-          }
-        );
-      }
-    } else {
-      setShowVerification(false);
-      setCodeSent(false);
-    }
-  };
+  const { mutate, isPending } = useSignup();
 
   const signup = () => {
     mutate(
       {
-        email: getEmail("email"),
+        email: getValues("email"),
         password: getValues("password"),
-        verificationCode: getValues("verificationCode"),
       },
       {
         onSuccess: (data) => {
@@ -123,55 +80,22 @@ const SignupForm = () => {
         </Center>
         <Card.Body>
           <Stack w="full" gap={0}>
-            <Collapsible.Root open={showVerification} unmountOnExit>
-              <Flex gap={4} align="end">
-                <FloatField
-                  label="Email"
-                  formInput={registerEmail("email", {
-                    pattern: {
-                      value: /^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}$/,
-                      message: "Email is invalid.",
-                    },
-                    required: "Email is required.",
-                  })}
-                  invalid={!!emailErrors.email}
-                  disabled={codeSent}
-                />
-                <Collapsible.Trigger>
-                  <Button
-                    size="lg"
-                    variant="surface"
-                    borderWidth={2}
-                    borderColor="red.emphasized"
-                    shadow="none"
-                    _hover={{ bgColor: "red.emphasized" }}
-                    onClick={handleEmail(sendCodeOrEdit)}
-                  >
-                    {!codeSent ? "Send Code" : "Edit Email"}
-                  </Button>
-                </Collapsible.Trigger>
-              </Flex>
-              {emailErrors.email && (
-                <Text fontSize="sm" mt={1} color="red.solid">
-                  {emailErrors.email.message}
-                </Text>
-              )}
-              <Collapsible.Content mt={3}>
-                <FloatField
-                  label="Verification Code"
-                  formInput={register("verificationCode", {
-                    validate: validateVerificationCode,
-                  })}
-                  invalid={!!errors.verificationCode}
-                  marginTop={3}
-                />
-                {errors.verificationCode && (
-                  <Text fontSize="sm" mt={1} color="red.solid">
-                    Verification Code should be 5 digits.
-                  </Text>
-                )}
-              </Collapsible.Content>
-            </Collapsible.Root>
+            <FloatField
+              label="Email"
+              formInput={register("email", {
+                pattern: {
+                  value: /^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}$/,
+                  message: "Email is invalid.",
+                },
+                required: "Email is required.",
+              })}
+              invalid={!!errors.email}
+            />
+            {errors.email && (
+              <Text fontSize="sm" mt={1} color="red.solid">
+                {errors.email.message}
+              </Text>
+            )}
             <FloatPasswordField
               label="Password"
               {...register("password", { required: true })}
@@ -199,13 +123,8 @@ const SignupForm = () => {
         </Card.Body>
         <Card.Footer flexDirection="column" alignItems="flex-start">
           <Flex gap={3}>
-            <Button
-              variant="solid"
-              size="lg"
-              onClick={handleSubmit(signup)}
-              disabled={!codeSent}
-            >
-              Sign Up
+            <Button variant="solid" size="lg" onClick={handleSubmit(signup)}>
+              {isPending && <Spinner size="sm" />} Sign Up
             </Button>
             <Button
               variant="outline"
