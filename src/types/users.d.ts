@@ -10,7 +10,7 @@ declare interface UserLogin {
 }
 
 declare interface UserVerification {
-  email: string;
+  verification_code: string;
 }
 
 declare interface UserProfile {

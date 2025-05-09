@@ -5,7 +5,17 @@ export const signup = async (payload: UserSignup) => {
   return response.data;
 };
 
-export const sendCode = async (payload: UserVerification) => {
+export const sendCode = async () => {
+  const response = await axiosInstance.get(`/users/send-code/`);
+  return response.data;
+};
+
+export const isVerified = async () => {
+  const response = await axiosInstance.get(`/users/is-verified/`);
+  return response.data;
+};
+
+export const verify = async (payload: UserVerification) => {
   const response = await axiosInstance.post(`/users/verify/`, payload);
   return response.data;
 };
