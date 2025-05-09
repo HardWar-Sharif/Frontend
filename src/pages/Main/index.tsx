@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import { LuUser, LuLogOut } from "react-icons/lu";
+import {LuUser, LuLogOut, LuCreditCard} from "react-icons/lu";
 import { RxDashboard } from "react-icons/rx";
 import { HiChevronDoubleDown, HiChevronDoubleRight } from "react-icons/hi2";
 import { HiOutlineUserGroup } from "react-icons/hi2";
@@ -23,11 +23,12 @@ interface SidebarButton {
   text: string;
 }
 
-// const sidebarButtons: Array<SidebarButton> = [
-//   { page: "dashboard", icon: <RxDashboard />, text: "Dashboard" },
-//   { page: "profile", icon: <LuUser />, text: "Profile" },
-//   { page: "questions", icon: <FaClipboardQuestion />, text: "Questions" },
-// ];
+const sidebarButtons: Array<SidebarButton> = [
+  { page: "dashboard", icon: <RxDashboard />, text: "Dashboard" },
+  { page: "profile", icon: <LuUser />, text: "Profile" },
+  { page: "team", icon: <HiOutlineUserGroup />, text: "Team" },
+  { page: "shop", icon: <LuCreditCard />, text: "Shop" },
+];
 
 const MainPage = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
