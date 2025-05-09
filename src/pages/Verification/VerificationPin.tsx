@@ -13,12 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useNavigate } from "react-router";
 
 const inputStyles = {
   color: "red.fg",
   borderColor: "red.focusRing",
-  fontSize: "2xl",
+  fontSize: "4xl",
+  fontFamily: "SevenSegment",
 };
 
 interface VerificationPinValues {
@@ -30,7 +30,6 @@ const VerificationPin = () => {
   const [isCounting, setIsCounting] = useState<boolean>(true);
   const { mutate: codeMutate, isPending: codePending } = useSendCode();
   const { mutate: verifyMutate } = useVerify();
-  const navigate = useNavigate();
   const {
     handleSubmit,
     control,
@@ -76,7 +75,7 @@ const VerificationPin = () => {
       },
       {
         onSuccess: () => {
-          navigate("/dashboard");
+          window.location.href = "/dashboard";
         },
         onError: (err) => {
           toaster.create({ title: err.message, type: "error" });
@@ -87,7 +86,7 @@ const VerificationPin = () => {
 
   return (
     <>
-      <Stack gap={4} mb={1}>
+      <Stack gap={4} mb={1} dir="ltr">
         <Field.Root>
           <Controller
             control={control}
@@ -103,7 +102,7 @@ const VerificationPin = () => {
               >
                 <PinInput.HiddenInput />
                 <PinInput.Control>
-                  <Flex gap={4}>
+                  <Flex gap={4} dir="ltr">
                     <PinInput.Input index={0} {...inputStyles} />
                     <PinInput.Input index={1} {...inputStyles} />
                     <PinInput.Input index={2} {...inputStyles} />
@@ -126,11 +125,17 @@ const VerificationPin = () => {
             variant="surface"
             disabled={timer > 0}
             onClick={sendCode}
+            fontFamily={timer > 0 ? "SevenSegment" : ""}
+            fontSize={timer > 0 ? "lg" : "sm"}
           >
             {codePending && <Spinner size="sm" />}{" "}
             {timer <= 0 ? "Resend Code" : verificationTimer(timer)}
           </Button>
-          <Button size="sm" variant="surface" onClick={handleSubmit(verify)}>
+          <Button
+            size="sm"
+            variant="surface"
+            onClick={handleSubmit(verify)}
+          >
             Verify
           </Button>
         </Flex>
