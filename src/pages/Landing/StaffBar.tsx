@@ -51,6 +51,11 @@ const StaffBar: React.FC<StackProps> = (props) => {
       name: t("name.ahmad_mousavi"),
       title: t("staff.graphics_head"),
     },
+    {
+      imagePath: "staff/mehrab-moradzadeh.jpg",
+      name: t("name.mehrab_moradzadeh"),
+      title: t("staff.sponsor_coord"),
+    },
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
