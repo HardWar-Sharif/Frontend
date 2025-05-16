@@ -33,7 +33,8 @@ const AppRoutes = () => {
             <Route path="dashboard" element={protectedPage(<Dashboard />)} />
             <Route path="profile" element={protectedPage(<Profile />)} />
           </Route>
-          <Route path="questions" element={protectedPage(<Questions />)} />
+          {/* <Route path="questions" element={protectedPage(<Questions />)} /> */}
+          <Route path="questions" element={<Questions />} /> {/* temporary. Remove later */}
         </Route>
       </Routes>
     </BrowserRouter>

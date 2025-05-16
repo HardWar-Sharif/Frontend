@@ -2,12 +2,15 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
-import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link, Flex, Stack } from "@chakra-ui/react";
+import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link, Flex, Stack, Button } from "@chakra-ui/react";
 import "katex/dist/katex.min.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import React from "react";
 import { useEffect, useState } from 'react';
+import { ReactFlow, Background, Controls, Node, Edge } from '@xyflow/react';
+import '@xyflow/react/dist/style.css';
+import { FaProjectDiagram  } from "react-icons/fa";
 
 
 
@@ -138,35 +141,100 @@ const MarkdownFile = ({ filePath }: { filePath: string }) => {
 };
 
 const QuestionsPage = () => {
+  const [viewQuestion, setViewQuestions] = useState<boolean>(false);
+
   const questions = [
-    {"file path": "/questions/q1.md", "question name": "random name 1"},
-    {"file path": "/questions/q2.md", "question name": "random name 2"},
-    {"file path": "/questions/q3.md", "question name": "random name 3"},
+    {id: "1", filePath: "/questions/q1.md", name: "random name 1", x: 0, y: 0},
+    {id: "2", filePath: "/questions/q2.md", name: "random name 2", x: 100, y: 100},
+    {id: "3", filePath: "/questions/q3.md", name: "random name 3", x: 30, y: 200},
+    
   ];
+
+  const graphExtent: [[number, number], [number, number]] = [
+    [-100, -100],           // Top-left corner (min x, min y)
+    [1000, 1000],     // Bottom-right corner (max x, max y) - adjust based on your graph size
+  ];
+
+  const edges = [
+    { id: '1-2', source: '1', target: '2', style: { stroke: '#991919' } },
+    { id: '1-3', source: '1', target: '3', style: { stroke: '#991919' } },
+    { id: '2-3', source: '2', target: '3', style: { stroke: '#991919' } },
+  ];
+   
+  const nodes = questions.map((node) => ({
+    id: node.id,
+    data: { 
+      label: node.name,
+      filePath: node.filePath,
+    },
+    position: { 
+      x: node.x, 
+      y: node.y 
+    },
+    // type: 'input',s // Optional: You can set this dynamically if needed
+    style: {
+      borderRadius: '50%',
+      borderColor: '#300c0c',
+    },
+  }));
 
   const [filename, setFilename] = useState<string>('/questions/q1.md');
 
   return (
-    <Flex justify="flex-end" padding="100px 0 2% 5%">
-      <Box w="75%" marginRight="20%"><MarkdownFile filePath={filename} /></Box>
-
-      <Box minW="20%" dir="rtl" position="fixed">
-        <Stack padding={5}>
-        {questions.map((q) => (
-          <Box
-            key={q["file path"]}
-            p={2}
-            cursor="pointer"
-            borderRadius="lg"
-            bg="colorPalette.950"
-            _hover={{ bg: 'colorPalette.900' }}
-            onClick={() => setFilename(q["file path"])}
-          >
-            {q["question name"]}
-          </Box>
-        ))}
-        </Stack>
+    <Flex justify="space-between" flexDir="row-reverse" padding="100px 0 2% 5%">
+      <Box w="75%" display={viewQuestion ? "block" : "block"} marginRight="20%">
+        <MarkdownFile filePath={filename} />
       </Box>
+
+      {/* <Box position="fixed" paddingX={{base: "2%", md: "3%"}} paddingY={3} display={viewQuestion ? "block" : "none"}>
+        <Button onClick={() => (setViewQuestions(false))} size={{base: "2xs", md: "md"}}>
+          <FaProjectDiagram />
+        </Button>
+      </Box> */}
+
+      <Box minW="20%" dir="rtl" position="fixed" height="80vh" padding="3%">
+        <ReactFlow 
+          colorMode="dark"
+          nodes={nodes} 
+          edges={edges} 
+          onNodeClick={(_evt, node) => {
+            setFilename(node.data.filePath);
+            setViewQuestions(true);
+          }}
+          panOnDrag={true}
+          panOnScroll={true}     // Allow panning by scrolling
+          // translateExtent={graphExtent}
+          fitView
+        >
+          <Background />
+          <Controls />
+        </ReactFlow>
+      </Box>
+
+      {/* <Box 
+        w="95%"
+        marginRight="8%"
+        marginTop={5}
+        height="70vh"
+        display={viewQuestion ? "none" : "block"}
+      >
+        <ReactFlow 
+          colorMode="dark"
+          nodes={nodes} 
+          edges={edges} 
+          onNodeClick={(_evt, node) => {
+            setFilename(node.data.filePath);
+            setViewQuestions(true);
+          }}
+          panOnDrag={true}
+          panOnScroll={true}     // Allow panning by scrolling
+          // translateExtent={graphExtent}
+          fitView
+        >
+          <Background />
+          <Controls />
+        </ReactFlow>
+      </Box> */}
     </Flex>
   );
 }
