@@ -16,6 +16,7 @@ import { useSignup } from "../../hooks/signup";
 import { toaster, Toaster } from "@/components/ui/toaster";
 import { validateConfirmPassword } from "@/utils/validations";
 import { useAuthStore } from "@/stores/auth";
+import { useTranslate } from "@tolgee/react";
 
 interface SignupFormValues {
   email: string;
@@ -33,6 +34,7 @@ const SignupForm = () => {
   } = useForm<SignupFormValues>({ mode: "onSubmit" });
   const setToken = useAuthStore((state) => state.setToken);
   const { mutate, isPending } = useSignup();
+  const { t } = useTranslate();
 
   const signup = () => {
     mutate(
@@ -74,20 +76,20 @@ const SignupForm = () => {
               textShadow="0 0 20px var(--shadow-color)"
               shadowColor="red.solid"
             >
-              Signup
+              {t("label.signup")}
             </Card.Title>
           </Card.Header>
         </Center>
         <Card.Body>
           <Stack w="full" gap={0}>
             <FloatField
-              label="Email"
+              label={t("label.email")}
               formInput={register("email", {
                 pattern: {
                   value: /^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}$/,
-                  message: "Email is invalid.",
+                  message: t("message.invalid", { field: t("label.email") }),
                 },
-                required: "Email is required.",
+                required: t("message.required", { field: t("label.email") }),
               })}
               invalid={!!errors.email}
             />
@@ -97,17 +99,17 @@ const SignupForm = () => {
               </Text>
             )}
             <FloatPasswordField
-              label="Password"
+              label={t("label.password")}
               {...register("password", { required: true })}
               invalid={!!errors.password}
             />
             {errors.password && (
               <Text fontSize="sm" mt={1} color="red.solid">
-                Password is required.
+                {t("message.required", { field: t("label.password") })}
               </Text>
             )}
             <FloatPasswordField
-              label="Confirm Password"
+              label={t("label.confirm_password")}
               {...register("confirmPassword", {
                 validate: (value) =>
                   validateConfirmPassword(value, getValues("password")),
@@ -116,7 +118,7 @@ const SignupForm = () => {
             />
             {errors.confirmPassword && (
               <Text fontSize="sm" mt={1} color="red.solid">
-                Password Confirmation does not match.
+                {t("message.confirm_mismatch")}
               </Text>
             )}
           </Stack>
@@ -124,7 +126,7 @@ const SignupForm = () => {
         <Card.Footer flexDirection="column" alignItems="flex-start">
           <Flex gap={3}>
             <Button variant="solid" size="lg" onClick={handleSubmit(signup)}>
-              {isPending && <Spinner size="sm" />} Sign Up
+              {isPending && <Spinner size="sm" />} {t("label.signup")}
             </Button>
             <Button
               variant="outline"
@@ -132,15 +134,15 @@ const SignupForm = () => {
               borderWidth={2}
               onClick={() => navigate("/")}
             >
-              Cancel
+              {t("label.cancel")}
             </Button>
           </Flex>
           <Flex align="center" gap={1}>
             <Text color="red.solid" fontSize="sm">
-              Already have an account?
+              {t("question.have_account")}
             </Text>
             <Link fontSize="sm" onClick={() => navigate("/login")}>
-              Log in
+              {t("label.login")}
             </Link>
           </Flex>
         </Card.Footer>

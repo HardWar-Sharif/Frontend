@@ -13,6 +13,7 @@ import { HiChevronDoubleDown, HiChevronDoubleRight } from "react-icons/hi2";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { ReactNode, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
+import { useTranslate } from "@tolgee/react";
 
 interface SidebarButton {
   page: string;
@@ -20,17 +21,18 @@ interface SidebarButton {
   text: string;
 }
 
-const sidebarButtons: Array<SidebarButton> = [
-  { page: "dashboard", icon: <RxDashboard />, text: "Dashboard" },
-  { page: "profile", icon: <LuUser />, text: "Profile" },
-  { page: "team", icon: <HiOutlineUserGroup />, text: "Team" },
-];
-
 const MainPage = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const clearToken = useAuthStore((state) => state.clearToken);
+  const { t } = useTranslate();
+
+  const sidebarButtons: Array<SidebarButton> = [
+    { page: "dashboard", icon: <RxDashboard />, text: t("label.dashboard") },
+    { page: "profile", icon: <LuUser />, text: t("label.profile") },
+    { page: "team", icon: <HiOutlineUserGroup />, text: t("label.team") },
+  ];
 
   const sidebar = (
     <Box
@@ -96,7 +98,7 @@ const MainPage = () => {
             navigate("/");
           }}
         >
-          <LuLogOut /> {sidebarExpanded && "Logout"}
+          <LuLogOut /> {sidebarExpanded && t("label.logout")}
         </Button>
       </Flex>
     </Box>

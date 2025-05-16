@@ -26,6 +26,7 @@ import {
   Text,
   Alert,
 } from "@chakra-ui/react";
+import { useTranslate } from "@tolgee/react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -90,21 +91,22 @@ const Profile = () => {
     getValues: getSemesterValues,
   } = useForm<SemesterProfileFormValues>({ mode: "onSubmit" });
   const { mutate } = useProfile();
+  const { t } = useTranslate();
 
   const responsiveFirstTitle = useBreakpointValue({
     base: undefined,
     sm: undefined,
-    md: "General Information",
-    lg: "General Information",
-    xl: "General Information",
+    md: t("label.general_info"),
+    lg: t("label.general_info"),
+    xl: t("label.general_info"),
   });
 
   const responsiveSecondTitle = useBreakpointValue({
     base: undefined,
     sm: undefined,
-    md: "General Information",
-    lg: "Semester Information",
-    xl: "Semester Information",
+    md: t("label.semester_info"),
+    lg: t("label.semester_info"),
+    xl: t("label.semester_info"),
   });
 
   const submitForm = () => {
@@ -154,13 +156,15 @@ const Profile = () => {
     <SimpleGrid w="full" gap={4} columns={{ base: 1, md: 2 }}>
       <GridItem>
         <FloatField
-          label="First Name (Persian)"
+          label={t("label.persian_first_name")}
           formInput={register("persianFirstName", {
             pattern: {
               value: /^[\u0621-\u0651\u066B-\u06CC\s]+$/,
-              message: "This field should be in persian.",
+              message: t("message.persian_field"),
             },
-            required: "First Name (Persian) is required.",
+            required: t("message.required", {
+              field: t("label.persian_first_name"),
+            }),
           })}
           invalid={!!errors.persianFirstName}
         />
@@ -172,13 +176,15 @@ const Profile = () => {
       </GridItem>
       <GridItem>
         <FloatField
-          label="Last Name (Persian)"
+          label={t("label.persian_last_name")}
           formInput={register("persianLastName", {
             pattern: {
               value: /^[\u0621-\u0651\u066B-\u06CC\s]+$/,
-              message: "This field should be in persian.",
+              message: t("message.persian_field"),
             },
-            required: "Last Name (Persian) is required.",
+            required: t("message.required", {
+              field: t("label.persian_last_name"),
+            }),
           })}
           invalid={!!errors.persianLastName}
         />
@@ -190,13 +196,15 @@ const Profile = () => {
       </GridItem>
       <GridItem>
         <FloatField
-          label="First Name (English)"
+          label={t("label.english_first_name")}
           formInput={register("englishFirstName", {
             pattern: {
               value: /^[a-zA-Z\s]+$/,
-              message: "This field should be in english.",
+              message: t("message.english_field"),
             },
-            required: "First Name (English) is required.",
+            required: t("message.required", {
+              field: t("label.english_first_name"),
+            }),
           })}
           invalid={!!errors.englishFirstName}
         />
@@ -208,13 +216,15 @@ const Profile = () => {
       </GridItem>
       <GridItem>
         <FloatField
-          label="Last Name (English)"
+          label={t("label.english_last_name")}
           formInput={register("englishLastName", {
             pattern: {
               value: /^[a-zA-Z\s]+$/,
-              message: "This field should be in english.",
+              message: t("message.english_field"),
             },
-            required: "Last Name (English) is required.",
+            required: t("message.required", {
+              field: t("label.english_last_name"),
+            }),
           })}
           invalid={!!errors.englishLastName}
         />
@@ -226,7 +236,7 @@ const Profile = () => {
       </GridItem>
       <GridItem>
         <FloatField
-          label="Phone Number"
+          label={t("label.phone_number")}
           formInput={register("phoneNumber", {
             validate: validatePhoneNumber,
             required: true,
@@ -236,14 +246,16 @@ const Profile = () => {
         {errors.phoneNumber && (
           <Text fontSize="sm" mt={1} color="red.solid">
             {errors.phoneNumber.type == "validate"
-              ? "Phone Number should start with 0."
-              : "Phone Number is required."}
+              ? t("message.phone_number")
+              : t("message.required", {
+                  field: t("label.phone_number"),
+                })}
           </Text>
         )}
       </GridItem>
       <GridItem>
         <FloatField
-          label="National Code"
+          label={t("label.national_code")}
           formInput={register("nationalCode", {
             validate: validateNationalCode,
             required: true,
@@ -253,20 +265,24 @@ const Profile = () => {
         {errors.nationalCode && (
           <Text fontSize="sm" mt={1} color="red.solid">
             {errors.nationalCode.type == "validate"
-              ? "National Code is invalid."
-              : "National Code is required."}
+              ? t("message.invalid", { field: t("label.national_code") })
+              : t("message.required", {
+                  field: t("label.national_code"),
+                })}
           </Text>
         )}
       </GridItem>
       <GridItem>
         <SelectField
           name="university"
-          placeholder="University"
+          placeholder={t("label.university")}
           collection={universities}
           control={control}
           getValues={getValues}
           invalid={!!errors.university}
-          errorText="University is required."
+          errorText={t("message.required", {
+            field: t("label.university"),
+          })}
         />
         {errors.university && (
           <Text fontSize="sm" mt={1} color="red.solid">
@@ -277,12 +293,14 @@ const Profile = () => {
       <GridItem>
         <SelectField
           name="department"
-          placeholder="Department"
+          placeholder={t("label.department")}
           collection={departments}
           control={control}
           getValues={getValues}
           invalid={!!errors.department}
-          errorText="Department is required."
+          errorText={t("message.required", {
+            field: t("label.department"),
+          })}
         />
         {errors.department && (
           <Text fontSize="sm" mt={1} color="red.solid">
@@ -293,21 +311,21 @@ const Profile = () => {
       <GridItem colSpan={{ base: 1, md: 2 }}>
         <CheckboxField
           name="acceptTerms"
-          content="I accept the Hardwar terms and conditions."
+          content={t("description.accept_conditions")}
           control={control}
           invalid={!!errors.acceptTerms}
           required
         />
         {errors.acceptTerms && (
           <Text fontSize="sm" mt={1} color="red.solid">
-            You should check this.
+            {t("message.should_check")}
           </Text>
         )}
       </GridItem>
       <GridItem colSpan={{ base: 1, md: 2 }}>
         <CheckboxField
           name="dataToSponsor"
-          content="I am OK to share my data and resume with sponsors of Hardwar."
+          content={t("description.accept_resume_share")}
           control={control}
         />
       </GridItem>
@@ -318,7 +336,7 @@ const Profile = () => {
     <SimpleGrid w="full" gap={4} columns={4}>
       <GridItem colStart={{ base: 1, md: 2 }} colSpan={{ base: 4, md: 2 }}>
         <FloatField
-          label="Student ID"
+          label={t("label.student_id")}
           formInput={semesterRegister("studentId", {
             validate: (value) => validateStudentId(value, isCeSut),
             required: isCeSut,
@@ -329,20 +347,24 @@ const Profile = () => {
         {semesterErrors.studentId && (
           <Text fontSize="sm" mt={1} color="red.solid">
             {semesterErrors.studentId.type == "validate"
-              ? "Student ID is invalid."
-              : "student ID is required."}
+              ? t("message.invalid", { field: t("label.student_id") })
+              : t("message.required", {
+                  field: t("label.student_id"),
+                })}
           </Text>
         )}
       </GridItem>
       <GridItem colStart={{ base: 1, md: 2 }} colSpan={{ base: 4, md: 2 }}>
         <SelectField
           name="coursesList"
-          placeholder="Your Courses"
+          placeholder={t("label.your_courses")}
           collection={courses}
           control={semesterControl}
           getValues={getSemesterValues}
           invalid={!!semesterErrors.coursesList}
-          errorText="Courses is required."
+          errorText={t("message.required", {
+            field: t("label.your_courses"),
+          })}
           multiple
           disabled={!isCeSut}
         />
@@ -356,7 +378,7 @@ const Profile = () => {
         <GridItem colStart={{ base: 1, md: 2 }} colSpan={{ base: 4, md: 2 }}>
           <Alert.Root status="info">
             <Alert.Indicator />
-            <Alert.Title>You should skip this step.</Alert.Title>
+            <Alert.Title>{t("message.skip_step")}</Alert.Title>
           </Alert.Root>
         </GridItem>
       )}
@@ -386,7 +408,7 @@ const Profile = () => {
               textShadow="0 0 20px var(--shadow-color)"
               shadowColor="red.solid"
             >
-              Profile
+              {t("label.profile")}
             </Card.Title>
           </Card.Header>
         </Center>
@@ -413,7 +435,7 @@ const Profile = () => {
               onClick={() => setStep(step - 1)}
               disabled={step == 0}
             >
-              Previous
+              {t("label.previous")}
             </Button>
             <Button
               variant="solid"
@@ -424,7 +446,7 @@ const Profile = () => {
                   : semesterSubmit(submitForm)
               }
             >
-              {step == 0 ? "Next" : "Complete Profile"}
+              {step == 0 ? t("label.next") : t("label.complete_profile")}
             </Button>
           </Flex>
         </Card.Footer>

@@ -11,6 +11,7 @@ import {
   Stack,
   Text,
 } from "@chakra-ui/react";
+import { useTranslate } from "@tolgee/react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
@@ -36,6 +37,7 @@ const VerificationPin = () => {
     formState: { errors },
     getValues,
   } = useForm<VerificationPinValues>({ mode: "onSubmit" });
+  const { t } = useTranslate();
 
   useEffect(() => {
     let intervalId: number;
@@ -116,7 +118,7 @@ const VerificationPin = () => {
         </Field.Root>
         {errors.verificationCode && (
           <Text fontSize="sm" mt={1} color="red.solid">
-            Enter the code completely.
+            {t("message.complete_code")}
           </Text>
         )}
         <Flex justifyContent="end" gap={2}>
@@ -129,14 +131,14 @@ const VerificationPin = () => {
             fontSize={timer > 0 ? "lg" : "sm"}
           >
             {codePending && <Spinner size="sm" />}{" "}
-            {timer <= 0 ? "Resend Code" : verificationTimer(timer)}
+            {timer <= 0 ? t("label.resend_code") : verificationTimer(timer)}
           </Button>
           <Button
             size="sm"
             variant="surface"
             onClick={handleSubmit(verify)}
           >
-            Verify
+            {t("label.verify")}
           </Button>
         </Flex>
       </Stack>

@@ -19,12 +19,14 @@ import { toaster } from "@/components/ui/toaster";
 import { useState } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
+import { useTranslate } from "@tolgee/react";
 
 const Team = () => {
   const [isLeaveLoading, setIsLeaveLoading] = useState<boolean>(false);
   const { data: team, refetch } = useGetMyTeam();
   const { mutate } = useLeaveTeam();
   const clipboard = useClipboard({ value: team?.data?.code });
+  const { t } = useTranslate();
 
   const leaveTeam = () => {
     setIsLeaveLoading(true);
@@ -47,9 +49,7 @@ const Team = () => {
     <>
       <Alert.Root status="warning" mb={4}>
         <Alert.Indicator />
-        <Alert.Title>
-          Currently, you don't have a team. create your own team or join one.
-        </Alert.Title>
+        <Alert.Title>{t("message.no_team")}</Alert.Title>
       </Alert.Root>
       <SimpleGrid
         w="full"
@@ -103,7 +103,7 @@ const Team = () => {
               <Alert.Indicator />
               <Alert.Title width="full">
                 <Flex justifyContent="space-between" alignItems="center">
-                  <Text>Code: {team.data.code}</Text>
+                  <Text direction="ltr">Code: {team.data.code}</Text>
                   <Button
                     onClick={clipboard.copy}
                     variant="outline"
@@ -137,7 +137,7 @@ const Team = () => {
             ))}
           <Flex justifyContent="end">
             <Button variant="outline" borderWidth={2} onClick={leaveTeam}>
-              {isLeaveLoading && <Spinner size="sm" />} Leave Team
+              {isLeaveLoading && <Spinner size="sm" />} {t("label.leave_team")}
             </Button>
           </Flex>
         </GridItem>
@@ -166,7 +166,7 @@ const Team = () => {
             textShadow="0 0 20px var(--shadow-color)"
             shadowColor="red.solid"
           >
-            {team?.status == 204 ? "Team Up" : team?.data.name}
+            {team?.status == 204 ? t("label.team_up") : team?.data.name}
           </Card.Title>
         </Card.Header>
       </Center>
