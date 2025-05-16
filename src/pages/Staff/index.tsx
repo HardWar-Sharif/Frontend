@@ -38,10 +38,10 @@ const StaffPage = () => {
       position="relative"
       clipPath="inset(0 0 0 0)"
     >
-      <Stack my="25vh" gap={10}>
+      <Stack my="100px" gap={10}>
         {staff.map((item, index) => (
           <Stack gap={10}>
-            {index !== 0 && <Flex bgColor="colorPalette.700" h="1px" mx="7%" />}
+            {index !== 0 && <Flex bgColor="colorPalette.700" h="1px" mx={{base: "2%", md: "7%"}} />}
             <StaffSection team={item.team} members={item.members} />
           </Stack>
         ))}
