@@ -18,22 +18,24 @@ const StaffSection: React.FC<TeamProps> = ({ team, members }) => {
   return (
     <Stack gap={7}>
       <Flex justify="center">
-        <Heading size="4xl" fontWeight="700">{t('staff.team.' + team)}</Heading>
+        <Heading size="4xl" fontWeight="700" textAlign="center" padding={4}>{t('staff.team.' + team)}</Heading>
       </Flex>
       <Flex
-        justify="center"
-        align="stretch"
-        gap={10}
         wrap="wrap"
-        mx="10%"
+        justify="center"
+        gap={{base: "15px", md: "30px"}}
+        mx={{base: "4%", md: "10%"}}
+        align="stretch"
+        id="lol"
       >
         {members.map((item, index) => (
-          <StaffItem
-            key={index}
-            image={item.image}
-            subtitle={item.subtitle}
-            name={item.name}
-          />
+          <Box key={index} flex={{base: "0 1 110px", md: "0 1 210px"}} display="flex" marginY={2}>
+            <StaffItem
+              image={item.image}
+              subtitle={item.subtitle}
+              name={item.name}
+            />
+          </Box>
         ))}
       </Flex>
 
@@ -52,15 +54,15 @@ const StaffItem: React.FC<Member> = ({ name, subtitle, image }) => {
   const imageSize = {"md": "180px", "base": "90px"};
   return (
     <Box
-      height="100%" // ensures it stretches to parent height
-      display="flex"
-      flexDirection="column"
-      justifyContent="start"
-      width={210}
+      width={{ base: `110px`, md: "210px" }}
       backgroundColor="colorPalette.900"
       padding={{ md: "15px", base: "10px" }}
       borderRadius="xl"
-      mx={-2}
+      display="flex"
+      flexDirection="column"
+      justifyContent="flex-start"
+      alignItems="center"
+      height="100%"
     >
       <Image src={image} w={imageSize} h={imageSize} borderRadius="xl" />
       <Heading
@@ -76,7 +78,6 @@ const StaffItem: React.FC<Member> = ({ name, subtitle, image }) => {
         fontSize={{ md: "sm", base: "2xs" }}
         textAlign="center"
         lineHeight="shorter"
-        mt="auto" // optional: pushes text to bottom if needed
       >
         {subtitle ? t("staff." + subtitle) : ""}
       </Text>
