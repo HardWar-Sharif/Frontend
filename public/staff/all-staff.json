@@ -1,41 +1,287 @@
 [
-    {
-      "team": "Technical Team",
-      "members": [
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati with a very long name", "subtitle": "President is a veryyyy long title", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"}
-      ]
-    },
-    {
-      "team": "Technical Team",
-      "members": [
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"}
-      ]
-    },
-    {
-      "team": "Technical Team",
-      "members": [
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"},
-        {"name": "Saeed Forati", "subtitle": "President", "image": "staff/example-staff.png"}
-      ]
-    }
-  ]
+  {
+    "team": "presidential",
+    "members": [
+      {
+        "name": "saeed_forati",
+        "subtitle": "president",
+        "image": "staff/pics/saeed forati.jpg"
+      },
+      {
+        "name": "amirhossein_souri",
+        "subtitle": "vice_president",
+        "image": "staff/pics/Amirhossein Souri.jpg"
+      }
+    ]
+  },
+  {
+    "team": "scientific",
+    "members": [
+      {
+        "name": "mahdi_ali_nejad",
+        "subtitle": "scientific_head",
+        "image": "staff/pics/mahdi alinejad.jpg"
+      },
+      {
+        "name": "aref_shahbakhsh",
+        "subtitle": "",
+        "image": "staff/pics/Aref shahbakhsh.jpg"
+      },
+      {
+        "name": "nima",
+        "subtitle": "",
+        "image": "staff/pics/Nima Shirzady.jpg"
+      },
+      {
+        "name": "taha_memari",
+        "subtitle": "",
+        "image": "staff/pics/Taha Memari.jpg"
+      },
+      {
+        "name": "amir_hossein_ravan_nakhjavani",
+        "subtitle": "",
+        "image": "staff/pics/Amir Hossein Ravan Nakhjavani.jpg"
+      },
+      {
+        "name": "pouria_ghafouri",
+        "subtitle": "",
+        "image": "staff/pics/Pouria Ghafouri.jpg"
+      },
+      {
+        "name": "hooman",
+        "subtitle": "",
+        "image": "staff/pics/Hooman.jpeg"
+      },
+      {
+        "name": "mahdi_barati",
+        "subtitle": "",
+        "image": "staff/pics/Mahdi Barati.jpg"
+      },
+      {
+        "name": "amnam",
+        "subtitle": "",
+        "image": "staff/pics/Amirhosein Azizi.jpg"
+      },
+      {
+        "name": "mohammad_hadi_keshavarzi",
+        "subtitle": "",
+        "image": "staff/pics/M. Hadi Keshavarzi.jpg"
+      },
+      {
+        "name": "masoud_khanalizadeh_imani",
+        "subtitle": "",
+        "image": "staff/pics/Masoud Khanalizadeh.jpg"
+      },
+      {
+        "name": "mohammad_reza_shokri",
+        "subtitle": "",
+        "image": "staff/pics/Mohammad Reza Shokri.jpg"
+      },
+      {
+        "name": "amir_mahdi_rasouli",
+        "subtitle": "",
+        "image": "staff/pics/Mahdi -R.jpg"
+      },
+      {
+        "name": "mahdi_bahramian",
+        "subtitle": "",
+        "image": "staff/pics/Mahdi Bahramian.png"
+      },
+      {
+        "name": "mohammad_alizadeh",
+        "subtitle": "",
+        "image": "staff/pics/Mohammad Alizadeh.jpg"
+      },
+      {
+        "name": "hirbod_behnam",
+        "subtitle": "",
+        "image": "staff/pics/Hirbod Behnam.jpg"
+      },
+      {
+        "name": "farnoosh_salehi",
+        "subtitle": "",
+        "image": "staff/pics/farnoosh salehi.jpg"
+      },
+      {
+        "name": "hadi",
+        "subtitle": "",
+        "image": "staff/pics/Hadi Jasouri.jpg"
+      },
+      {
+        "name": "mahdi_bahreiny",
+        "subtitle": "",
+        "image": "staff/pics/mAhdY bAhReinY.jpg"
+      }
+    ]
+  },
+  {
+    "team": "sponsor",
+    "members": [
+      {
+        "name": "majid_hajilou",
+        "subtitle": "sponsor_head",
+        "image": "staff/pics/majid hajilou.jpg"
+      },
+      {
+        "name": "mehrab_moradzadeh",
+        "subtitle": "sponsor_coord",
+        "image": "staff/pics/Mehrab Moradzadeh.jpg"
+      },
+      {
+        "name": "omid",
+        "subtitle": "",
+        "image": "staff/pics/Omid Heydari.jpg"
+      },
+      {
+        "name": "mohammad_mahdi_farahani",
+        "subtitle": "",
+        "image": "staff/pics/Mohammadmahdi Farahani.jpg"
+      }
+    ]
+  },
+  {
+    "team": "technical",
+    "members": [
+      {
+        "name": "amirhossein_souri",
+        "subtitle": "technical_head",
+        "image": "staff/pics/Amirhossein Souri.jpg"
+      },
+      {
+        "name": "pedram_maghsoudi",
+        "subtitle": "",
+        "image": "staff/pics/Pedram Maghsoudi.jpg"
+      },
+      {
+        "name": "ehsanino",
+        "subtitle": "",
+        "image": "staff/pics/ehsan rahmani.jpeg"
+      },
+      {
+        "name": "maedeh_heydari",
+        "subtitle": "",
+        "image": "staff/pics/Maedeh Heydari.jpg"
+      },
+      {
+        "name": "mohammad_aref_zarezadeh",
+        "subtitle": "",
+        "image": "staff/pics/aref zarezade.jpg"
+      }
+    ]
+  },
+  {
+    "team": "graphics",
+    "members": [
+      {
+        "name": "seyedahmad_mousaviawal",
+        "subtitle": "graphics_head",
+        "image": "staff/pics/Seyedahmad Mosaviawal.png"
+      },
+      {
+        "name": "moeein",
+        "subtitle": "",
+        "image": "staff/pics/Moeein Aali.jpg"
+      }
+    ]
+  },
+  {
+    "team": "executive",
+    "members": [
+      {
+        "name": "amirhossein_shahidi",
+        "subtitle": "executive_head",
+        "image": "staff/pics/Amirhosein Shahidi.jpg"
+      },
+      {
+        "name": "nima",
+        "subtitle": "",
+        "image": "staff/pics/Nima Shirzady.jpg"
+      },
+      {
+        "name": "elina_hozhabri",
+        "subtitle": "",
+        "image": "staff/pics/Eleena Hozhabri.jpg"
+      },
+      {
+        "name": "mahbod",
+        "subtitle": "",
+        "image": "staff/pics/Mahbod Ali nejad.jpg"
+      },
+      {
+        "name": "omid",
+        "subtitle": "",
+        "image": "staff/pics/Omid Heydari.jpg"
+      },
+      {
+        "name": "mahdi_ali_nejad",
+        "subtitle": "",
+        "image": "staff/pics/mahdi alinejad.jpg"
+      },
+      {
+        "name": "mohammadfarhan_bahrami",
+        "subtitle": "",
+        "image": "staff/pics/MohammadFarhan Bahrami.jpg"
+      },
+      {
+        "name": "mohammad_aref_zarezadeh",
+        "subtitle": "",
+        "image": "staff/pics/aref zarezade.jpg"
+      },
+      {
+        "name": "mohammad_mahdi_farahani",
+        "subtitle": "",
+        "image": "staff/pics/Mohammadmahdi Farahani.jpg"
+      },
+      {
+        "name": "melika_alizadeh",
+        "subtitle": "",
+        "image": "staff/pics/Melika Alizadeh.jpg"
+      },
+      {
+        "name": "mohammad_hossein_eslami",
+        "subtitle": "",
+        "image": "staff/pics/Mohammad Hossein Eslami.jpeg"
+      },
+      {
+        "name": "pouria_ghafouri",
+        "subtitle": "",
+        "image": "staff/pics/Pouria Ghafouri.jpg"
+      },
+      {
+        "name": "arian_afzalzadeh",
+        "subtitle": "",
+        "image": "staff/pics/Arian Afzalzadeh.PNG"
+      },
+      {
+        "name": "mohammad_jalal_nematbakhsh",
+        "subtitle": "",
+        "image": "staff/pics/jalal nematbakhsh.jpeg"
+      },
+      {
+        "name": "narges_kari",
+        "subtitle": "",
+        "image": "staff/pics/Narges Kari.jpg"
+      },
+      {
+        "name": "amirreza_inanloo",
+        "subtitle": "",
+        "image": "staff/pics/Amirreza Inanloo.jpg"
+      },
+      {
+        "name": "amirhosein_shayan",
+        "subtitle": "",
+        "image": "staff/pics/Amirhosein Shayan.jpg"
+      },
+      {
+        "name": "mazdak_teymourian",
+        "subtitle": "",
+        "image": "staff/pics/Mazdak Teymourian.jpg"
+      },
+      {
+        "name": "mahdi_hassanzadeh",
+        "subtitle": "",
+        "image": "staff/pics/Mahdi Hassanzadeh.jpg"
+      }
+    ]
+  }
+]

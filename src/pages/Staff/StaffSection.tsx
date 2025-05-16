@@ -1,4 +1,5 @@
 import { Box, Flex, Heading, Stack, Image, Text, BoxProps } from "@chakra-ui/react";
+import { useTranslate } from "@tolgee/react";
 
 
 interface Member {
@@ -13,12 +14,19 @@ interface TeamProps {
 }
 
 const StaffSection: React.FC<TeamProps> = ({ team, members }) => {
+  const { t } = useTranslate();
   return (
     <Stack gap={7}>
       <Flex justify="center">
-        <Heading size="4xl" fontWeight="700">{team}</Heading>
+        <Heading size="4xl" fontWeight="700">{t('staff.team.' + team)}</Heading>
       </Flex>
-      <Flex justify="center" align="center" gap={10} wrap="wrap" mx="10%" alignItems="flex-start">
+      <Flex
+        justify="center"
+        align="stretch"
+        gap={10}
+        wrap="wrap"
+        mx="10%"
+      >
         {members.map((item, index) => (
           <StaffItem
             key={index}
@@ -40,24 +48,37 @@ const StaffSection: React.FC<TeamProps> = ({ team, members }) => {
 }
 
 const StaffItem: React.FC<Member> = ({ name, subtitle, image }) => { 
+  const { t } = useTranslate();
   const imageSize = {"md": "180px", "base": "90px"};
   return (
     <Box
-    width={210}
-    backgroundColor="colorPalette.900"
-    padding={{"md": "15px", "base": "10px"}}
-    borderRadius="xl"
-    alignItems="center"
-    display="inline-block"
-    w={{"md": "210px", "base": "110px"}}
-    mx={-2}
+      height="100%" // ensures it stretches to parent height
+      display="flex"
+      flexDirection="column"
+      justifyContent="start"
+      width={210}
+      backgroundColor="colorPalette.900"
+      padding={{ md: "15px", base: "10px" }}
+      borderRadius="xl"
+      mx={-2}
     >
       <Image src={image} w={imageSize} h={imageSize} borderRadius="xl" />
-      <Heading fontWeight="bold" fontSize={{"md": "md", "base": "small"}} textAlign="center" lineHeight="shorter" my={3} >
-        {name}
+      <Heading
+        fontWeight="bold"
+        fontSize={{ md: "md", base: "small" }}
+        textAlign="center"
+        lineHeight="shorter"
+        my={3}
+      >
+        {t("staff.name." + name)}
       </Heading>
-      <Text textAlign="start" fontSize={{"md": "sm", "base": "2xs"}} textAlignLast="center" lineHeight="shorter">
-        {subtitle}
+      <Text
+        fontSize={{ md: "sm", base: "2xs" }}
+        textAlign="center"
+        lineHeight="shorter"
+        mt="auto" // optional: pushes text to bottom if needed
+      >
+        {subtitle ? t("staff." + subtitle) : ""}
       </Text>
     </Box>
   );
