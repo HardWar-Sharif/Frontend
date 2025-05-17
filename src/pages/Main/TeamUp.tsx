@@ -7,6 +7,7 @@ import {
   GridItem,
   Separator,
   SimpleGrid,
+  Skeleton,
   Spinner,
   Text,
   useClipboard,
@@ -23,7 +24,7 @@ import { useTranslate } from "@tolgee/react";
 
 const Team = () => {
   const [isLeaveLoading, setIsLeaveLoading] = useState<boolean>(false);
-  const { data: team, refetch } = useGetMyTeam();
+  const { data: team, isLoading, refetch } = useGetMyTeam();
   const { mutate } = useLeaveTeam();
   const clipboard = useClipboard({ value: team?.data?.code });
   const { t } = useTranslate();
@@ -97,7 +98,7 @@ const Team = () => {
         >
           <img src="/team/team.svg" alt="team" style={{ height: "230px" }} />
         </GridItem>
-        <GridItem colSpan={{ base: 24, md: 12 }} w="full">
+        <GridItem colSpan={{ base: 24, md: 12 }} w="full" alignSelf="flex-start">
           {team?.data && (
             <Alert.Root status="info" p={2} mb={2} alignItems="center">
               <Alert.Indicator />
@@ -170,7 +171,9 @@ const Team = () => {
           </Card.Title>
         </Card.Header>
       </Center>
-      <Card.Body>{team?.status == 204 ? NoTeam : hasTeam}</Card.Body>
+      <Card.Body>
+        {isLoading ? <Skeleton height="200px" /> : team?.status == 204 ? NoTeam : hasTeam}
+      </Card.Body>
     </Card.Root>
   );
 };

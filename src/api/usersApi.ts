@@ -20,13 +20,28 @@ export const verify = async (payload: UserVerification) => {
   return response.data;
 };
 
+export const hasPaid = async () => {
+  const response = await axiosInstance.get(`/payment/`);
+  return response.data;
+};
+
+export const pay = async (payload: UserPayment) => {
+  const response = await axiosInstance.post(`/payment/`, payload);
+  return response.data;
+};
+
 export const login = async (payload: UserLogin) => {
   const response = await axiosInstance.post(`/users/login/`, payload);
   return response.data;
 };
 
-export const profile = async (payload: UserProfile) => {
+export const updateProfile = async (payload: UserProfile) => {
   const response = await axiosInstance.put(`/users/profile/`, payload);
+  return response.data;
+};
+
+export const getProfile = async () => {
+  const response = await axiosInstance.get(`/users/profile/`);
   return response.data;
 };
 

@@ -8,7 +8,7 @@ import {
   StepsRoot,
 } from "@/components/ui/steps";
 import { Toaster, toaster } from "@/components/ui/toaster";
-import { useProfile } from "@/hooks/profile";
+import { useUpdateProfile } from "@/hooks/update-profile";
 import {
   validateNationalCode,
   validatePhoneNumber,
@@ -90,7 +90,7 @@ const Profile = () => {
     formState: { errors: semesterErrors },
     getValues: getSemesterValues,
   } = useForm<SemesterProfileFormValues>({ mode: "onSubmit" });
-  const { mutate } = useProfile();
+  const { mutate } = useUpdateProfile();
   const { t } = useTranslate();
 
   const responsiveFirstTitle = useBreakpointValue({

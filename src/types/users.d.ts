@@ -13,6 +13,10 @@ declare interface UserVerification {
   verification_code: string;
 }
 
+declare interface UserPayment {
+  discount_code?: string;
+}
+
 declare interface UserProfile {
   persian_first_name: string;
   persian_last_name: string;
