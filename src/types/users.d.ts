@@ -1,7 +1,7 @@
 declare interface UserSignup {
   email: string;
   password: string;
-  verificationCode: string;
+  // verificationCode: string;
 }
 
 declare interface UserLogin {
@@ -10,7 +10,11 @@ declare interface UserLogin {
 }
 
 declare interface UserVerification {
-  email: string;
+  verification_code: string;
+}
+
+declare interface UserPayment {
+  discount_code?: string;
 }
 
 declare interface UserProfile {

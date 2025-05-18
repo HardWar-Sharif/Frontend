@@ -9,10 +9,11 @@ import MainPage from "./pages/Main";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { ReactNode } from "react";
 import Team from "./pages/Main/TeamUp";
+import Verification from "./pages/Verification";
 
 const AppRoutes = () => {
-  const protectedPage = (page: ReactNode) => (
-    <ProtectedRoute>{page}</ProtectedRoute>
+  const protectedPage = (page: ReactNode, verify: boolean = false) => (
+    <ProtectedRoute isVerifyPage={verify}>{page}</ProtectedRoute>
   );
   return (
     <BrowserRouter>
@@ -29,6 +30,7 @@ const AppRoutes = () => {
           <Route index element={<Landing />} />
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
+          <Route path="verify" element={protectedPage(<Verification />, true)} />
           <Route element={protectedPage(<MainPage />)}>
             <Route path="dashboard" element={protectedPage(<Dashboard />)} />
             <Route path="profile" element={protectedPage(<Profile />)} />

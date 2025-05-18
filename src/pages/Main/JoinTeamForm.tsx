@@ -2,6 +2,7 @@ import FloatField from "@/components/ui/FloatField";
 import { toaster } from "@/components/ui/toaster";
 import { useJoinTeam } from "@/hooks/join-team";
 import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
 
 interface JoinTeamFormProps {
@@ -20,6 +21,7 @@ const JoinTeamForm = ({ refetch }: JoinTeamFormProps) => {
     formState: { errors },
     getValues,
   } = useForm<JoinTeamValues>({ mode: "onSubmit" });
+  const { t } = useTranslate();
 
   const join = () => {
     mutate(getValues("teamCode"), {
@@ -37,7 +39,7 @@ const JoinTeamForm = ({ refetch }: JoinTeamFormProps) => {
   return (
     <Flex direction="column" w="full" gap={4} alignItems="center">
       <FloatField
-        label="Team Code"
+        label={t("label.team_code")}
         formInput={register("teamCode", {
           required: true,
         })}
@@ -45,12 +47,14 @@ const JoinTeamForm = ({ refetch }: JoinTeamFormProps) => {
       />
       {errors.teamCode && (
         <Text fontSize="sm" mt={1} color="red.solid">
-          Team Code is required.
+          {t("message.required", {
+            field: t("label.team_code"),
+          })}
         </Text>
       )}
       <Flex>
         <Button onClick={handleSubmit(join)}>
-          {isPending && <Spinner size="sm" />} Join
+          {isPending && <Spinner size="sm" />} {t("label.join")}
         </Button>
       </Flex>
     </Flex>

@@ -2,6 +2,7 @@ import FloatField from "@/components/ui/FloatField";
 import { toaster } from "@/components/ui/toaster";
 import { useCreateTeam } from "@/hooks/create-team";
 import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
+import { useTranslate } from "@tolgee/react";
 import { useForm } from "react-hook-form";
 
 interface CreateTeamFormProps {
@@ -20,6 +21,7 @@ const CreateTeamForm = ({ refetch }: CreateTeamFormProps) => {
     formState: { errors },
     getValues,
   } = useForm<CreateTeamValues>({ mode: "onSubmit" });
+  const { t } = useTranslate();
 
   const create = () => {
     mutate(
@@ -43,7 +45,7 @@ const CreateTeamForm = ({ refetch }: CreateTeamFormProps) => {
   return (
     <Flex direction="column" w="full" gap={4} alignItems="center">
       <FloatField
-        label="Team Name"
+        label={t("label.team_name")}
         formInput={register("teamName", {
           required: true,
         })}
@@ -51,7 +53,9 @@ const CreateTeamForm = ({ refetch }: CreateTeamFormProps) => {
       />
       {errors.teamName && (
         <Text fontSize="sm" mt={1} color="red.solid">
-          Team Name is required.
+          {t("message.required", {
+            field: t("label.team_name"),
+          })}
         </Text>
       )}
       {/* <FileUpload.Root gap="1" maxWidth="300px">
@@ -65,7 +69,7 @@ const CreateTeamForm = ({ refetch }: CreateTeamFormProps) => {
       </FileUpload.Root> */}
       <Flex>
         <Button onClick={handleSubmit(create)}>
-          {isPending && <Spinner size="sm" />} Create
+          {isPending && <Spinner size="sm" />} {t("label.create")}
         </Button>
       </Flex>
     </Flex>

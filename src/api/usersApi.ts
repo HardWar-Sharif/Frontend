@@ -5,8 +5,23 @@ export const signup = async (payload: UserSignup) => {
   return response.data;
 };
 
-export const sendCode = async (payload: UserVerification) => {
+export const sendCode = async () => {
+  const response = await axiosInstance.get(`/users/send-code/`);
+  return response.data;
+};
+
+export const verify = async (payload: UserVerification) => {
   const response = await axiosInstance.post(`/users/verify/`, payload);
+  return response.data;
+};
+
+export const hasPaid = async () => {
+  const response = await axiosInstance.get(`/payment/`);
+  return response.data;
+};
+
+export const pay = async (payload: UserPayment) => {
+  const response = await axiosInstance.post(`/payment/`, payload);
   return response.data;
 };
 
@@ -15,8 +30,13 @@ export const login = async (payload: UserLogin) => {
   return response.data;
 };
 
-export const profile = async (payload: UserProfile) => {
+export const updateProfile = async (payload: UserProfile) => {
   const response = await axiosInstance.put(`/users/profile/`, payload);
+  return response.data;
+};
+
+export const getProfile = async () => {
+  const response = await axiosInstance.get(`/users/profile/`);
   return response.data;
 };
 

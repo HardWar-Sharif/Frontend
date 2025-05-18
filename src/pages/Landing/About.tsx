@@ -15,22 +15,22 @@ const About: React.FC<StackProps> = (props) => {
 
   const items = [
     {
-      imagePath: "Landing/Participant.svg",
+      imagePath: "Landing/competition.svg",
       title: t("title.competition"),
       text: t("landing.competition"),
     },
     {
-      imagePath: "Landing/Participant.svg",
+      imagePath: "Landing/workshop.svg",
       title: t("title.workshop"),
       text: t("landing.workshop"),
     },
     {
-      imagePath: "Landing/Participant.svg",
+      imagePath: "Landing/prize.svg",
       title: t("title.prize"),
       text: t("landing.prize"),
     },
     {
-      imagePath: "Landing/Participant.svg",
+      imagePath: "Landing/cv.svg",
       title: t("title.resume"),
       text: t("landing.resume"),
     },

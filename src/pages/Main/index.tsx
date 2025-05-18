@@ -4,6 +4,7 @@ import {
   Flex,
   GridItem,
   SimpleGrid,
+  Skeleton,
   Text,
 } from "@chakra-ui/react";
 import { Outlet, useLocation, useNavigate } from "react-router";
@@ -13,6 +14,9 @@ import { HiChevronDoubleDown, HiChevronDoubleRight } from "react-icons/hi2";
 import { HiOutlineUserGroup } from "react-icons/hi2";
 import { ReactNode, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
+import { useTranslate } from "@tolgee/react";
+import { useGetProfile } from "@/hooks/get-profile";
+import { useHasPaid } from "@/hooks/has-paid";
 
 interface SidebarButton {
   page: string;
@@ -20,17 +24,20 @@ interface SidebarButton {
   text: string;
 }
 
-const sidebarButtons: Array<SidebarButton> = [
-  { page: "dashboard", icon: <RxDashboard />, text: "Dashboard" },
-  { page: "profile", icon: <LuUser />, text: "Profile" },
-  { page: "team", icon: <HiOutlineUserGroup />, text: "Team" },
-];
-
 const MainPage = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
   const { pathname } = useLocation();
+  const { data: profile, isLoading: profileLoading } = useGetProfile();
+  const { data: payment, isLoading: paymentLoading } = useHasPaid();
   const navigate = useNavigate();
   const clearToken = useAuthStore((state) => state.clearToken);
+  const { t } = useTranslate();
+
+  const sidebarButtons: Array<SidebarButton> = [
+    { page: "dashboard", icon: <RxDashboard />, text: t("label.dashboard") },
+    { page: "profile", icon: <LuUser />, text: t("label.profile") },
+    { page: "team", icon: <HiOutlineUserGroup />, text: t("label.team") },
+  ];
 
   const sidebar = (
     <Box
@@ -77,6 +84,10 @@ const MainPage = () => {
               justifyContent={{ md: "flex-start" }}
               onClick={() => navigate(`/${button.page}`)}
               size={{ base: "md", mdDown: "lg" }}
+              disabled={
+                button.page == "team" &&
+                (!profile?.is_completed || !payment?.has_paid)
+              }
             >
               <Text>{button.icon}</Text>
               {sidebarExpanded && (
@@ -96,11 +107,13 @@ const MainPage = () => {
             navigate("/");
           }}
         >
-          <LuLogOut /> {sidebarExpanded && "Logout"}
+          <LuLogOut /> {sidebarExpanded && t("label.logout")}
         </Button>
       </Flex>
     </Box>
   );
+
+  if (profileLoading || paymentLoading) return <Skeleton height="500px" />;
 
   return (
     <Box

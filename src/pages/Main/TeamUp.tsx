@@ -7,6 +7,7 @@ import {
   GridItem,
   Separator,
   SimpleGrid,
+  Skeleton,
   Spinner,
   Text,
   useClipboard,
@@ -19,12 +20,17 @@ import { toaster } from "@/components/ui/toaster";
 import { useState } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
+import { useTranslate } from "@tolgee/react";
+import { getFullName } from "@/utils/full-name";
+import { useLanguageStore } from "@/stores/language";
 
 const Team = () => {
   const [isLeaveLoading, setIsLeaveLoading] = useState<boolean>(false);
-  const { data: team, refetch } = useGetMyTeam();
+  const { data: team, isLoading, refetch } = useGetMyTeam();
   const { mutate } = useLeaveTeam();
   const clipboard = useClipboard({ value: team?.data?.code });
+  const language = useLanguageStore((state) => state.language);
+  const { t } = useTranslate();
 
   const leaveTeam = () => {
     setIsLeaveLoading(true);
@@ -47,9 +53,7 @@ const Team = () => {
     <>
       <Alert.Root status="warning" mb={4}>
         <Alert.Indicator />
-        <Alert.Title>
-          Currently, you don't have a team. create your own team or join one.
-        </Alert.Title>
+        <Alert.Title>{t("message.no_team")}</Alert.Title>
       </Alert.Root>
       <SimpleGrid
         w="full"
@@ -65,7 +69,7 @@ const Team = () => {
           mb={{ base: 4, md: 0 }}
         >
           <img
-            src="/src/assets/images/no-team.svg"
+            src="/team/no-team.svg"
             alt="no team"
             style={{ height: "230px" }}
           />
@@ -95,19 +99,19 @@ const Team = () => {
           justifyItems="center"
           mb={{ base: 4, md: 0 }}
         >
-          <img
-            src="/src/assets/images/team.svg"
-            alt="team"
-            style={{ height: "230px" }}
-          />
+          <img src="/team/team.svg" alt="team" style={{ height: "230px" }} />
         </GridItem>
-        <GridItem colSpan={{ base: 24, md: 12 }} w="full">
+        <GridItem
+          colSpan={{ base: 24, md: 12 }}
+          w="full"
+          alignSelf="flex-start"
+        >
           {team?.data && (
             <Alert.Root status="info" p={2} mb={2} alignItems="center">
               <Alert.Indicator />
               <Alert.Title width="full">
                 <Flex justifyContent="space-between" alignItems="center">
-                  <Text>Code: {team.data.code}</Text>
+                  <Text>{`${t("label.code")}: ${team.data.code}`}</Text>
                   <Button
                     onClick={clipboard.copy}
                     variant="outline"
@@ -134,14 +138,14 @@ const Team = () => {
                 borderWidth={2}
               >
                 <Flex direction="column">
-                  <Text color="red.500">{`${member.first_name} ${member.last_name}`}</Text>
+                  <Text color="red.500">{getFullName(language, member)}</Text>
                   <Text color="red.300">{member.email}</Text>
                 </Flex>
               </Card.Root>
             ))}
           <Flex justifyContent="end">
             <Button variant="outline" borderWidth={2} onClick={leaveTeam}>
-              {isLeaveLoading && <Spinner size="sm" />} Leave Team
+              {isLeaveLoading && <Spinner size="sm" />} {t("label.leave_team")}
             </Button>
           </Flex>
         </GridItem>
@@ -170,11 +174,19 @@ const Team = () => {
             textShadow="0 0 20px var(--shadow-color)"
             shadowColor="red.solid"
           >
-            {team?.status == 204 ? "Team Up" : team?.data.name}
+            {team?.status == 204 ? t("label.team_up") : team?.data.name}
           </Card.Title>
         </Card.Header>
       </Center>
-      <Card.Body>{team?.status == 204 ? NoTeam : hasTeam}</Card.Body>
+      <Card.Body>
+        {isLoading ? (
+          <Skeleton height="200px" />
+        ) : team?.status == 204 ? (
+          NoTeam
+        ) : (
+          hasTeam
+        )}
+      </Card.Body>
     </Card.Root>
   );
 };

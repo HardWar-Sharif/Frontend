@@ -8,7 +8,7 @@ const axiosInstance = axios.create({
   },
 });
 
-const publicEndpoints = ["/signup", "/login", "/verify"];
+const publicEndpoints = ["/signup", "/login"];
 
 axiosInstance.interceptors.request.use(
   (config) => {

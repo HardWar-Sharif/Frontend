@@ -14,6 +14,7 @@ import { FloatPasswordField } from "../../components/ui/FloatPasswordField";
 import { useLogin } from "../../hooks/login";
 import { toaster, Toaster } from "@/components/ui/toaster";
 import { useAuthStore } from "@/stores/auth";
+import { useTranslate } from "@tolgee/react";
 
 interface LoginFormValues {
   email: string;
@@ -30,6 +31,7 @@ const LoginForm = () => {
   } = useForm<LoginFormValues>({ mode: "onSubmit" });
   const setToken = useAuthStore((state) => state.setToken);
   const { mutate } = useLogin();
+  const { t } = useTranslate();
 
   const login = () => {
     mutate(
@@ -71,14 +73,14 @@ const LoginForm = () => {
               textShadow="0 0 20px var(--shadow-color)"
               shadowColor="red.solid"
             >
-              Login
+              {t("label.login")}
             </Card.Title>
           </Card.Header>
         </Center>
         <Card.Body>
           <Stack w="full" gap={0}>
             <FloatField
-              label="Email"
+              label={t("label.email")}
               formInput={register("email", {
                 pattern: /^[\w._%+-]+@[\w.-]+\.[a-zA-Z]{2,4}$/,
               })}
@@ -86,17 +88,17 @@ const LoginForm = () => {
             />
             {errors.email && (
               <Text fontSize="sm" mt={1} color="red.solid">
-                Email is invalid.
+                {t("message.invalid", { field: t("label.email") })}
               </Text>
             )}
             <FloatPasswordField
-              label="Password"
+              label={t("label.password")}
               {...register("password", { required: true })}
               invalid={!!errors.password}
             />
             {errors.password && (
               <Text fontSize="sm" mt={1} color="red.solid">
-                Password is required.
+                {t("message.required", { field: t("label.password") })}
               </Text>
             )}
           </Stack>
@@ -104,7 +106,7 @@ const LoginForm = () => {
         <Card.Footer flexDirection="column" alignItems="flex-start">
           <Flex gap={3}>
             <Button variant="solid" size="lg" onClick={handleSubmit(login)}>
-              Login
+              {t("label.login")}
             </Button>
             <Button
               variant="outline"
@@ -112,15 +114,15 @@ const LoginForm = () => {
               borderWidth={2}
               onClick={() => navigate("/")}
             >
-              Cancel
+              {t("label.cancel")}
             </Button>
           </Flex>
           <Flex align="center" gap={1}>
             <Text color="red.solid" fontSize="sm">
-              Don't have an account?
+              {t("question.no_account")}
             </Text>
             <Link fontSize="sm" onClick={() => navigate("/signup")}>
-              Signup
+              {t("label.signup")}
             </Link>
           </Flex>
         </Card.Footer>
