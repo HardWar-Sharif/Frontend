@@ -21,12 +21,15 @@ import { useState } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
 import { useTranslate } from "@tolgee/react";
+import { getFullName } from "@/utils/full-name";
+import { useLanguageStore } from "@/stores/language";
 
 const Team = () => {
   const [isLeaveLoading, setIsLeaveLoading] = useState<boolean>(false);
   const { data: team, isLoading, refetch } = useGetMyTeam();
   const { mutate } = useLeaveTeam();
   const clipboard = useClipboard({ value: team?.data?.code });
+  const language = useLanguageStore((state) => state.language);
   const { t } = useTranslate();
 
   const leaveTeam = () => {
@@ -98,13 +101,17 @@ const Team = () => {
         >
           <img src="/team/team.svg" alt="team" style={{ height: "230px" }} />
         </GridItem>
-        <GridItem colSpan={{ base: 24, md: 12 }} w="full" alignSelf="flex-start">
+        <GridItem
+          colSpan={{ base: 24, md: 12 }}
+          w="full"
+          alignSelf="flex-start"
+        >
           {team?.data && (
             <Alert.Root status="info" p={2} mb={2} alignItems="center">
               <Alert.Indicator />
               <Alert.Title width="full">
                 <Flex justifyContent="space-between" alignItems="center">
-                  <Text direction="ltr">Code: {team.data.code}</Text>
+                  <Text>{`${t("label.code")}: ${team.data.code}`}</Text>
                   <Button
                     onClick={clipboard.copy}
                     variant="outline"
@@ -131,7 +138,7 @@ const Team = () => {
                 borderWidth={2}
               >
                 <Flex direction="column">
-                  <Text color="red.500">{`${member.first_name} ${member.last_name}`}</Text>
+                  <Text color="red.500">{getFullName(language, member)}</Text>
                   <Text color="red.300">{member.email}</Text>
                 </Flex>
               </Card.Root>
@@ -172,7 +179,13 @@ const Team = () => {
         </Card.Header>
       </Center>
       <Card.Body>
-        {isLoading ? <Skeleton height="200px" /> : team?.status == 204 ? NoTeam : hasTeam}
+        {isLoading ? (
+          <Skeleton height="200px" />
+        ) : team?.status == 204 ? (
+          NoTeam
+        ) : (
+          hasTeam
+        )}
       </Card.Body>
     </Card.Root>
   );

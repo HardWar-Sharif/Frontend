@@ -10,11 +10,6 @@ export const sendCode = async () => {
   return response.data;
 };
 
-export const isVerified = async () => {
-  const response = await axiosInstance.get(`/users/is-verified/`);
-  return response.data;
-};
-
 export const verify = async (payload: UserVerification) => {
   const response = await axiosInstance.post(`/users/verify/`, payload);
   return response.data;

@@ -8,6 +8,7 @@ import {
   StepsRoot,
 } from "@/components/ui/steps";
 import { Toaster, toaster } from "@/components/ui/toaster";
+import { useGetProfile } from "@/hooks/get-profile";
 import { useUpdateProfile } from "@/hooks/update-profile";
 import {
   validateNationalCode,
@@ -27,7 +28,7 @@ import {
   Alert,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 const universities = createListCollection({
@@ -82,6 +83,7 @@ const Profile = () => {
     control,
     formState: { errors },
     getValues,
+    reset,
   } = useForm<GeneralProfileFormValues>({ mode: "onSubmit" });
   const {
     register: semesterRegister,
@@ -89,8 +91,10 @@ const Profile = () => {
     control: semesterControl,
     formState: { errors: semesterErrors },
     getValues: getSemesterValues,
+    reset: semesterReset,
   } = useForm<SemesterProfileFormValues>({ mode: "onSubmit" });
   const { mutate } = useUpdateProfile();
+  const { data, isLoading } = useGetProfile();
   const { t } = useTranslate();
 
   const responsiveFirstTitle = useBreakpointValue({
@@ -151,6 +155,28 @@ const Profile = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (!isLoading && data && data.is_completed) {
+      reset({
+        englishFirstName: data.first_name,
+        englishLastName: data.last_name,
+        persianFirstName: data.persian_first_name,
+        persianLastName: data.persian_last_name,
+        phoneNumber: data.phone_number,
+        nationalCode: data.national_code,
+        university: data.university_name,
+        department: data.department_name,
+        acceptTerms: "true",
+        dataToSponsor: data.data_to_sponsor ? "true" : "false",
+      });
+      if (data.university_name == "SUT" && data.department_name == "CE")
+        semesterReset({
+          studentId: data.student_id,
+          coursesList: data.courses_list,
+        });
+    }
+  }, [data]);
 
   const firstStepContent = (
     <SimpleGrid w="full" gap={4} columns={{ base: 1, md: 2 }}>

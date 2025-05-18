@@ -4,6 +4,7 @@ import {
   Flex,
   GridItem,
   SimpleGrid,
+  Skeleton,
   Text,
 } from "@chakra-ui/react";
 import { Outlet, useLocation, useNavigate } from "react-router";
@@ -14,6 +15,8 @@ import { HiOutlineUserGroup } from "react-icons/hi2";
 import { ReactNode, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
 import { useTranslate } from "@tolgee/react";
+import { useGetProfile } from "@/hooks/get-profile";
+import { useHasPaid } from "@/hooks/has-paid";
 
 interface SidebarButton {
   page: string;
@@ -24,6 +27,8 @@ interface SidebarButton {
 const MainPage = () => {
   const [sidebarExpanded, setSidebarExpanded] = useState<boolean>(false);
   const { pathname } = useLocation();
+  const { data: profile, isLoading: profileLoading } = useGetProfile();
+  const { data: payment, isLoading: paymentLoading } = useHasPaid();
   const navigate = useNavigate();
   const clearToken = useAuthStore((state) => state.clearToken);
   const { t } = useTranslate();
@@ -79,6 +84,10 @@ const MainPage = () => {
               justifyContent={{ md: "flex-start" }}
               onClick={() => navigate(`/${button.page}`)}
               size={{ base: "md", mdDown: "lg" }}
+              disabled={
+                button.page == "team" &&
+                (!profile?.is_completed || !payment?.has_paid)
+              }
             >
               <Text>{button.icon}</Text>
               {sidebarExpanded && (
@@ -103,6 +112,8 @@ const MainPage = () => {
       </Flex>
     </Box>
   );
+
+  if (profileLoading || paymentLoading) return <Skeleton height="500px" />;
 
   return (
     <Box
