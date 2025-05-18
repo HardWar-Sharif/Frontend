@@ -67,7 +67,7 @@ const Footer: React.FC<StackProps> = (props) => {
 
 const Logo = ({ to, image }: { to: string; image: string }) => {
   return (
-    <Link href={to}>
+    <Link href={to} _focus={{ boxShadow: "none", outline: "none" }}>
       <Image
         src={image}
         h="60px"
@@ -82,7 +82,7 @@ const Logo = ({ to, image }: { to: string; image: string }) => {
 
 const Bubble = ({ to, image }: { to: string; image: ReactNode }) => {
   return (
-    <Link href={to}>
+    <Link href={to} _focus={{ boxShadow: "none", outline: "none" }}>
       <Box
         color="gray.300"
         _hover={{ opacity: "0.8" }}
@@ -91,6 +91,7 @@ const Bubble = ({ to, image }: { to: string; image: ReactNode }) => {
         rounded="full"
         p={2}
         fontSize="2xl"
+        _focus={{ boxShadow: "none", outline: "none" }}
       >
         {image}
       </Box>
