@@ -45,7 +45,7 @@ const SignupForm = () => {
       {
         onSuccess: (data) => {
           setToken(data.token);
-          navigate("/dashboard");
+          navigate("/verify", { state: { codeSent: true } });
         },
         onError: () =>
           toaster.create({

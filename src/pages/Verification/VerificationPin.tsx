@@ -14,6 +14,7 @@ import {
 import { useTranslate } from "@tolgee/react";
 import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { useLocation } from "react-router";
 
 const inputStyles = {
   color: "red.fg",
@@ -27,7 +28,9 @@ interface VerificationPinValues {
 }
 
 const VerificationPin = () => {
-  const [timer, setTimer] = useState<number>(120);
+  const { state } = useLocation();
+  const codeSent = state?.codeSent ?? false;
+  const [timer, setTimer] = useState<number>(codeSent ? 0 : 120);
   const [isCounting, setIsCounting] = useState<boolean>(true);
   const { mutate: codeMutate, isPending: codePending } = useSendCode();
   const { mutate: verifyMutate } = useVerify();
@@ -133,11 +136,7 @@ const VerificationPin = () => {
             {codePending && <Spinner size="sm" />}{" "}
             {timer <= 0 ? t("label.resend_code") : verificationTimer(timer)}
           </Button>
-          <Button
-            size="sm"
-            variant="surface"
-            onClick={handleSubmit(verify)}
-          >
+          <Button size="sm" variant="surface" onClick={handleSubmit(verify)}>
             {t("label.verify")}
           </Button>
         </Flex>

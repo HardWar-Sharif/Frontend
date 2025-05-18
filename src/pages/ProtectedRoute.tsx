@@ -21,7 +21,7 @@ const ProtectedRoute = ({
 
   if (!tokenIsValid()) return <Navigate to={"/login"} />;
   if (isVerifyPage) return children;
-  if (profileLoading || paymentLoading) return <Skeleton />;
+  if (profileLoading || paymentLoading) return <Skeleton height="500px" />;
   if (!profile?.is_verified) return <Navigate to={"/verify"} />;
   if (pathname == "/team" && (!profile?.is_completed || !payment.has_paid))
     return <Navigate to={"/dashboard"} />;

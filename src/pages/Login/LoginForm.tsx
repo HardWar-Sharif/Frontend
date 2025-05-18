@@ -42,7 +42,7 @@ const LoginForm = () => {
       {
         onSuccess: (data) => {
           setToken(data.token);
-          navigate("/dashboard");
+          navigate(data.is_verified ? "/dashboard" : "/verify");
         },
         onError: () =>
           toaster.create({
