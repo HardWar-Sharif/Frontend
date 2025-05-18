@@ -20,8 +20,17 @@ export const hasPaid = async () => {
   return response.data;
 };
 
-export const pay = async (payload: UserPayment) => {
-  const response = await axiosInstance.post(`/payment/`, payload);
+export const getDiscountAmount = async (discount_code: string) => {
+  const response = await axiosInstance.get(
+    `/payment/discount?discount_code=${discount_code}`
+  );
+  return response.data;
+};
+
+export const pay = async (discount_code: string) => {
+  const response = await axiosInstance.post(
+    `/payment?discount_code=${discount_code || ""}`
+  );
   return response.data;
 };
 

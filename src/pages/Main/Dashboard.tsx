@@ -1,52 +1,28 @@
 import { useGetProfile } from "@/hooks/get-profile";
-import { useHasPaid } from "@/hooks/has-paid";
 import { useGetMyTeam } from "@/hooks/my-team";
-import { usePay } from "@/hooks/pay";
-import {
-  Alert,
-  Text,
-  Card,
-  Center,
-  Flex,
-  Skeleton,
-  Button,
-} from "@chakra-ui/react";
+import { Alert, Text, Card, Center, Flex, Skeleton } from "@chakra-ui/react";
 import { StepsRoot, StepsList, StepsItem } from "@/components/ui/steps";
 import { useTranslate } from "@tolgee/react";
 import { useEffect, useState } from "react";
 import { useLanguageStore } from "@/stores/language";
 import { getFullName } from "@/utils/full-name";
+import PaymentForm from "./PaymentForm";
 
 const Dashboard = () => {
   const { data: profile, isLoading: profileLoading } = useGetProfile();
-  const { data: payment, isLoading: paymentLoading } = useHasPaid();
   const { data: team, isLoading: teamLoading } = useGetMyTeam();
   const language = useLanguageStore((state) => state.language);
-  const { mutate } = usePay();
   const [step, setStep] = useState<number>(0);
   const { t } = useTranslate();
 
-  const pay = () => {
-    mutate(
-      {
-        discount_code: "",
-      },
-      {
-        onSuccess: (response) => {
-          window.location.href = `https://payment.zarinpal.com/pg/StartPay/${response.data.authority}`;
-        },
-      }
-    );
-  };
-
   useEffect(() => {
-    if (!profileLoading && !paymentLoading && !teamLoading) {
-      if (team?.status == 200) setStep(3);
-      else if (payment?.has_paid) setStep(2);
+    if (!profileLoading) {
+      if (profile?.has_team) setStep(3);
+      else if (profile?.has_paid) setStep(2);
       else if (profile?.is_completed) setStep(1);
       else setStep(0);
     }
-  }, [profile, payment, team]);
+  }, [profile]);
 
   return (
     <Card.Root
@@ -74,7 +50,7 @@ const Dashboard = () => {
         </Card.Header>
       </Center>
       <Card.Body>
-        {profileLoading || paymentLoading || teamLoading ? (
+        {profileLoading || teamLoading ? (
           <Skeleton height="200px" />
         ) : (
           <>
@@ -94,7 +70,7 @@ const Dashboard = () => {
               px={6}
               py={4}
               size="lg"
-              mb={4}
+              mb={6}
               borderColor="red.emphasized"
               borderWidth={2}
             >
@@ -109,18 +85,27 @@ const Dashboard = () => {
                   profile,
                   profile.is_completed
                 )}`}</Text>
-                <Text color="red.300" fontSize={{ base: "md", md: "xl" }}>{`${t(
-                  "label.team_name"
-                )}: ${
-                  team?.status == 200
-                    ? team.data.name
-                    : language == "en"
-                    ? "???"
-                    : "؟؟؟"
-                }`}</Text>
+                {profile.has_team && (
+                  <Text
+                    color="red.300"
+                    fontSize={{ base: "md", md: "xl" }}
+                  >{`${t("label.team_name")}: ${team?.data.name}`}</Text>
+                )}
               </Flex>
             </Card.Root>
-            {payment?.has_paid ? (
+            {!profile?.is_completed ? (
+              <Alert.Root
+                borderWidth={2}
+                borderColor="red.solid"
+                status="success"
+                variant="surface"
+                size={{ base: "md", md: "lg" }}
+                colorPalette="red"
+              >
+                <Alert.Indicator />
+                <Alert.Title>{t("message.has_paid")}</Alert.Title>
+              </Alert.Root>
+            ) : profile?.has_paid ? (
               <Alert.Root
                 borderWidth={2}
                 borderColor="red.solid"
@@ -133,16 +118,7 @@ const Dashboard = () => {
                 <Alert.Title>{t("message.has_paid")}</Alert.Title>
               </Alert.Root>
             ) : (
-              <Button
-                size={{ base: "md", md: "lg" }}
-                variant="outline"
-                borderWidth={2}
-                borderColor="red.emphasized"
-                _hover={{ backgroundColor: "red.emphasized" }}
-                onClick={pay}
-              >
-                {t("label.pay")}
-              </Button>
+              <PaymentForm />
             )}
           </>
         )}

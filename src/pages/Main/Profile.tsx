@@ -185,7 +185,7 @@ const Profile = () => {
           label={t("label.persian_first_name")}
           formInput={register("persianFirstName", {
             pattern: {
-              value: /^[\u0621-\u0651\u066B-\u06CC\s]+$/,
+              value: /^[\u0621-\u0651\u066B-\u06CC\u200c\s]+$/,
               message: t("message.persian_field"),
             },
             required: t("message.required", {
@@ -205,7 +205,7 @@ const Profile = () => {
           label={t("label.persian_last_name")}
           formInput={register("persianLastName", {
             pattern: {
-              value: /^[\u0621-\u0651\u066B-\u06CC\s]+$/,
+              value: /^[\u0621-\u0651\u066B-\u06CC\u200c\s]+$/,
               message: t("message.persian_field"),
             },
             required: t("message.required", {
@@ -225,7 +225,7 @@ const Profile = () => {
           label={t("label.english_first_name")}
           formInput={register("englishFirstName", {
             pattern: {
-              value: /^[a-zA-Z\s]+$/,
+              value: /^[a-zA-Z\s\-.]+$/,
               message: t("message.english_field"),
             },
             required: t("message.required", {
@@ -245,7 +245,7 @@ const Profile = () => {
           label={t("label.english_last_name")}
           formInput={register("englishLastName", {
             pattern: {
-              value: /^[a-zA-Z\s]+$/,
+              value: /^[a-zA-Z\s\-.]+$/,
               message: t("message.english_field"),
             },
             required: t("message.required", {
