@@ -85,7 +85,6 @@ const SevenSegmentText = ({ text }: { text: string }) => {
 const MonospaceSevenSegmentText = ({ text }: { text: string }) => {
   return (
     <Box
-      fontFamily="SevenSegment"
       fontSize="1.5em"
       whiteSpace="pre"
     >
@@ -98,7 +97,13 @@ const MonospaceSevenSegmentText = ({ text }: { text: string }) => {
 
 const MonospaceCharacter = ({ children }: { children: React.ReactNode }) => {
   return (
-    <Box display="inline-block" width="1ch" textAlign="right" height="fit-content">
+    <Box
+      display="inline-block"
+      width="1ch"
+      textAlign="right"
+      height="fit-content"
+      fontFamily="SevenSegment"
+    >
       {children}
     </Box>
   );

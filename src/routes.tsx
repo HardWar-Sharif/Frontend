@@ -11,6 +11,8 @@ import { ReactNode } from "react";
 import Team from "./pages/Main/TeamUp";
 import Verification from "./pages/Verification";
 import PaymentResult from "./pages/Main/PaymentResult";
+import StaffPage from "./pages/Staff";
+import NotFound from "./pages/404";
 
 const AppRoutes = () => {
   const protectedPage = (page: ReactNode, verify: boolean = false) => (
@@ -31,6 +33,7 @@ const AppRoutes = () => {
           <Route index element={<Landing />} />
           <Route path="signup" element={<Signup />} />
           <Route path="login" element={<Login />} />
+          <Route path="staff-members" element={<StaffPage />} />
           <Route
             path="verify"
             element={protectedPage(<Verification />, true)}
@@ -40,7 +43,11 @@ const AppRoutes = () => {
             <Route path="profile" element={protectedPage(<Profile />)} />
             <Route path="team" element={protectedPage(<Team />)} />
           </Route>
-          <Route path="payment-result" element={protectedPage(<PaymentResult />)} />
+          <Route
+            path="payment-result"
+            element={protectedPage(<PaymentResult />)}
+          />
+          <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
     </BrowserRouter>

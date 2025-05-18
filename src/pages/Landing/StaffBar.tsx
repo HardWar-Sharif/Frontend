@@ -14,51 +14,57 @@ import { useTranslate } from "@tolgee/react";
 import { useRef, useEffect, useState } from "react";
 import { FiArrowLeft, FiArrowRight } from "react-icons/fi";
 import { keyframes } from "@emotion/react";
+import { useNavigate } from "react-router";
 
 const cardWidth = 210;
-
 
 const StaffBar: React.FC<StackProps> = (props) => {
   const { t } = useTranslate();
   const items = [
     {
       imagePath: "staff/saeed-forati.jpg",
-      name: t("name.saeed_forati"),
+      name: t("staff.name.saeed_forati"),
       title: t("staff.president"),
     },
     {
       imagePath: "staff/amirhossein-souri.jpg",
-      name: t("name.amirhossein_souri"),
+      name: t("staff.name.amirhossein_souri"),
       title: t("staff.vice_president"),
     },
     {
       imagePath: "staff/mahdi-alinejad.jpg",
-      name: t("name.mahdi_alinejad"),
+      name: t("staff.name.mahdi_ali_nejad"),
       title: t("staff.scientific_head"),
     },
     {
       imagePath: "staff/amirhossein-shahidi.jpg",
-      name: t("name.amirhossein_shahidi"),
+      name: t("staff.name.amirhossein_shahidi"),
       title: t("staff.executive_head"),
     },
     {
       imagePath: "staff/majid-hajilou.jpg",
-      name: t("name.majid_hajilou"),
+      name: t("staff.name.majid_hajilou"),
       title: t("staff.sponsor_head"),
     },
     {
       imagePath: "staff/ahmad-mousavi.png",
-      name: t("name.ahmad_mousavi"),
+      name: t("staff.name.seyedahmad_mousaviawal"),
       title: t("staff.graphics_head"),
     },
     {
+      imagePath: "staff/pics/Narges Kari.jpg",
+      name: t("staff.name.narges_kari"),
+      title: t("staff.social_head"),
+    },
+    {
       imagePath: "staff/mehrab-moradzadeh.jpg",
-      name: t("name.mehrab_moradzadeh"),
+      name: t("staff.name.mehrab_moradzadeh"),
       title: t("staff.sponsor_coord"),
     },
   ];
 
   const containerRef = useRef<HTMLDivElement>(null);
+  const navigate = useNavigate();
   const [shouldScroll, setShouldScroll] = useState(false);
   const { language } = useLanguageStore();
 
@@ -102,7 +108,13 @@ const StaffBar: React.FC<StackProps> = (props) => {
         <Box
           display="inline-block"
           whiteSpace="nowrap"
-          animation={shouldScroll ? `${language == 'fa' ? scrollPos : scrollNeg} 20s linear infinite` : undefined}
+          animation={
+            shouldScroll
+              ? `${
+                  language == "fa" ? scrollPos : scrollNeg
+                } 20s linear infinite`
+              : undefined
+          }
         >
           {(shouldScroll ? [...items, ...items] : items).map((item, index) => (
             <StaffItem
@@ -116,7 +128,7 @@ const StaffBar: React.FC<StackProps> = (props) => {
       </Flex>
 
       <Flex justify="space-around">
-        <Button size="xl" borderRadius="full" fontWeight="bold" fontSize="sm">
+        <Button size="xl" borderRadius="full" fontWeight="bold" fontSize="sm" onClick={() => navigate("/staff-members")}>
           {t("label.view_all")}
           {language == "fa" ? <FiArrowLeft /> : <FiArrowRight />}
         </Button>
