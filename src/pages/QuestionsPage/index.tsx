@@ -2,15 +2,14 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
-import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link, Flex, Stack, Button } from "@chakra-ui/react";
+import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link, Flex } from "@chakra-ui/react";
 import "katex/dist/katex.min.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import React from "react";
 import { useEffect, useState } from 'react';
-import { ReactFlow, Background, Controls, Node, Edge } from '@xyflow/react';
+import { ReactFlow, Background, Controls } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
-import { FaProjectDiagram  } from "react-icons/fa";
 
 
 
@@ -89,6 +88,44 @@ const CustomCode = ({className, children, ...props}: {className: string | undefi
 }
 
 
+export const MarkdownViewer = ({ markdown }: { markdown: string }) => {
+  return (
+    <ReactMarkdown
+      remarkPlugins={[remarkMath, remarkGfm]}
+      rehypePlugins={[rehypeKatex]}
+      components={{
+        p: ({ node, ...props }) => <Text my={3} {...props} />,
+        h1: ({ node, ...props }) => <Heading as="h1" color="colorPalette.200" size="2xl" my={4} {...props} />,
+        h2: ({ node, ...props }) => <Heading as="h2" color="colorPalette.100" size="xl" my={4} {...props} />,
+        h3: ({ node, ...props }) => <Heading as="h3" color="colorPalette.100" size="lg" my={4} {...props} />,
+        h4: ({ node, ...props }) => <Heading as="h4" color="white" size="md" my={4} {...props} />,
+
+        span: ({ node, ...props }) => (<span dir="ltr" {...props}></span>),
+        code: ({node, className, children, ...props}) => (<CustomCode className={className} {...props}>{children}</CustomCode>),
+        pre: ({ node, ...props }) => (<Pre dir="ltr" {...props} ></Pre>),
+
+        table: ({ node, ...props }) => <TableRoot my={4} variant="outline" showColumnBorder {...props} />,
+        thead: ({ node, ...props }) => <TableHeader {...props} />,
+        tbody: ({ node, ...props }) => <TableBody {...props} />,
+        tr: ({ node, ...props }) => <TableRow {...props} />,
+        th: ({ node, ...props }) => <TableColumnHeader {...props} />,
+        td: ({ node, ...props }) => <TableCell {...props} />,
+
+        ul: ({ node, children, ...props }) => <ListWrapper {...props}>{children}</ListWrapper>,
+        ol: ({ node, children, ...props }) => <ListWrapper ordered {...props}>{children}</ListWrapper>,
+        li: ({ node, children, ...props }) => <ListItem {...props}>{children}</ListItem>,
+
+        strong: ({ node, children, ...props }: TextProps) => <Text as="span" fontWeight="bold" {...props}>{children}</Text>,
+        em: ({ node, children, ...props }: TextProps) => <Text as="span" fontStyle="italic" {...props}>{children}</Text>,
+        a: ({ node, href, children, ...props }: LinkProps) => <Link href={href} {...props}>{children}</Link>,
+      }}
+    >
+      {markdown}
+    </ReactMarkdown>
+  );
+};
+
+
 
 const MarkdownFile = ({ filePath }: { filePath: string }) => {
   const [markdown, setMarkdown] = useState<string>('');
@@ -103,38 +140,7 @@ const MarkdownFile = ({ filePath }: { filePath: string }) => {
   return (
     <div dir="rtl">
       <Box p={4}>
-        <ReactMarkdown
-          remarkPlugins={[remarkMath, remarkGfm]}
-          rehypePlugins={[rehypeKatex]}
-          components={{
-            p: ({ node, ...props }) => <Text my={3} {...props} />,
-            h1: ({ node, ...props }) => <Heading as="h1" size="2xl" my={4} {...props} />,
-            h2: ({ node, ...props }) => <Heading as="h2" size="xl" my={4} {...props} />,
-            h3: ({ node, ...props }) => <Heading as="h3" size="lg" my={4} {...props} />,
-            h4: ({ node, ...props }) => <Heading as="h4" size="md" my={4} {...props} />,
-
-            span: ({ node, ...props }) => (<span dir="ltr" {...props}></span>),
-            code: ({node, className, children, ...props}) => (<CustomCode className={className} {...props}>{children}</CustomCode>),
-            pre: ({ node, ...props }) => (<Pre dir="ltr" {...props} ></Pre>),
-
-            table: ({ node, ...props }) => <TableRoot my={4} variant="outline" showColumnBorder {...props} />,
-            thead: ({ node, ...props }) => <TableHeader {...props} />,
-            tbody: ({ node, ...props }) => <TableBody {...props} />,
-            tr: ({ node, ...props }) => <TableRow {...props} />,
-            th: ({ node, ...props }) => <TableColumnHeader {...props} />,
-            td: ({ node, ...props }) => <TableCell {...props} />,
-
-            ul: ({ node, children, ...props }) => <ListWrapper {...props}>{children}</ListWrapper>,
-            ol: ({ node, children, ...props }) => <ListWrapper ordered {...props}>{children}</ListWrapper>,
-            li: ({ node, children, ...props }) => <ListItem {...props}>{children}</ListItem>,
-
-            strong: ({ node, children, ...props }: TextProps) => <Text as="span" fontWeight="bold" {...props}>{children}</Text>,
-            em: ({ node, children, ...props }: TextProps) => <Text as="span" fontStyle="italic" {...props}>{children}</Text>,
-            a: ({ node, href, children, ...props }: LinkProps) => <Link href={href} {...props}>{children}</Link>,
-          }}
-        >
-          {markdown}
-        </ReactMarkdown>
+        <MarkdownViewer markdown={markdown} />
       </Box>
     </div>
   );
@@ -150,10 +156,10 @@ const QuestionsPage = () => {
     
   ];
 
-  const graphExtent: [[number, number], [number, number]] = [
-    [-100, -100],           // Top-left corner (min x, min y)
-    [1000, 1000],     // Bottom-right corner (max x, max y) - adjust based on your graph size
-  ];
+  // const graphExtent: [[number, number], [number, number]] = [
+  //   [-100, -100],           // Top-left corner (min x, min y)
+  //   [1000, 1000],     // Bottom-right corner (max x, max y) - adjust based on your graph size
+  // ];
 
   const edges = [
     { id: '1-2', source: '1', target: '2', style: { stroke: '#991919' } },
@@ -186,12 +192,6 @@ const QuestionsPage = () => {
         <MarkdownFile filePath={filename} />
       </Box>
 
-      {/* <Box position="fixed" paddingX={{base: "2%", md: "3%"}} paddingY={3} display={viewQuestion ? "block" : "none"}>
-        <Button onClick={() => (setViewQuestions(false))} size={{base: "2xs", md: "md"}}>
-          <FaProjectDiagram />
-        </Button>
-      </Box> */}
-
       <Box minW="20%" dir="rtl" position="fixed" height="80vh" padding="3%">
         <ReactFlow 
           colorMode="dark"
@@ -202,7 +202,7 @@ const QuestionsPage = () => {
             setViewQuestions(true);
           }}
           panOnDrag={true}
-          panOnScroll={true}     // Allow panning by scrolling
+          panOnScroll={true}
           // translateExtent={graphExtent}
           fitView
         >
@@ -210,31 +210,6 @@ const QuestionsPage = () => {
           <Controls />
         </ReactFlow>
       </Box>
-
-      {/* <Box 
-        w="95%"
-        marginRight="8%"
-        marginTop={5}
-        height="70vh"
-        display={viewQuestion ? "none" : "block"}
-      >
-        <ReactFlow 
-          colorMode="dark"
-          nodes={nodes} 
-          edges={edges} 
-          onNodeClick={(_evt, node) => {
-            setFilename(node.data.filePath);
-            setViewQuestions(true);
-          }}
-          panOnDrag={true}
-          panOnScroll={true}     // Allow panning by scrolling
-          // translateExtent={graphExtent}
-          fitView
-        >
-          <Background />
-          <Controls />
-        </ReactFlow>
-      </Box> */}
     </Flex>
   );
 }

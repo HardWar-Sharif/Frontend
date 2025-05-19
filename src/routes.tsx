@@ -9,6 +9,7 @@ import Questions from "./pages/QuestionsPage";
 import MainPage from "./pages/Main";
 import ProtectedRoute from "./pages/ProtectedRoute";
 import { ReactNode } from "react";
+import Conditions from "./pages/condition";
 
 const AppRoutes = () => {
   const protectedPage = (page: ReactNode) => (
@@ -32,9 +33,10 @@ const AppRoutes = () => {
           <Route element={protectedPage(<MainPage />)}>
             <Route path="dashboard" element={protectedPage(<Dashboard />)} />
             <Route path="profile" element={protectedPage(<Profile />)} />
+            <Route path="questions" element={protectedPage(<Questions />)} /> {/* temporary. Remove later */}
           </Route>
           {/* <Route path="questions" element={protectedPage(<Questions />)} /> */}
-          <Route path="questions" element={<Questions />} /> {/* temporary. Remove later */}
+          <Route path="conditions" element={<Conditions />} />
         </Route>
       </Routes>
     </BrowserRouter>
