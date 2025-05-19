@@ -27,14 +27,18 @@ const Logos = () => {
     <Flex justify="center" gap="100px" padding="0 10% 0 10%">
       <Logo name="SUT" />
       <Logo name="SSC" />
+      <Logo name="Nad" />
+      <Logo name="Fanap" />
     </Flex>
   );
 };
 
-const Logo = ({ name }: { name: "SSC" | "SUT" }) => {
+const Logo = ({ name }: { name: "SSC" | "SUT" | "Nad" | "Fanap" }) => {
   const website = {
     SUT: "https://www.sharif.ir/",
     SSC: "https://ssc.ce.sharif.edu/",
+    Nad: "https://naadsecure.ir/",
+    Fanap: "https://fanap.ir/",
   };
 
   return (
@@ -47,6 +51,7 @@ const Logo = ({ name }: { name: "SSC" | "SUT" }) => {
         }}
         cursor="pointer"
         transition="filter 0.1s ease"
+        h={16}
       />
     </Link>
   );
