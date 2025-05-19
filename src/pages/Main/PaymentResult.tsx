@@ -7,7 +7,7 @@ import { useLocation, useNavigate } from "react-router";
 const PaymentResult = () => {
   const { mutate } = useHasPaid();
   const { search } = useLocation();
-  const [success, setSuccess] = useState(null);
+  const [success, setSuccess] = useState<string>("unknown");
   const searchParams = new URLSearchParams(search);
   const { t } = useTranslate();
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ const PaymentResult = () => {
   useEffect(() => {
     mutate(searchParams.get("Authority") || "", {
       onSuccess: (data) => {
-        setSuccess(data.has_paid);
+        setSuccess(data.has_paid ? "success" : "failed");
       },
     });
   }, []);
@@ -28,16 +28,16 @@ const PaymentResult = () => {
       direction="column"
       gap={8}
     >
-      {success == null ? (
+      {success == "unknown" ? (
         <Skeleton height="250px" />
       ) : (
         <>
           <Image
-            src={success ? "success.svg" : "fail.svg"}
+            src={success == "success" ? "success.svg" : "fail.svg"}
             w={{ base: "175px", sm: "250px" }}
           />
           <Text fontSize="2xl" color={success ? "green" : "red"}>
-            {success ? t("label.success_pay") : t("label.fail_pay")}
+            {success == "success" ? t("label.success_pay") : t("label.fail_pay")}
           </Text>
           <Button
             variant="surface"
