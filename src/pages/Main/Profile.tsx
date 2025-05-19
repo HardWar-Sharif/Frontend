@@ -10,6 +10,7 @@ import {
 import { Toaster, toaster } from "@/components/ui/toaster";
 import { useGetProfile } from "@/hooks/get-profile";
 import { useUpdateProfile } from "@/hooks/update-profile";
+import { useLanguageStore } from "@/stores/language";
 import {
   validateNationalCode,
   validatePhoneNumber,
@@ -27,6 +28,7 @@ import {
   Text,
   Alert,
   Spinner,
+  Link,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 import { useEffect, useState } from "react";
@@ -84,6 +86,7 @@ const Profile = () => {
   const { data, isLoading } = useGetProfile();
   const { t } = useTranslate();
   const navigate = useNavigate();
+  const language = useLanguageStore((state) => state.language);
 
   const universities = createListCollection({
     items: [
@@ -348,7 +351,25 @@ const Profile = () => {
       <GridItem colSpan={{ base: 1, md: 2 }}>
         <CheckboxField
           name="acceptTerms"
-          content={t("description.accept_conditions")}
+          // @ts-ignore
+          content={
+            language == "en" ? (
+              <Flex>
+                <Text>I accept the</Text>
+                <Link ms={1} onClick={() => navigate("/conditions")}>
+                  Hardwar terms and conditions
+                </Link>
+                <Text>.</Text>
+              </Flex>
+            ) : (
+              <Flex>
+                <Link me={1} onClick={() => navigate("/conditions")}>
+                  شرایط و قوانین هاردوار
+                </Link>
+                <Text>را می‌پذیرم.</Text>
+              </Flex>
+            )
+          }
           control={control}
           invalid={!!errors.acceptTerms}
           required
