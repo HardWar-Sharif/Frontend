@@ -38,7 +38,7 @@ const Logo = ({ name }: { name: "SSC" | "SUT" | "Nad" | "Fanap" }) => {
     SUT: "https://www.sharif.ir/",
     SSC: "https://ssc.ce.sharif.edu/",
     Nad: "https://naadsecure.ir/",
-    Fanap: "https://fanap.ir/",
+    Fanap: "https://www.fanaptech.ir/",
   };
 
   return (
