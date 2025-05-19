@@ -30,21 +30,7 @@ import {
 import { useTranslate } from "@tolgee/react";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-
-const universities = createListCollection({
-  items: [
-    { label: "Sharif University of Technology", value: "SUT" },
-    { label: "Other", value: "other" },
-  ],
-});
-
-const departments = createListCollection({
-  items: [
-    { label: "Computer Engineering", value: "CE" },
-    { label: "Electrical Engineering", value: "EE" },
-    { label: "Other", value: "other" },
-  ],
-});
+import { useNavigate } from "react-router";
 
 const courses = createListCollection({
   items: [
@@ -96,6 +82,27 @@ const Profile = () => {
   const { mutate } = useUpdateProfile();
   const { data, isLoading } = useGetProfile();
   const { t } = useTranslate();
+  const navigate = useNavigate();
+
+  const universities = createListCollection({
+    items: [
+      { label: t("label.sut"), value: "SUT" },
+      { label: t("label.ut"), value: "UT" },
+      { label: t("label.aut"), value: "AUT" },
+      { label: t("label.iust"), value: "IUST" },
+      { label: t("label.iau"), value: "IAU" },
+      { label: t("label.other"), value: "other" },
+    ],
+  });
+  const departments = createListCollection({
+    items: [
+      { label: t("label.ce"), value: "CE" },
+      { label: t("label.ee"), value: "EE" },
+      { label: t("label.me"), value: "ME" },
+      { label: t("label.cs"), value: "CS" },
+      { label: t("label.other"), value: "other" },
+    ],
+  });
 
   const responsiveFirstTitle = useBreakpointValue({
     base: undefined,
@@ -146,6 +153,9 @@ const Profile = () => {
             title: "Profile Completed",
             type: "success",
           });
+          setTimeout(() => {
+            navigate("/dashboard");
+          }, 1500);
         },
         onError: () =>
           toaster.create({

@@ -51,7 +51,7 @@ const Dashboard = () => {
       </Center>
       <Card.Body>
         {profileLoading || teamLoading ? (
-          <Skeleton height="200px" />
+          <Skeleton height="300px" />
         ) : (
           <>
             <StepsRoot
@@ -103,7 +103,7 @@ const Dashboard = () => {
                 colorPalette="red"
               >
                 <Alert.Indicator />
-                <Alert.Title>{t("message.has_paid")}</Alert.Title>
+                <Alert.Title>{t("message.before_pay")}</Alert.Title>
               </Alert.Root>
             ) : profile?.has_paid ? (
               <Alert.Root

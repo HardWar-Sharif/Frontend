@@ -342,34 +342,34 @@ const NavBar: React.FC<BoxProps> = (props) => {
   }, [isOpen]);
 
   return (
-  <Box ref={navRef}>
-    <NavBarContainer isScrolled={isScrolled} {...props}>
-      <Box display="flex" alignContent="center">
-        <Link
-          href={"#hardwar"}
-          onClick={(e) => {
-            e.preventDefault();
-            handleScroll("hardwar");
-          }}
-          _focus={{ boxShadow: "none", outline: "none" }}
-        >
-          <Logo
-            w="60px"
-            color={["white", "white", "primary.500", "primary.500"]}
-            cursor="pointer"
-            _hover={{
-              opacity: 0.8,
+    <Box ref={navRef}>
+      <NavBarContainer isScrolled={isScrolled} {...props}>
+        <Box display="flex" alignContent="center">
+          <Link
+            href={"#hardwar"}
+            onClick={(e) => {
+              e.preventDefault();
+              handleScroll("hardwar");
             }}
+            _focus={{ boxShadow: "none", outline: "none" }}
+          >
+            <Logo
+              w="60px"
+              color={["white", "white", "primary.500", "primary.500"]}
+              cursor="pointer"
+              _hover={{
+                opacity: 0.8,
+              }}
+            />
+          </Link>
+          <Box
+            h="50px"
+            w="1px"
+            bg="red.600"
+            mx={4}
+            display={{ base: "none", md: "block" }}
           />
-        </Link>
-        <Box
-          h="50px"
-          w="1px"
-          bg="red.600"
-          mx={4}
-          display={{ base: "none", md: "block" }}
-        />
-      </Box>
+        </Box>
 
         <MenuToggle toggle={toggle} isOpen={isOpen} />
         <MenuLinks isOpen={isOpen} closeMenu={() => setIsOpen(false)} />

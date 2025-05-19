@@ -15,8 +15,8 @@ export const verify = async (payload: UserVerification) => {
   return response.data;
 };
 
-export const hasPaid = async () => {
-  const response = await axiosInstance.get(`/payment/`);
+export const hasPaid = async (authority: string) => {
+  const response = await axiosInstance.get(`/payment?authority=${authority}`);
   return response.data;
 };
 
@@ -29,7 +29,7 @@ export const getDiscountAmount = async (discount_code: string) => {
 
 export const pay = async (discount_code: string) => {
   const response = await axiosInstance.post(
-    `/payment?discount_code=${discount_code || ""}`
+    `/payment/?discount_code=${discount_code || ""}`
   );
   return response.data;
 };

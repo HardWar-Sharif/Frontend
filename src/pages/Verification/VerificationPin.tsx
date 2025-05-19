@@ -30,7 +30,7 @@ interface VerificationPinValues {
 const VerificationPin = () => {
   const { state } = useLocation();
   const codeSent = state?.codeSent ?? false;
-  const [timer, setTimer] = useState<number>(codeSent ? 0 : 120);
+  const [timer, setTimer] = useState<number>(codeSent ? 120 : 0);
   const [isCounting, setIsCounting] = useState<boolean>(true);
   const { mutate: codeMutate, isPending: codePending } = useSendCode();
   const { mutate: verifyMutate } = useVerify();

@@ -1,9 +1,17 @@
 import FloatField from "@/components/ui/FloatField";
 import { toaster, Toaster } from "@/components/ui/toaster";
 import { useGetDiscountAmount } from "@/hooks/discount-amount";
-import { Button, Flex, GridItem, SimpleGrid, Text } from "@chakra-ui/react";
+import { usePay } from "@/hooks/pay";
+import {
+  Button,
+  Flex,
+  GridItem,
+  SimpleGrid,
+  Skeleton,
+  Text,
+} from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation, useNavigate } from "react-router";
 
@@ -12,7 +20,8 @@ interface DicsountValue {
 }
 
 const PaymentForm = () => {
-  const { mutate } = useGetDiscountAmount();
+  const { mutate: discountMutate } = useGetDiscountAmount();
+  const { mutate: payMutate } = usePay();
   const {
     register,
     handleSubmit,
@@ -21,33 +30,44 @@ const PaymentForm = () => {
     reset,
   } = useForm<DicsountValue>({ mode: "onSubmit" });
   const { t } = useTranslate();
-  const [amount, setAmount] = useState<number>(300000);
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
+  const [amountLoading, setAmountLoading] = useState<boolean>(true);
+  const [amount, setAmount] = useState<number>(300000);
+
+  useEffect(() => {
+    if ((searchParams.get("discount_code") || "") != "")
+      applyDiscount(searchParams.get("discount_code")!);
+    else setAmountLoading(false);
+  }, []);
 
   const pay = () => {
-    mutate(searchParams.get("discount_code") || "", {
+    payMutate(searchParams.get("discount_code") || "", {
       onSuccess: (response) => {
         window.location.href = `https://payment.zarinpal.com/pg/StartPay/${response.data.authority}`;
+      },
+      onError: () => {
+        toaster.create({ title: "An error occured", type: "error" });
       },
     });
   };
 
-  const applyDiscount = () => {
-    mutate(getValues("discountCode"), {
+  const applyDiscount = (discountCode: string, fromForm: boolean = false) => {
+    discountMutate(discountCode, {
       onSuccess: (response) => {
-        reset();
-        if (response?.discount_amount != 0) {
-          reset();
-          setAmount(
-            amount - Math.floor(parseInt(response.discount_amount) / 10)
-          );
-          navigate(`${pathname}?discount_code=${getValues("discountCode")}`);
-        } else toaster.create({ title: "Code not found", type: "error" });
+        setAmountLoading(false);
+        setAmount(300000 - Math.floor(parseInt(response.discount_amount) / 10));
+        navigate(`${pathname}?discount_code=${discountCode}`);
+        if (fromForm)
+          toaster.create({ title: "Discount Code Applied", type: "success" });
+      },
+      onError: () => {
+        toaster.create({ title: "Code not found", type: "error" });
       },
     });
+    reset({ discountCode: "" });
   };
 
   return (
@@ -80,7 +100,9 @@ const PaymentForm = () => {
             borderWidth={2}
             borderColor="red.emphasized"
             _hover={{ backgroundColor: "red.emphasized" }}
-            onClick={handleSubmit(applyDiscount)}
+            onClick={handleSubmit(() =>
+              applyDiscount(getValues("discountCode"), true)
+            )}
           >
             {t("label.apply_discount")}
           </Button>
@@ -98,7 +120,13 @@ const PaymentForm = () => {
             {t("label.pay")}
           </Button>
           <Flex justifyContent="center" alignItems="center" w="full" mt={5}>
-            <Text>{`${t("label.price")}: ${amount} ${t("label.tomans")}`}</Text>
+            {amountLoading ? (
+              <Skeleton height="40px" />
+            ) : (
+              <Text>{`${t("label.price")}: ${amount} ${t(
+                "label.tomans"
+              )}`}</Text>
+            )}
           </Flex>
         </GridItem>
       </SimpleGrid>
