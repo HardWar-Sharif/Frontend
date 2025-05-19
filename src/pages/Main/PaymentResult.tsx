@@ -32,12 +32,14 @@ const PaymentResult = () => {
         <Skeleton height="250px" />
       ) : (
         <>
-          <Image 
+          <Image
             src={success == "success" ? "success.svg" : "fail.svg"}
             w={{ base: "175px", sm: "250px" }}
           />
-          <Text fontSize="2xl" color={success ? "green" : "red"}>
-            {success == "success" ? t("label.success_pay") : t("label.fail_pay")}
+          <Text fontSize="2xl" color={success == "success" ? "green" : "red"}>
+            {success == "success"
+              ? t("label.success_pay")
+              : t("label.fail_pay")}
           </Text>
           <Button
             variant="surface"
