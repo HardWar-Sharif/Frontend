@@ -10,10 +10,12 @@ import {
 } from "@chakra-ui/react";
 import Timer from "./Timer";
 import { useTranslate } from "@tolgee/react";
+import { useNavigate } from "react-router";
 
 const SignUpNow: React.FC<StackProps> = (props) => {
   const stripColor = useToken("colors", "colorPalette.900");
   const { t } = useTranslate();
+  const navigate = useNavigate();
 
   return (
     <Flex
@@ -40,6 +42,7 @@ const SignUpNow: React.FC<StackProps> = (props) => {
             fontSize="md"
             fontWeight="bold"
             borderWidth="2px"
+            onClick={() => navigate("/signup")}
           >
             {t("label.signup")}
           </Button>

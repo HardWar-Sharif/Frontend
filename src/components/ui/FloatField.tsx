@@ -38,7 +38,7 @@ const inputStyles = {
   size: "lg" as ConditionalValue<"lg">,
   borderWidth: 2,
   borderColor: "red.muted",
-  bgColor: "red.950",
+  bgColor: "bg",
   focusRingColor: "bg",
   _focus: { borderColor: "red.emphasized" },
   color: "red.50",

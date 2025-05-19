@@ -26,6 +26,7 @@ import {
   useBreakpointValue,
   Text,
   Alert,
+  Spinner,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 import { useEffect, useState } from "react";
@@ -79,7 +80,7 @@ const Profile = () => {
     getValues: getSemesterValues,
     reset: semesterReset,
   } = useForm<SemesterProfileFormValues>({ mode: "onSubmit" });
-  const { mutate } = useUpdateProfile();
+  const { mutate, isPending } = useUpdateProfile();
   const { data, isLoading } = useGetProfile();
   const { t } = useTranslate();
   const navigate = useNavigate();
@@ -482,6 +483,7 @@ const Profile = () => {
                   : semesterSubmit(submitForm)
               }
             >
+              {isPending && <Spinner size="sm" />}{" "}
               {step == 0 ? t("label.next") : t("label.complete_profile")}
             </Button>
           </Flex>

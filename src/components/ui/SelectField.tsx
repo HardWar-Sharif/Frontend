@@ -19,7 +19,7 @@ import { Field } from "./field";
 const inputStyles = {
   borderWidth: 1,
   borderColor: "red.muted",
-  bgColor: "red.950",
+  bgColor: "bg",
   focusRingColor: "bg",
   color: "red.50",
   _invalid: { bgColor: "red.muted" },

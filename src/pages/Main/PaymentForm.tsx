@@ -8,6 +8,7 @@ import {
   GridItem,
   SimpleGrid,
   Skeleton,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
@@ -20,8 +21,9 @@ interface DicsountValue {
 }
 
 const PaymentForm = () => {
-  const { mutate: discountMutate } = useGetDiscountAmount();
-  const { mutate: payMutate } = usePay();
+  const { mutate: discountMutate, isPending: discountPending } =
+    useGetDiscountAmount();
+  const { mutate: payMutate, isPending: payPending } = usePay();
   const {
     register,
     handleSubmit,
@@ -104,6 +106,7 @@ const PaymentForm = () => {
               applyDiscount(getValues("discountCode"), true)
             )}
           >
+            {discountPending && <Spinner size="sm" />}{" "}
             {t("label.apply_discount")}
           </Button>
         </GridItem>
@@ -117,7 +120,7 @@ const PaymentForm = () => {
             _hover={{ backgroundColor: "red.emphasized" }}
             onClick={handleSubmit(pay)}
           >
-            {t("label.pay")}
+            {payPending && <Spinner size="sm" />} {t("label.pay")}
           </Button>
           <Flex justifyContent="center" alignItems="center" w="full" mt={5}>
             {amountLoading ? (

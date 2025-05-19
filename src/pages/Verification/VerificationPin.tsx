@@ -33,7 +33,7 @@ const VerificationPin = () => {
   const [timer, setTimer] = useState<number>(codeSent ? 120 : 0);
   const [isCounting, setIsCounting] = useState<boolean>(true);
   const { mutate: codeMutate, isPending: codePending } = useSendCode();
-  const { mutate: verifyMutate } = useVerify();
+  const { mutate: verifyMutate, isPending: verifyPending } = useVerify();
   const {
     handleSubmit,
     control,
@@ -137,7 +137,7 @@ const VerificationPin = () => {
             {timer <= 0 ? t("label.resend_code") : verificationTimer(timer)}
           </Button>
           <Button size="sm" variant="surface" onClick={handleSubmit(verify)}>
-            {t("label.verify")}
+            {verifyPending && <Spinner size="sm" />} {t("label.verify")}
           </Button>
         </Flex>
       </Stack>

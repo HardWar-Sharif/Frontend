@@ -1,5 +1,5 @@
 import FloatField from "@/components/ui/FloatField";
-import { toaster } from "@/components/ui/toaster";
+import { Toaster, toaster } from "@/components/ui/toaster";
 import { useCreateTeam } from "@/hooks/create-team";
 import { Button, Flex, Spinner, Text } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
@@ -43,22 +43,23 @@ const CreateTeamForm = ({ refetch }: CreateTeamFormProps) => {
   };
 
   return (
-    <Flex direction="column" w="full" gap={4} alignItems="center">
-      <FloatField
-        label={t("label.team_name")}
-        formInput={register("teamName", {
-          required: true,
-        })}
-        invalid={!!errors.teamName}
-      />
-      {errors.teamName && (
-        <Text fontSize="sm" mt={1} color="red.solid">
-          {t("message.required", {
-            field: t("label.team_name"),
+    <>
+      <Flex direction="column" w="full" gap={4} alignItems="center">
+        <FloatField
+          label={t("label.team_name")}
+          formInput={register("teamName", {
+            required: true,
           })}
-        </Text>
-      )}
-      {/* <FileUpload.Root gap="1" maxWidth="300px">
+          invalid={!!errors.teamName}
+        />
+        {errors.teamName && (
+          <Text fontSize="sm" mt={1} color="red.solid">
+            {t("message.required", {
+              field: t("label.team_name"),
+            })}
+          </Text>
+        )}
+        {/* <FileUpload.Root gap="1" maxWidth="300px">
         <FileUpload.HiddenInput />
         <FileUpload.Label>Upload file</FileUpload.Label>
         <Input asChild>
@@ -67,12 +68,14 @@ const CreateTeamForm = ({ refetch }: CreateTeamFormProps) => {
           </FileUpload.Trigger>
         </Input>
       </FileUpload.Root> */}
-      <Flex>
-        <Button onClick={handleSubmit(create)}>
-          {isPending && <Spinner size="sm" />} {t("label.create")}
-        </Button>
+        <Flex>
+          <Button onClick={handleSubmit(create)}>
+            {isPending && <Spinner size="sm" />} {t("label.create")}
+          </Button>
+        </Flex>
       </Flex>
-    </Flex>
+      <Toaster />
+    </>
   );
 };
 

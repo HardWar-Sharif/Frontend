@@ -4,6 +4,7 @@ import {
   Center,
   Flex,
   Link,
+  Spinner,
   Stack,
   Text,
 } from "@chakra-ui/react";
@@ -30,7 +31,7 @@ const LoginForm = () => {
     getValues,
   } = useForm<LoginFormValues>({ mode: "onSubmit" });
   const setToken = useAuthStore((state) => state.setToken);
-  const { mutate } = useLogin();
+  const { mutate, isPending } = useLogin();
   const { t } = useTranslate();
 
   const login = () => {
@@ -106,7 +107,7 @@ const LoginForm = () => {
         <Card.Footer flexDirection="column" alignItems="flex-start">
           <Flex gap={3}>
             <Button variant="solid" size="lg" onClick={handleSubmit(login)}>
-              {t("label.login")}
+              {isPending && <Spinner size="sm" />} {t("label.login")}
             </Button>
             <Button
               variant="outline"

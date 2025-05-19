@@ -16,7 +16,7 @@ import CreateTeamForm from "./CreateTeamForm";
 import JoinTeamForm from "./JoinTeamForm";
 import { useGetMyTeam } from "@/hooks/my-team";
 import { useLeaveTeam } from "@/hooks/leave-team";
-import { toaster } from "@/components/ui/toaster";
+import { Toaster, toaster } from "@/components/ui/toaster";
 import { useState } from "react";
 import { IoCheckmarkOutline } from "react-icons/io5";
 import { IoCopyOutline } from "react-icons/io5";
@@ -154,40 +154,43 @@ const Team = () => {
   );
 
   return (
-    <Card.Root
-      size="lg"
-      overflowY="scroll"
-      scrollbar={{ md: "hidden" }}
-      h={{ base: "72vh", md: "60vh" }}
-      mb={{ base: "100px", md: "5vh" }}
-      borderColor="red.emphasized"
-      bgColor="bg"
-      shadow="0 0 60px var(--shadow-color)"
-      shadowColor="red.subtle"
-      borderWidth={2}
-    >
-      <Center>
-        <Card.Header>
-          <Card.Title
-            fontSize={36}
-            color="red.solid"
-            textShadow="0 0 20px var(--shadow-color)"
-            shadowColor="red.solid"
-          >
-            {team?.status == 204 ? t("label.team_up") : team?.data.name}
-          </Card.Title>
-        </Card.Header>
-      </Center>
-      <Card.Body>
-        {isLoading ? (
-          <Skeleton height="200px" />
-        ) : team?.status == 204 ? (
-          NoTeam
-        ) : (
-          hasTeam
-        )}
-      </Card.Body>
-    </Card.Root>
+    <>
+      <Card.Root
+        size="lg"
+        overflowY="scroll"
+        scrollbar={{ md: "hidden" }}
+        h={{ base: "72vh", md: "60vh" }}
+        mb={{ base: "100px", md: "5vh" }}
+        borderColor="red.emphasized"
+        bgColor="bg"
+        shadow="0 0 60px var(--shadow-color)"
+        shadowColor="red.subtle"
+        borderWidth={2}
+      >
+        <Center>
+          <Card.Header>
+            <Card.Title
+              fontSize={36}
+              color="red.solid"
+              textShadow="0 0 20px var(--shadow-color)"
+              shadowColor="red.solid"
+            >
+              {team?.status == 204 ? t("label.team_up") : team?.data.name}
+            </Card.Title>
+          </Card.Header>
+        </Center>
+        <Card.Body>
+          {isLoading ? (
+            <Skeleton height="200px" />
+          ) : team?.status == 204 ? (
+            NoTeam
+          ) : (
+            hasTeam
+          )}
+        </Card.Body>
+      </Card.Root>
+      <Toaster />
+    </>
   );
 };
 
