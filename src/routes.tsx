@@ -14,6 +14,7 @@ import Verification from "./pages/Verification";
 import PaymentResult from "./pages/Main/PaymentResult";
 import StaffPage from "./pages/Staff";
 import NotFound from "./pages/404";
+import Conditions from "./pages/condition";
 
 const AppRoutes = () => {
   const protectedPage = (page: ReactNode, verify: boolean = false) => (
