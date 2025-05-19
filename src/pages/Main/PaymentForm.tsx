@@ -108,6 +108,7 @@ const PaymentForm = () => {
             onClick={handleSubmit(() =>
               applyDiscount(getValues("discountCode"), true)
             )}
+            disabled
           >
             {discountPending && <Spinner size="sm" />}{" "}
             {t("label.apply_discount")}
@@ -122,6 +123,7 @@ const PaymentForm = () => {
             borderColor="red.emphasized"
             _hover={{ backgroundColor: "red.emphasized" }}
             onClick={handleSubmit(pay)}
+            disabled
           >
             {payPending && <Spinner size="sm" />} {t("label.pay")}
           </Button>

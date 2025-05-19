@@ -32,7 +32,7 @@ const PaymentResult = () => {
         <Skeleton height="250px" />
       ) : (
         <>
-          <Image
+          <Image 
             src={success == "success" ? "success.svg" : "fail.svg"}
             w={{ base: "175px", sm: "250px" }}
           />
