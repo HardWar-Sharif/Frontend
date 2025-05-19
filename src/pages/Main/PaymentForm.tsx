@@ -2,6 +2,8 @@ import FloatField from "@/components/ui/FloatField";
 import { toaster, Toaster } from "@/components/ui/toaster";
 import { useGetDiscountAmount } from "@/hooks/discount-amount";
 import { usePay } from "@/hooks/pay";
+import { useLanguageStore } from "@/stores/language";
+import { formatPrice } from "@/utils/price";
 import {
   Button,
   Flex,
@@ -38,6 +40,7 @@ const PaymentForm = () => {
   const searchParams = new URLSearchParams(search);
   const [amountLoading, setAmountLoading] = useState<boolean>(true);
   const [amount, setAmount] = useState<number>(400000);
+  const language = useLanguageStore((state) => state.language);
 
   useEffect(() => {
     if ((searchParams.get("discount_code") || "") != "")
@@ -126,7 +129,7 @@ const PaymentForm = () => {
             {amountLoading ? (
               <Skeleton height="40px" />
             ) : (
-              <Text>{`${t("label.price")}: ${amount} ${t(
+              <Text>{`${t("label.price")}: ${formatPrice(amount, language)} ${t(
                 "label.tomans"
               )}`}</Text>
             )}
