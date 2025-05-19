@@ -37,7 +37,7 @@ const PaymentForm = () => {
   const { search } = useLocation();
   const searchParams = new URLSearchParams(search);
   const [amountLoading, setAmountLoading] = useState<boolean>(true);
-  const [amount, setAmount] = useState<number>(300000);
+  const [amount, setAmount] = useState<number>(400000);
 
   useEffect(() => {
     if ((searchParams.get("discount_code") || "") != "")
@@ -60,7 +60,7 @@ const PaymentForm = () => {
     discountMutate(discountCode, {
       onSuccess: (response) => {
         setAmountLoading(false);
-        setAmount(300000 - Math.floor(parseInt(response.discount_amount) / 10));
+        setAmount(400000 - Math.floor(parseInt(response.discount_amount) / 10));
         navigate(`${pathname}?discount_code=${discountCode}`);
         if (fromForm)
           toaster.create({ title: "Discount Code Applied", type: "success" });
