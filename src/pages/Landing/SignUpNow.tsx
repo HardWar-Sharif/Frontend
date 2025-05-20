@@ -43,7 +43,6 @@ const SignUpNow: React.FC<StackProps> = (props) => {
             fontWeight="bold"
             borderWidth="2px"
             onClick={() => navigate("/signup")}
-            disabled
           >
             {t("label.signup")}
           </Button>
