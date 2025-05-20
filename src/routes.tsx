@@ -3,7 +3,7 @@ import NavBar from "./components/ui/NavBar";
 import Landing from "./pages/Landing";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Main/Dashboard";
-// import Signup from "./pages/Signup";
+import Signup from "./pages/Signup";
 import Profile from "./pages/Main/Profile";
 import MainPage from "./pages/Main";
 import ProtectedRoute from "./pages/ProtectedRoute";

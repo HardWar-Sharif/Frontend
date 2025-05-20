@@ -122,10 +122,10 @@ const PaymentForm = () => {
             borderColor="red.emphasized"
             _hover={{ backgroundColor: "red.emphasized" }}
             onClick={handleSubmit(pay)}
-            disabled={(searchParams.get("discount_code") || "") != "extra"}
+            disabled={!(searchParams.get("discount_code") || "").startsWith("extra")}
           >
             {payPending && <Spinner size="sm" />}{" "}
-            {(searchParams.get("discount_code") || "") == "extra"
+            {(searchParams.get("discount_code") || "").startsWith("extra")
               ? t("label.pay")
               : t("label.full")}
           </Button>
