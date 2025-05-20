@@ -3,7 +3,7 @@ import {
   Card,
   Center,
   Flex,
-  Link,
+  // Link,
   Spinner,
   Stack,
   Text,
@@ -118,14 +118,14 @@ const LoginForm = () => {
               {t("label.cancel")}
             </Button>
           </Flex>
-          <Flex align="center" gap={1}>
+          {/* <Flex align="center" gap={1}>
             <Text color="red.solid" fontSize="sm">
               {t("question.no_account")}
             </Text>
             <Link fontSize="sm" onClick={() => navigate("/signup")}>
               {t("label.signup")}
             </Link>
-          </Flex>
+          </Flex> */}
         </Card.Footer>
       </Card.Root>
       <Toaster />

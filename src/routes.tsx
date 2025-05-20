@@ -32,7 +32,7 @@ const AppRoutes = () => {
           }
         >
           <Route index element={<Landing />} />
-          <Route path="signup" element={<Signup />} />
+          {/* <Route path="signup" element={<Signup />} /> */}
           <Route path="login" element={<Login />} />
           <Route path="staff-members" element={<StaffPage />} />
           <Route

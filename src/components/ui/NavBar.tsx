@@ -261,7 +261,7 @@ const MenuLinks = ({
             >
               {t("label.login")}
             </MenuButton>
-            <MenuButton to="/signup" onNavigate={closeMenu}>
+            <MenuButton to="/signup" onNavigate={closeMenu} disabled>
               {t("label.signup")}
             </MenuButton>
           </>
