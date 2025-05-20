@@ -3,9 +3,9 @@ import {
   Text,
   Stack,
   StackProps,
-  Flex,
   Image,
   Link,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { useTranslate } from "@tolgee/react";
 
@@ -24,12 +24,18 @@ const Organizers: React.FC<StackProps> = (props) => {
 
 const Logos = () => {
   return (
-    <Flex justify="center" gap="100px" padding="0 10% 0 10%">
+    <SimpleGrid
+      columns={{ base: 2, md: 4 }}
+      justifyItems="center"
+      alignSelf="center"
+      width={{ base: "100vw", lg: "80vw" }}
+      gap={8}
+    >
       <Logo name="SUT" />
       <Logo name="SSC" />
-      <Logo name="Nad" />
       <Logo name="Fanap" />
-    </Flex>
+      <Logo name="Nad" />
+    </SimpleGrid>
   );
 };
 
@@ -51,7 +57,7 @@ const Logo = ({ name }: { name: "SSC" | "SUT" | "Nad" | "Fanap" }) => {
         }}
         cursor="pointer"
         transition="filter 0.1s ease"
-        h={16}
+        h={{ base: 12, sm: 16 }}
       />
     </Link>
   );
