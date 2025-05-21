@@ -12,6 +12,8 @@ import { ReactFlow, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useGetQuestions } from "@/hooks/get-questions";
 import { useGetQuestion } from "@/hooks/get-question";
+import FloatField from "@/components/ui/FloatField";
+import { useForm } from "react-hook-form";
 
 
 // Defined Interfaces
@@ -132,6 +134,9 @@ export const MarkdownViewer = ({ markdown }: { markdown: string }) => {
   );
 };
 
+interface FlagValues {
+  flag: string;
+}
 
 
 const MarkdownFile = ({ filePath }: { filePath: number }) => {
@@ -141,6 +146,7 @@ const MarkdownFile = ({ filePath }: { filePath: number }) => {
   const {mutate} = useGetQuestion(filePath);
   const [pageNumber, setPageNumber] = useState<number>(0);
   const [countPages, setCountPages] = useState<number>(0);
+  const [hasFLag, setHasFlag] = useState<boolean>(false);
 
   useEffect(() => {
     mutate(undefined, {
@@ -151,6 +157,10 @@ const MarkdownFile = ({ filePath }: { filePath: number }) => {
         setMarkdown(tmpMarkdown.split('%pagebreak%')[pageNumber]);
         setCountPages(tmpMarkdown.split('%pagebreak%').length);
         setTitle(data.title);
+        if (data.hasFlag) 
+          setHasFlag(data.hasFLag);
+        else 
+          setHasFlag(false);
       },
       onError: (err) => {
         setMarkdown('Failed to load the question');
@@ -167,16 +177,42 @@ const MarkdownFile = ({ filePath }: { filePath: number }) => {
     });
   }, [pageNumber]);
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    getValues,
+  } = useForm<FlagValues>({ mode: "onSubmit" });
+
+  const submitFlag = () => {};
+
   return (
     <div dir="rtl">
       <Box p={4}>
         <Heading size="4xl" color="colorPalette.300">{title}</Heading>
         <MarkdownViewer markdown={markdown} />
+        <Stack gap={0} marginTop={4} display={hasFLag ? "block" : "block"}>
+          <Flex justify="flex-start" align="baseline" gap={4}>
+            <FloatField 
+              label="پرچم"
+              formInput={register("flag", {})}
+            />
+            <Button onClick={handleSubmit(submitFlag)}>
+              تایید پرچم
+            </Button>
+          </Flex>
+          {errors.flag && (
+            <Text fontSize="sm" mt={1} color="red.solid">
+              پرچم نامناسب
+            </Text>
+          )}
+        </Stack>
         <Flex justify="space-between" marginTop={8}>
           <Button display={pageNumber > 0 ? "block" : "none"} onClick={() => (setPageNumber(pageNumber - 1))}>صفحه قبل</Button>
           <Box />
           <Button display={pageNumber <  countPages - 1 ? "block" : "none"} onClick={() => (setPageNumber(pageNumber + 1))}>صفحه بعد</Button>
         </Flex>
+        
       </Box>
     </div>
   );
@@ -210,6 +246,7 @@ const QuestionsPage = () => {
       setQuestions(JSON.parse(data.questions));
     else 
       setQuestions([]);
+    console.log(data)
   }, [data, isLoading])
    
   const nodes = questions.map((node) => ({
@@ -263,7 +300,7 @@ const QuestionsPage = () => {
           <MarkdownFile filePath={filename} />
         </Box>
 
-        <Skeleton loading={all_questions.length == 0} display={{base: "none", md: "block"}} minW="30%" dir="rtl" position="fixed" height="80vh" padding="3%" zIndex={2}>
+        <Skeleton loading={isLoading} display={{base: "none", md: "block"}} minW="30%" dir="rtl" position="fixed" height="80vh" padding="3%" zIndex={2}>
         <ReactFlow 
             style={{ height: "100%" }}
             colorMode="dark"
