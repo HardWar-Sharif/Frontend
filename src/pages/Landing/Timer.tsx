@@ -3,22 +3,28 @@ import { useTranslate } from "@tolgee/react";
 import useTimer from "../../components/ui/timer";
 
 const Timer = () => {
+  const timer = useTimer();
   return (
-    <Flex justify="space-between" align="center" dir="ltr">
-      <TimeComponent type="day" />
-      <Text fontSize={{base: "4xl", md: "6xl"}} color="colorPalette.500">
-        :
-      </Text>
-      <TimeComponent type="hour" />
-      <Text fontSize={{base: "4xl", md: "6xl"}} color="colorPalette.500">
-        :
-      </Text>
-      <TimeComponent type="min" />
-      <Text fontSize={{base: "4xl", md: "6xl"}} color="colorPalette.500">
-        :
-      </Text>
-      <TimeComponent type="sec" />
-    </Flex>
+    timer.days >= 0 &&
+    timer.hours >= 0 &&
+    timer.minutes >= 0 &&
+    timer.seconds >= 0 && (
+      <Flex justify="space-between" align="center" dir="ltr">
+        <TimeComponent type="day" />
+        <Text fontSize={{ base: "4xl", md: "6xl" }} color="colorPalette.500">
+          :
+        </Text>
+        <TimeComponent type="hour" />
+        <Text fontSize={{ base: "4xl", md: "6xl" }} color="colorPalette.500">
+          :
+        </Text>
+        <TimeComponent type="min" />
+        <Text fontSize={{ base: "4xl", md: "6xl" }} color="colorPalette.500">
+          :
+        </Text>
+        <TimeComponent type="sec" />
+      </Flex>
+    )
   );
 };
 
@@ -44,7 +50,7 @@ const TimeComponent = ({ type }: { type: "day" | "hour" | "min" | "sec" }) => {
   return (
     <Stack align="center">
       <SevenSegmentText text={num} />
-      <Text mt={-8} fontSize={{base: "xs" ,md: "small"}} fontWeight="lighter">
+      <Text mt={-8} fontSize={{ base: "xs", md: "small" }} fontWeight="lighter">
         {t(text)}
       </Text>
     </Stack>
@@ -72,7 +78,7 @@ const SevenSegmentText = ({ text }: { text: string }) => {
 
 const MonospaceSevenSegmentText = ({ text }: { text: string }) => {
   return (
-    <Box fontSize={{base: "5xl", md: "7xl"}} whiteSpace="pre">
+    <Box fontSize={{ base: "5xl", md: "7xl" }} whiteSpace="pre">
       {text.split("").map((char, index) => (
         <MonospaceCharacter key={index}>{char}</MonospaceCharacter>
       ))}
