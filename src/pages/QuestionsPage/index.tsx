@@ -2,14 +2,16 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
-import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link, Flex } from "@chakra-ui/react";
+import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link, Flex, Image, Stack } from "@chakra-ui/react";
 import "katex/dist/katex.min.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import React from "react";
 import { useEffect, useState } from 'react';
-import { ReactFlow, Background, Controls } from '@xyflow/react';
+import { ReactFlow, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
+import { useGetQuestions } from "@/hooks/get-questions";
+import { useGetQuestion } from "@/hooks/get-question";
 
 
 
@@ -25,6 +27,11 @@ interface LinkProps {
   node?: any;
   href?: string;
   children?: React.ReactNode;
+}
+
+interface ImageProps {
+  node?: any;
+  src?: string;
 }
 
 // Defined Components
@@ -118,6 +125,7 @@ export const MarkdownViewer = ({ markdown }: { markdown: string }) => {
         strong: ({ node, children, ...props }: TextProps) => <Text as="span" fontWeight="bold" {...props}>{children}</Text>,
         em: ({ node, children, ...props }: TextProps) => <Text as="span" fontStyle="italic" {...props}>{children}</Text>,
         a: ({ node, href, children, ...props }: LinkProps) => <Link href={href} {...props}>{children}</Link>,
+        img: ({ node, src, ...props }: ImageProps) => <Flex justify="center"> <Image src={src} {...props} /> </Flex>
       }}
     >
       {markdown}
@@ -127,19 +135,29 @@ export const MarkdownViewer = ({ markdown }: { markdown: string }) => {
 
 
 
-const MarkdownFile = ({ filePath }: { filePath: string }) => {
+const MarkdownFile = ({ filePath }: { filePath: number }) => {
   const [markdown, setMarkdown] = useState<string>('');
+  const [title, setTitle] = useState<string>('');
+  const {mutate} = useGetQuestion(filePath);
 
   useEffect(() => {
-    fetch(filePath)
-      .then((res) => res.text())
-      .then(setMarkdown)
-      .catch((err) => console.error("Failed to load markdown:", err));
-  }, [filePath]);
+    console.log('mutate is ' + mutate);
+    mutate(undefined, {
+      onSuccess: (data) => {
+        setMarkdown(data.content);
+        setTitle(data.title);
+      },
+      onError: (err) => {
+        setMarkdown('Failed to load the question');
+        console.log(err);
+      },
+    });
+  }, [filePath, mutate]);
 
   return (
     <div dir="rtl">
       <Box p={4}>
+        <Heading size="4xl" color="colorPalette.300">{title}</Heading>
         <MarkdownViewer markdown={markdown} />
       </Box>
     </div>
@@ -150,9 +168,9 @@ const QuestionsPage = () => {
   const [viewQuestion, setViewQuestions] = useState<boolean>(false);
 
   const questions = [
-    {id: "1", filePath: "/questions/q1.md", name: "random name 1", x: 0, y: 0},
-    {id: "2", filePath: "/questions/q2.md", name: "random name 2", x: 100, y: 100},
-    {id: "3", filePath: "/questions/q3.md", name: "random name 3", x: 30, y: 200},
+    {id: "1", name: "random name 1", x: 0, y: 0},
+    {id: "2", name: "random name 2", x: 100, y: 100},
+    {id: "3", name: "random name 3", x: 30, y: 200},
     
   ];
 
@@ -164,14 +182,23 @@ const QuestionsPage = () => {
   const edges = [
     { id: '1-2', source: '1', target: '2', style: { stroke: '#991919' } },
     { id: '1-3', source: '1', target: '3', style: { stroke: '#991919' } },
-    { id: '2-3', source: '2', target: '3', style: { stroke: '#991919' } },
+    // { id: '2-3', source: '2', target: '3', style: { stroke: '#991919' } },
   ];
+
+  const { data, isLoading } = useGetQuestions();
+  const [all_questions, setQuestions] = useState<number[]>([]);
+  useEffect(() => {
+    if (data)
+      setQuestions(JSON.parse(data.questions));
+    else
+      setQuestions([])
+  }, [data, isLoading])
    
   const nodes = questions.map((node) => ({
     id: node.id,
     data: { 
       label: node.name,
-      filePath: node.filePath,
+      disabled: !all_questions.includes(parseInt(node.id)),
     },
     position: { 
       x: node.x, 
@@ -182,35 +209,66 @@ const QuestionsPage = () => {
       borderRadius: '50%',
       borderColor: '#300c0c',
     },
+    selectable: all_questions.includes(parseInt(node.id)),
   }));
 
-  const [filename, setFilename] = useState<string>('/questions/q1.md');
+  const [filename, setFilename] = useState<number>(1);
 
   return (
-    <Flex justify="space-between" flexDir="row-reverse" padding="100px 0 2% 5%">
-      <Box w="75%" display={viewQuestion ? "block" : "block"} marginRight="20%">
-        <MarkdownFile filePath={filename} />
-      </Box>
+    <Stack dir="ltr">
+      <Flex display={{base: "block", md: "none"}} paddingTop="90px" backgroundColor="black" zIndex={2} position="fixed" justify="center">
+        <Box dir="rtl" width="95vw" height="25vh" margin="2%">
+          <ReactFlow 
+            colorMode="dark"
+            nodes={nodes} 
+            edges={edges} 
+            onNodeClick={(_evt, node) => {
+              if (!node.data.disabled) {
+                setFilename(parseInt(node.id));
+                setViewQuestions(true);
+              }
+            }}
+            panOnDrag={true}
+            panOnScroll={true}
+            zoomOnScroll={false}
+            zoomOnPinch={false}
+            zoomOnDoubleClick={false}
+            fitView
+          >
+            <Background />
+          </ReactFlow>
+        </Box>
+      </Flex>
 
-      <Box minW="20%" dir="rtl" position="fixed" height="80vh" padding="3%">
-        <ReactFlow 
-          colorMode="dark"
-          nodes={nodes} 
-          edges={edges} 
-          onNodeClick={(_evt, node) => {
-            setFilename(node.data.filePath);
-            setViewQuestions(true);
-          }}
-          panOnDrag={true}
-          panOnScroll={true}
-          // translateExtent={graphExtent}
-          fitView
-        >
-          <Background />
-          <Controls />
-        </ReactFlow>
-      </Box>
-    </Flex>
+      <Flex justify="space-between" flexDir="row-reverse" paddingBottom="2%" paddingRight="0" marginTop={{base: "25vh", md: "120px"}}>
+        <Box w={{base: "90%", md: "65%"}} display={viewQuestion ? "block" : "block"} marginRight={{base: "5%", md: "30%"}}>
+          <MarkdownFile filePath={filename} />
+        </Box>
+
+        <Box display={{base: "none", md: "block"}} minW="30%" dir="rtl" position="fixed" height="80vh" padding="3%" zIndex={2}>
+          <ReactFlow 
+            style={{ height: "100%" }}
+            colorMode="dark"
+            nodes={nodes} 
+            edges={edges} 
+            onNodeClick={(_evt, node) => {
+              if (!node.data.disabled) {
+                setFilename(parseInt(node.id));
+                setViewQuestions(true);
+              }
+            }}
+            panOnDrag={true}
+            panOnScroll={true}
+            zoomOnScroll={false}
+            zoomOnPinch={false}
+            zoomOnDoubleClick={false}
+            fitView
+          >
+            <Background />
+          </ReactFlow>
+        </Box>
+      </Flex>
+    </Stack>
   );
 }
 
