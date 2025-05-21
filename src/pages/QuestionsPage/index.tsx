@@ -2,7 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkMath from "remark-math";
 import remarkGfm from "remark-gfm";
 import rehypeKatex from "rehype-katex";
-import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link, Flex, Image, Stack, Button } from "@chakra-ui/react";
+import { Box, Code, Heading, chakra, Text, TableHeader, TableBody, TableRow, TableCell, TableRoot, TableColumnHeader, List, Link, Flex, Image, Stack, Button, Skeleton } from "@chakra-ui/react";
 import "katex/dist/katex.min.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
@@ -12,224 +12,6 @@ import { ReactFlow, Background } from '@xyflow/react';
 import '@xyflow/react/dist/style.css';
 import { useGetQuestions } from "@/hooks/get-questions";
 import { useGetQuestion } from "@/hooks/get-question";
-
-const m = `
-*این متن برای آشنایی با نحوه‌ی نوشتن به زبان مارک‌دان و قالب استاندارد صورت سوال قرار گرفته است.*
-
-*در ابتدا، محدودیت زمان و حافظه‌ی سوال در قالب زیر بیان شود.*
-
-سوال اول
-
-+ محدودیت زمان: ۱ ثانیه
-+ محدودیت حافظه: ۲۵۶ مگابایت
-
-----------
-*در اینجا، متن صورت سوال نوشته شود.*
-
-**تابع فیبوناچی**، تابعی معروف است که نمایش *بازگشتی* آن به این صورت است که هر جمله‌ی آن با توجه به دو جمله قبلی‌اش محاسبه می‌شود. (برای نوشتن رابطه‌های ریاضی می‌توانید از دستورات ریاضی $LaTeX$  استفاده کنید)
-
-| Tables        | Are           | Cool  |
-| ------------- |:-------------:| -----:|
-| col 3 is      | right-aligned | $1600 |
-| col 2 is      | centered      |   $12 |
-| zebra stripes | are neat      |    $1 |
-
-$$ 
-fib(0) = fib(1) = 1 
-$$
-
-$$ 
-fib(n) = fib(n-1) + fib(n-2) 
-$$
-
-# تیتر
-## تیتر
-### تیتر
-#### تیتر
-
-در جدول زیر نمونه‌هایی از ورودی و خروجی‌های این تابع داده شده است:
-
-|        ورودی       |        خروجی       |
-|:------------------:|:------------------:|
-|         10         |          89        |
-|         15         |         987        |
-
- **پیاده‌سازی بازگشتی:**
-کد زیر که به زبان \`C\` نوشته شده است، این تابع را به صورت بازگشتی پیاده‌سازی می‌کند: (برای نوشتن inline code به این صورت عمل کنید: \`inline code\`)
-
-\`\`\`text
-int fib(int n)
-{
-	if(n==1 || n==0)
-		return 1;
-	return fib(n-1)+fib(n-2);
-}
-\`\`\`
-
-
-
-همان کد بالا که به وسیله‌ی tab مشخص شده:
-
-	int fib(int n)
-	{
-		if(n==1 || n==0)
-			return 1;
-		return fib(n-1)+fib(n-2);
-	}
-
-همان کد بالا با استفاده از Syntax Highlighter:
-
-\`\`\`c
-int fib(int n)
-{
-	if(n==1 || n==0)
-		return 1;
-	return fib(n-1)+fib(n-2);
-}
-\`\`\`
-
-
-امکان highlight کردن بخشی از کد:
-
-    This word is <mark>highlighted</mark>!
-
-موس را روی کلمه‌ی \`int\` ببرید:
-
-\`\`\`c
-<mark title="نوع خروجی">int</mark> fib(int n)
-{
-	if(n==1 || n==0)
-		return 1;
-	return <mark>fib(n-1)+fib(n-2)</mark>;
-}
-\`\`\`
-
-%pagebreak%
-
-رنگ‌های مختلف برای highlight:
-
-\`\`\`
-<mark title="قرمز" class="red">red</mark>
-<mark class="orange" title="نارنجی">orange</mark>
-<mark class="yellow">yellow</mark>
-<mark class="olive">olive</mark>
-<mark class="green">green</mark>
-<mark class="teal">teal</mark>
-<mark class="blue">blue</mark>
-<mark class="violet">violet</mark>
-<mark class="purple">purple</mark>
-<mark class="pink">pink</mark>
-<mark class="brown">brown</mark>
-<mark class="grey">grey</mark>
-\`\`\`
-
-
-حال، برنامه‌ای بنویسید که با گرفتن دو عدد طبیعی $n$ و $m$، مقادیر $\\frac {fib(n)} m$ و $\\frac n {fib(m)}$ را با دقیقاً ۶ رقم اعشار خروجی دهد.
-
-# ورودی
-*در این بخش قالب ورودی و محدودیت‌های آن توضیح داده شود.*
-
-ورودی تنها شامل یک خط است که در آن دو عدد طبیعی $n$ و $m$ با فاصله از هم آمده است.
-$$
-1 \\le n, m \\le 100
-$$
-# خروجی
-*در این بخش قالب خروجی کد کاربران توضیح داده شود.*
-
-خروجی برنامه‌ی شما باید شامل ۲ خط باشد که در خط اول مقدار $\\frac {fib(n)} m$  و در خط دوم مقدار $\\frac n {fib(m)}$، هریک با دقیقاً ۶ رقم اعشار چاپ شود.
-
-# مثال
-*در اینجا چند نمونه برای فهم بهتر صورت سوال و قالب ورودی و خروجی تست‌ها داده می‌شود.*
-## ورودی نمونه ۱
-\`\`\`
-1 2
-\`\`\`
-
-
-## خروجی نمونه ۱
-\`\`\`
-1.000000
-2.000000
-\`\`\`
-
-
-*زیر هر نمونه، توضیحات مربوط به آن در صورت نیاز اضافه شود.*
-
-![Example Image](./Landing/Arduino-full.svg)
-
-مقدار $fib(1)$ برابر ۱ و مقدار $fib(2)$برابر ۲ می‌باشد؛ پس مقادیر خروجی برابر $\\frac {1} {1}$ و $\\frac {2} 1$ هستند.
-
-## ورودی نمونه ۲
-\`\`\`
-10 15
-\`\`\`
-
-
-## خروجی نمونه ۲
-\`\`\`
-5.933333
-0.010131
-\`\`\`
-
-
-مقدار $fib(10)$ برابر ۸۹ و مقدار $fib(15)$برابر ۹۸۷ می‌باشد؛ پس مقادیر خروجی برابر $\\frac {89} {15}$ و $\\frac {10} {987}$ هستند.
-
-# کپشن تصاویر
-
-برای اضافه کردن \`caption\` به تصاویر کافیست بشکل زیر عمل کنید:
-
-## Proper List Example
-
-### Unordered List
-- First item
-- Second item
-  - Nested item
-  - Another nested item 
-    - lol
-- Third item
-
-### Ordered List
-1. Primary item
-2. Secondary item
-   1. Nested ordered
-   2. Another nested
-      1. lol
-3. Final item
-
-%pagebreak%
-
-Emphasis, aka italics, with *asterisks* or _underscores_
-
-Strong emphasis, aka bold, with **asterisks** or __underscores__
-
-Combined emphasis with **asterisks and _underscores_**
-
-Strikethrough uses two tildes. ~~Scratch this~~
-
-[I'm an inline-style link](https://www.google.com)
-
-[I'm an inline-style link with title](https://www.google.com "Google's Homepage")
-
-[I'm a reference-style link][Arbitrary case-insensitive reference text]
-
-[I'm a relative reference to a repository file](../blob/master/LICENSE)
-
-[You can use numbers for reference-style link definitions][1]
-
-Or leave it empty and use the [link text itself].
-
-URLs and URLs in angle brackets will automatically get turned into links. 
-http://www.example.com or <http://www.example.com> and sometimes 
-example.com (but not on Github, for example).
-
-Some text to show that the reference links can follow later.
-
-[arbitrary case-insensitive reference text]: https://www.mozilla.org
-[1]: http://slashdot.org
-[link text itself]: http://www.reddit.com
-
-`;
-
 
 
 // Defined Interfaces
@@ -363,7 +145,7 @@ const MarkdownFile = ({ filePath }: { filePath: number }) => {
   useEffect(() => {
     mutate(undefined, {
       onSuccess: (data) => {
-        const tmpMarkdown = m;
+        const tmpMarkdown = data.content;
         setPageNumber(0);
         setCompleteQuestion(tmpMarkdown);
         setMarkdown(tmpMarkdown.split('%pagebreak%')[pageNumber]);
@@ -390,7 +172,7 @@ const MarkdownFile = ({ filePath }: { filePath: number }) => {
       <Box p={4}>
         <Heading size="4xl" color="colorPalette.300">{title}</Heading>
         <MarkdownViewer markdown={markdown} />
-        <Flex justify="space-between">
+        <Flex justify="space-between" marginTop={8}>
           <Button display={pageNumber > 0 ? "block" : "none"} onClick={() => (setPageNumber(pageNumber - 1))}>صفحه قبل</Button>
           <Box />
           <Button display={pageNumber <  countPages - 1 ? "block" : "none"} onClick={() => (setPageNumber(pageNumber + 1))}>صفحه بعد</Button>
@@ -426,8 +208,8 @@ const QuestionsPage = () => {
   useEffect(() => {
     if (data)
       setQuestions(JSON.parse(data.questions));
-    else
-      setQuestions([])
+    else 
+      setQuestions([]);
   }, [data, isLoading])
    
   const nodes = questions.map((node) => ({
@@ -453,7 +235,7 @@ const QuestionsPage = () => {
   return (
     <Stack dir="ltr">
       <Flex display={{base: "block", md: "none"}} paddingTop="90px" backgroundColor="black" zIndex={2} position="fixed" justify="center">
-        <Box dir="rtl" width="95vw" height="25vh" margin="2%">
+        <Skeleton loading={isLoading} dir="rtl" width="95vw" height="25vh" margin="2%">
           <ReactFlow 
             colorMode="dark"
             nodes={nodes} 
@@ -473,16 +255,16 @@ const QuestionsPage = () => {
           >
             <Background />
           </ReactFlow>
-        </Box>
+        </Skeleton>
       </Flex>
 
-      <Flex justify="space-between" flexDir="row-reverse" paddingBottom="2%" paddingRight="0" marginTop={{base: "25vh", md: "120px"}}>
+      <Flex justify="space-between" flexDir="row-reverse" paddingBottom="2%" paddingRight="0" marginTop={{base: "calc(25vh + 100px)", md: "120px"}}>
         <Box w={{base: "90%", md: "65%"}} display={viewQuestion ? "block" : "block"} marginRight={{base: "5%", md: "30%"}}>
           <MarkdownFile filePath={filename} />
         </Box>
 
-        <Box display={{base: "none", md: "block"}} minW="30%" dir="rtl" position="fixed" height="80vh" padding="3%" zIndex={2}>
-          <ReactFlow 
+        <Skeleton loading={all_questions.length == 0} display={{base: "none", md: "block"}} minW="30%" dir="rtl" position="fixed" height="80vh" padding="3%" zIndex={2}>
+        <ReactFlow 
             style={{ height: "100%" }}
             colorMode="dark"
             nodes={nodes} 
@@ -502,7 +284,7 @@ const QuestionsPage = () => {
           >
             <Background />
           </ReactFlow>
-        </Box>
+        </Skeleton>
       </Flex>
     </Stack>
   );
