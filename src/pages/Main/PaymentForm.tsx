@@ -122,12 +122,14 @@ const PaymentForm = () => {
             borderColor="red.emphasized"
             _hover={{ backgroundColor: "red.emphasized" }}
             onClick={handleSubmit(pay)}
-            // disabled={!(searchParams.get("discount_code") || "").startsWith("extra")}
+            disabled={
+              !(searchParams.get("discount_code") || "").startsWith("extra")
+            }
           >
             {payPending && <Spinner size="sm" />} {t("label.pay")}
-            {/* {(searchParams.get("discount_code") || "").startsWith("extra")
+            {(searchParams.get("discount_code") || "").startsWith("extra")
               ? t("label.pay")
-              : t("label.full")} */}
+              : t("label.full")}
           </Button>
           <Flex justifyContent="center" alignItems="center" w="full" mt={5}>
             {amountLoading ? (
