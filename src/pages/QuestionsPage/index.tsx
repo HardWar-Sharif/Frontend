@@ -308,8 +308,12 @@ const QuestionsPage = () => {
 
   const questions = [
     { id: "1", name: "مرحله صفرم - مسابقه Hardwar", x: 0, y: 0 },
-    // {id: "2", name: "random name 2", x: 100, y: 100},
-    // {id: "3", name: "random name 3", x: 30, y: 200},
+    { id: "2", name: "بازی آتاری", x: 0, y: 100 },
+    { id: "3", name: "راه‌اندازی joystick", x: 0, y: 200 },
+    { id: "4", name: "بازی تتریس", x: -175, y: 300 },
+    { id: "5", name: "بازی دایناسور گوگل", x: -62, y: 300 },
+    { id: "6", name: "بازی عبور مرغ", x: 62, y: 300 },
+    { id: "7", name: "بازی هواپیمای آتاری", x: 175, y: 300 },
   ];
 
   // const graphExtent: [[number, number], [number, number]] = [
@@ -317,11 +321,14 @@ const QuestionsPage = () => {
   //   [1000, 1000],     // Bottom-right corner (max x, max y) - adjust based on your graph size
   // ];
 
-  const edges: any[] = [];
-  // { id: '1-2', source: '1', target: '2', style: { stroke: '#991919' } },
-  // { id: '1-3', source: '1', target: '3', style: { stroke: '#991919' } },
-  // { id: '2-3', source: '2', target: '3', style: { stroke: '#991919' } },
-  // ];
+  const edges: any[] = [
+    { id: "1-2", source: "1", target: "2", style: { stroke: "#991919" } },
+    { id: "2-3", source: "2", target: "3", style: { stroke: "#991919" } },
+    { id: "3-4", source: "3", target: "4", style: { stroke: "#991919" } },
+    { id: "3-5", source: "3", target: "5", style: { stroke: "#991919" } },
+    { id: "3-6", source: "3", target: "6", style: { stroke: "#991919" } },
+    { id: "3-7", source: "3", target: "7", style: { stroke: "#991919" } },
+  ];
 
   const { data, isLoading } = useGetQuestions();
   const [all_questions, setQuestions] = useState<number[]>([]);

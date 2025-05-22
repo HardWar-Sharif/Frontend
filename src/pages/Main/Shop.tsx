@@ -123,7 +123,7 @@ const Shop = () => {
   ) : (
     !!purchases.length && (
       <Flex direction="column">
-        <Text>Purchased Components</Text>
+        <Text>{t("label.purchased")}</Text>
         <SimpleGrid
           w="full"
           h="full"
