@@ -24,3 +24,8 @@ export const purchaseComponent = async (payload: PurchaseComponent) => {
   const response = await axiosInstance.post(`/teams/purchase/`, payload);
   return response.data;
 };
+
+export const purchasedComponents = async () => {
+  const response = await axiosInstance.get(`/teams/purchases/`);
+  return response.data;
+};

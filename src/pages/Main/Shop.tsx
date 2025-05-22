@@ -5,27 +5,33 @@ import {
   CardFooter,
   CardHeader,
   Center,
+  Flex,
   Image,
   SimpleGrid,
   Skeleton,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
 
 import { useGetComponents } from "@/hooks/components";
 import { toaster } from "@/components/ui/toaster.tsx";
 import { usePurchaseComponent } from "@/hooks/purchase";
-import { useEffect } from "react";
+import { useTranslate } from "@tolgee/react";
+import { useGetPurchases } from "@/hooks/purchases";
 
 const Shop = () => {
-  const { data: components, refetch } = useGetComponents();
-  const { mutate } = usePurchaseComponent();
-
-  useEffect(() => {
-    const intervalId = setTimeout(() => {
-      refetch();
-    }, 5000);
-    return () => clearInterval(intervalId);
-  }, []);
+  const {
+    data: components,
+    refetch: refetchComponents,
+    isLoading: componentsLoading,
+  } = useGetComponents();
+  const {
+    data: purchases,
+    refetch: refetchPurchases,
+    isLoading: purchasesLoading,
+  } = useGetPurchases();
+  const { mutate, isPending } = usePurchaseComponent();
+  const { t } = useTranslate();
 
   const buy = (component_id: number) => {
     mutate(
@@ -35,7 +41,8 @@ const Shop = () => {
       },
       {
         onSuccess: () => {
-          refetch();
+          refetchComponents();
+          refetchPurchases();
           toaster.create({
             title: "Purchase successful",
             type: "success",
@@ -50,7 +57,7 @@ const Shop = () => {
     );
   };
 
-  const ShopItems = components ? (
+  const shopComponents = !componentsLoading ? (
     <SimpleGrid
       w="full"
       h="full"
@@ -89,15 +96,19 @@ const Shop = () => {
             alignItems="center"
             gap={2}
           >
-            <Text fontSize="md">Count: {component.count}</Text>
-            <Text fontSize="md">Cost: {component.credit_cost}</Text>
+            <Text fontSize="md">
+              {t("label.count")}: {component.count}
+            </Text>
+            <Text fontSize="md">
+              {t("label.cost")}: {component.credit_cost}
+            </Text>
             <Button
               colorScheme="red"
               onClick={() => buy(component.id)}
               size="sm"
               variant="subtle"
             >
-              Buy
+              {isPending && <Spinner size="sm" />} {t("label.buy")}
             </Button>
           </CardFooter>
         </Card.Root>
@@ -105,6 +116,68 @@ const Shop = () => {
     </SimpleGrid>
   ) : (
     <Skeleton height="250px" />
+  );
+
+  const purchasedComponents = purchasesLoading ? (
+    <Skeleton height="250px" />
+  ) : (
+    !!purchases.length && (
+      <Flex direction="column">
+        <Text>Purchased Components</Text>
+        <SimpleGrid
+          w="full"
+          h="full"
+          columns={{ base: 1, md: 2, xl: 3 }}
+          gap={2}
+          p={4}
+        >
+          {purchases.map((purchase: Component) => (
+            <Card.Root
+              key={purchase.id}
+              borderWidth="1px"
+              borderRadius="lg"
+              overflow="hidden"
+              shadow="md"
+              bg="black"
+              size="sm"
+              borderColor="red.muted"
+            >
+              <CardHeader>
+                <Text fontSize="xl" fontWeight="bold" textAlign="center">
+                  {purchase.name}
+                </Text>
+              </CardHeader>
+              <CardBody
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Image
+                  borderRadius={5}
+                  src={purchase.image_url}
+                  alt={purchase.name}
+                  boxSize="120px"
+                  objectFit="cover"
+                />
+              </CardBody>
+              <CardFooter
+                display="flex"
+                flexDirection="column"
+                alignItems="center"
+                gap={2}
+              >
+                <Text fontSize="md">
+                  {t("label.count")}: {purchase.count}
+                </Text>
+                <Text fontSize="md">
+                  {t("label.cost")}: {purchase.credit_cost}
+                </Text>
+              </CardFooter>
+            </Card.Root>
+          ))}
+        </SimpleGrid>
+      </Flex>
+    )
   );
 
   return (
@@ -128,11 +201,16 @@ const Shop = () => {
             textShadow="0 0 20px var(--shadow-color)"
             shadowColor="red.solid"
           >
-            Shop
+            {t("label.shop")}
           </Card.Title>
         </Card.Header>
       </Center>
-      <Card.Body>{ShopItems}</Card.Body>
+      <Card.Body>
+        <Flex direction="column">
+          {shopComponents}
+          {purchasedComponents}
+        </Flex>
+      </Card.Body>
     </Card.Root>
   );
 };

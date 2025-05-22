@@ -39,6 +39,12 @@ export const login = async (payload: UserLogin) => {
   return response.data;
 };
 
+export const updateProfile = async (payload: UserProfile) => {
+  const response = await axiosInstance.put(`/users/profile/`, payload);
+  return response.data;
+};
+
+
 export const profile = async (payload: UserProfile) => {
   const response = await axiosInstance.put(`/users/profile/`, payload);
   return response.data;

@@ -5,5 +5,6 @@ export const useGetComponents = () => {
   return useQuery({
     queryFn: getComponents,
     queryKey: ["get-components"],
+    refetchInterval: 5000,
   });
 };
