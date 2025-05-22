@@ -310,10 +310,11 @@ const QuestionsPage = () => {
     { id: "1", name: "مرحله صفرم - مسابقه Hardwar", x: 0, y: 0 },
     { id: "2", name: "بازی آتاری", x: 0, y: 100 },
     { id: "3", name: "راه‌اندازی joystick", x: 0, y: 200 },
-    { id: "4", name: "بازی تتریس", x: -175, y: 300 },
-    { id: "5", name: "بازی دایناسور گوگل", x: -62, y: 300 },
-    { id: "6", name: "بازی عبور مرغ", x: 62, y: 300 },
-    { id: "7", name: "بازی هواپیمای آتاری", x: 175, y: 300 },
+    { id: "4", name: "بازی تتریس", x: -250, y: 300 },
+    { id: "5", name: "بازی دایناسور گوگل", x: -125, y: 300 },
+    { id: "6", name: "بازی عبور مرغ", x: 0, y: 300 },
+    { id: "7", name: "بازی هواپیمای آتاری", x: 125, y: 300 },
+    { id: "8", name: "بازی چندنفره", x: 250, y: 300 },
   ];
 
   // const graphExtent: [[number, number], [number, number]] = [
@@ -328,6 +329,7 @@ const QuestionsPage = () => {
     { id: "3-5", source: "3", target: "5", style: { stroke: "#991919" } },
     { id: "3-6", source: "3", target: "6", style: { stroke: "#991919" } },
     { id: "3-7", source: "3", target: "7", style: { stroke: "#991919" } },
+    { id: "3-8", source: "3", target: "8", style: { stroke: "#991919" } },
   ];
 
   const { data, isLoading } = useGetQuestions();
