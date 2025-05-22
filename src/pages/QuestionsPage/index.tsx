@@ -181,7 +181,7 @@ const MarkdownFile = ({ filePath }: { filePath: number }) => {
     register,
     handleSubmit,
     formState: { errors },
-    getValues,
+    // getValues,
   } = useForm<FlagValues>({ mode: "onSubmit" });
 
   const submitFlag = () => {};
