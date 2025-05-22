@@ -1,5 +1,4 @@
 import axiosInstance from "./axiosInstance";
-import {ShopItem} from "@/types/shopItem";
 
 export const signup = async (payload: UserSignup) => {
   const response = await axiosInstance.post(`/users/signup/`, payload);
@@ -52,14 +51,6 @@ export const getProfile = async () => {
 
 export const team = async () => {
   const response = await axiosInstance.get(`/users/team/my`);
-  return {
-    data: response.data,
-    status: response.status,
-  };
-};
-
-export const shop = async (): Promise<{ data: ShopItem[]; status: number }> => {
-  const response = await axiosInstance.get(`/shop`);
   return {
     data: response.data,
     status: response.status,
