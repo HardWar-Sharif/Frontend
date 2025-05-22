@@ -191,7 +191,7 @@ const MarkdownFile = ({ filePath }: { filePath: number }) => {
       <Box p={4}>
         <Heading size="4xl" color="colorPalette.300">{title}</Heading>
         <MarkdownViewer markdown={markdown} />
-        <Stack gap={0} marginTop={4} display={hasFLag ? "block" : "block"}>
+        <Stack gap={0} marginTop={4} display={hasFLag ? "block" : "none"}>
           <Flex justify="flex-start" align="baseline" gap={4}>
             <FloatField 
               label="پرچم"
@@ -222,10 +222,9 @@ const QuestionsPage = () => {
   const [viewQuestion, setViewQuestions] = useState<boolean>(false);
 
   const questions = [
-    {id: "1", name: "random name 1", x: 0, y: 0},
-    {id: "2", name: "random name 2", x: 100, y: 100},
-    {id: "3", name: "random name 3", x: 30, y: 200},
-    
+    { id: "1", name: "مرحله صفرم - مسابقه Hardwar", x: 0, y: 0 },
+    // {id: "2", name: "random name 2", x: 100, y: 100},
+    // {id: "3", name: "random name 3", x: 30, y: 200},
   ];
 
   // const graphExtent: [[number, number], [number, number]] = [
@@ -234,8 +233,8 @@ const QuestionsPage = () => {
   // ];
 
   const edges = [
-    { id: '1-2', source: '1', target: '2', style: { stroke: '#991919' } },
-    { id: '1-3', source: '1', target: '3', style: { stroke: '#991919' } },
+    // { id: '1-2', source: '1', target: '2', style: { stroke: '#991919' } },
+    // { id: '1-3', source: '1', target: '3', style: { stroke: '#991919' } },
     // { id: '2-3', source: '2', target: '3', style: { stroke: '#991919' } },
   ];
 

@@ -1,12 +1,21 @@
 import { useGetProfile } from "@/hooks/get-profile";
 import { useGetMyTeam } from "@/hooks/my-team";
-import { Alert, Text, Card, Center, Flex, Skeleton } from "@chakra-ui/react";
+import {
+  Alert,
+  Text,
+  Card,
+  Center,
+  Flex,
+  Skeleton,
+  Button,
+} from "@chakra-ui/react";
 import { StepsRoot, StepsList, StepsItem } from "@/components/ui/steps";
 import { useTranslate } from "@tolgee/react";
 import { useEffect, useState } from "react";
 import { useLanguageStore } from "@/stores/language";
 import { getFullName } from "@/utils/full-name";
 import PaymentForm from "./PaymentForm";
+import { useNavigate } from "react-router";
 
 const Dashboard = () => {
   const { data: profile, isLoading: profileLoading } = useGetProfile();
@@ -14,6 +23,7 @@ const Dashboard = () => {
   const language = useLanguageStore((state) => state.language);
   const [step, setStep] = useState<number>(0);
   const { t } = useTranslate();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!profileLoading) {
@@ -66,6 +76,9 @@ const Dashboard = () => {
                 <StepsItem index={2} title={t("label.team")} />
               </StepsList>
             </StepsRoot>
+            <Button onClick={() => navigate("/questions")} mb={4}>
+              {t("label.questions")}
+            </Button>
             <Card.Root
               px={6}
               py={4}

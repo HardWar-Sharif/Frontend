@@ -14,6 +14,7 @@ import PaymentResult from "./pages/Main/PaymentResult";
 import StaffPage from "./pages/Staff";
 import NotFound from "./pages/404";
 import Conditions from "./pages/condition";
+import QuestionsPage from "./pages/QuestionsPage";
 // import Shop from "@/pages/Main/Shop.tsx";
 
 const AppRoutes = () => {
@@ -51,6 +52,7 @@ const AppRoutes = () => {
             element={protectedPage(<PaymentResult />)}
           />
           <Route path="conditions" element={<Conditions />} />
+          <Route path="questions" element={protectedPage(<QuestionsPage />)} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
