@@ -1,5 +1,4 @@
 import axiosInstance from "./axiosInstance";
-import {ShopItem} from "@/types/shopItem";
 
 export const signup = async (payload: UserSignup) => {
   const response = await axiosInstance.post(`/users/signup/`, payload);
@@ -16,11 +15,6 @@ export const login = async (payload: UserLogin) => {
   return response.data;
 };
 
-export const buyItem = async (payload: UserLogin) => {
-  const response = await axiosInstance.post(`/shop/buy`, payload);
-  return response.data;
-};
-
 export const profile = async (payload: UserProfile) => {
   const response = await axiosInstance.put(`/users/profile/`, payload);
   return response.data;
@@ -34,13 +28,13 @@ export const team = async () => {
   };
 };
 
-export const shop = async (): Promise<{ data: ShopItem[]; status: number }> => {
-  const response = await axiosInstance.get(`/shop`);
-  return {
-    data: response.data,
-    status: response.status,
-  };
-};
+// export const shop = async (): Promise<{ data: ShopItem[]; status: number }> => {
+//   const response = await axiosInstance.get(`/shop`);
+//   return {
+//     data: response.data,
+//     status: response.status,
+//   };
+// };
 
 // export const shop = async (): Promise<{ data: ShopItem[]; status: number }> => {
 //   // Mock response without hitting backend

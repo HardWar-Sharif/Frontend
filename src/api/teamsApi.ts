@@ -14,3 +14,13 @@ export const leave = async () => {
   const response = await axiosInstance.post(`/teams/leave/`);
   return response.data;
 };
+
+export const getComponents = async () => {
+  const response = await axiosInstance.get(`/teams/components/`);
+  return response.data;
+};
+
+export const purchaseComponent = async (payload: PurchaseComponent) => {
+  const response = await axiosInstance.post(`/teams/purchase/`, payload);
+  return response.data;
+};

@@ -7,10 +7,11 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import {LuUser, LuLogOut, LuCreditCard} from "react-icons/lu";
+import {LuUser, LuLogOut} from "react-icons/lu";
 import { RxDashboard } from "react-icons/rx";
 import { HiChevronDoubleDown, HiChevronDoubleRight } from "react-icons/hi2";
 import { HiOutlineUserGroup } from "react-icons/hi2";
+import { AiOutlineShop } from "react-icons/ai";
 import { ReactNode, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
 
@@ -24,7 +25,7 @@ const sidebarButtons: Array<SidebarButton> = [
   { page: "dashboard", icon: <RxDashboard />, text: "Dashboard" },
   { page: "profile", icon: <LuUser />, text: "Profile" },
   { page: "team", icon: <HiOutlineUserGroup />, text: "Team" },
-  { page: "shop", icon: <LuCreditCard />, text: "Shop" },
+  { page: "shop", icon: <AiOutlineShop />, text: "Shop" },
 ];
 
 const MainPage = () => {
