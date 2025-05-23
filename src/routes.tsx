@@ -15,8 +15,8 @@ import StaffPage from "./pages/Staff";
 import NotFound from "./pages/404";
 import Conditions from "./pages/condition";
 import QuestionsPage from "./pages/QuestionsPage";
-// import Shop from "@/pages/Main/Shop.tsx";
-// import Purchased from "./pages/Main/Purchased";
+import Shop from "@/pages/Main/Shop.tsx";
+import Purchased from "./pages/Main/Purchased";
 
 const AppRoutes = () => {
   const protectedPage = (page: ReactNode, verify: boolean = false) => (
@@ -46,8 +46,8 @@ const AppRoutes = () => {
             <Route path="dashboard" element={protectedPage(<Dashboard />)} />
             <Route path="profile" element={protectedPage(<Profile />)} />
             <Route path="team" element={protectedPage(<Team />)} />
-            {/* <Route path="shop" element={protectedPage(<Shop />)} />
-            <Route path="purchased" element={protectedPage(<Purchased />)} /> */}
+            <Route path="shop" element={protectedPage(<Shop />)} />
+            <Route path="purchased" element={protectedPage(<Purchased />)} />
           </Route>
           <Route
             path="payment-result"

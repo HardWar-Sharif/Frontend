@@ -12,8 +12,8 @@ import { LuUser, LuLogOut } from "react-icons/lu";
 import { RxDashboard } from "react-icons/rx";
 import { HiChevronDoubleDown, HiChevronDoubleRight } from "react-icons/hi2";
 import { HiOutlineUserGroup } from "react-icons/hi2";
-// import { AiOutlineShop } from "react-icons/ai";
-// import { IoBagCheckOutline } from "react-icons/io5";
+import { AiOutlineShop } from "react-icons/ai";
+import { IoBagCheckOutline } from "react-icons/io5";
 import { ReactNode, useState } from "react";
 import { useAuthStore } from "@/stores/auth";
 import { useTranslate } from "@tolgee/react";
@@ -37,8 +37,12 @@ const MainPage = () => {
     { page: "dashboard", icon: <RxDashboard />, text: t("label.dashboard") },
     { page: "profile", icon: <LuUser />, text: t("label.profile") },
     { page: "team", icon: <HiOutlineUserGroup />, text: t("label.team") },
-    // { page: "shop", icon: <AiOutlineShop />, text: t("label.shop") },
-    // { page: "purchased", icon: <IoBagCheckOutline />, text: t("label.purchased") },
+    { page: "shop", icon: <AiOutlineShop />, text: t("label.shop") },
+    {
+      page: "purchased",
+      icon: <IoBagCheckOutline />,
+      text: t("label.purchased"),
+    },
   ];
 
   const sidebar = (

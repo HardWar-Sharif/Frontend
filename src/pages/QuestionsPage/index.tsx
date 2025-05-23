@@ -323,7 +323,7 @@ const QuestionsPage = () => {
     { id: "14", name: "مأموریت حاکم نامرئی - Wi-fiction", x: 350, y: 400 },
   ];
 
-  const initialViewport = { x: 0, y: 400, zoom: 1 };
+  const initialViewport = { x: 0, y: 400, zoom: 3 };
 
   // const graphExtent: [[number, number], [number, number]] = [
   //   [-100, -100],           // Top-left corner (min x, min y)
