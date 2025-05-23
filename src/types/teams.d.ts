@@ -25,3 +25,10 @@ declare interface PurchaseComponent {
   component_id: number;
   quantity: number;
 }
+
+declare interface PurchasedComponent {
+  id: number;
+  component: Component;
+  quantity: number;
+  purchased_at: string;
+}

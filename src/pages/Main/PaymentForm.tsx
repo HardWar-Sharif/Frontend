@@ -3,7 +3,7 @@ import { toaster, Toaster } from "@/components/ui/toaster";
 import { useGetDiscountAmount } from "@/hooks/discount-amount";
 import { usePay } from "@/hooks/pay";
 import { useLanguageStore } from "@/stores/language";
-import { formatPrice } from "@/utils/price";
+import { formatNumber } from "@/utils/number-locale";
 import {
   Button,
   Flex,
@@ -135,9 +135,10 @@ const PaymentForm = () => {
             {amountLoading ? (
               <Skeleton height="40px" />
             ) : (
-              <Text>{`${t("label.price")}: ${formatPrice(amount, language)} ${t(
-                "label.tomans"
-              )}`}</Text>
+              <Text>{`${t("label.price")}: ${formatNumber(
+                amount,
+                language
+              )} ${t("label.tomans")}`}</Text>
             )}
           </Flex>
         </GridItem>

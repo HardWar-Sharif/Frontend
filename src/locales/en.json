@@ -183,5 +183,7 @@
   "title.staff": "Staff Members",
   "title.workshop": "Workshops",
   "label.questions": "Show Questions",
-  "label.purchased": "Purchased Component"
+  "label.purchased": "Purchased Component",
+  "label.purchased2": "Purchased",
+  "label.home_page": "Home Page"
 }

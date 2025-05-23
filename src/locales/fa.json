@@ -183,5 +183,7 @@
   "title.staff": "تیم برگزاری",
   "title.workshop": "کارگاه‌ها",
   "label.questions": "نمایش سوالات",
-  "label.purchased": "قطعه‌های خریداری‌شده"
+  "label.purchased": "قطعه‌های خریداری‌شده",
+  "label.purchased2": "خریداری‌شده",
+  "label.home_page": "صفحه‌ی اصلی"
 }
