@@ -17,6 +17,7 @@ import Conditions from "./pages/condition";
 import QuestionsPage from "./pages/QuestionsPage";
 import Shop from "@/pages/Main/Shop.tsx";
 import Purchased from "./pages/Main/Purchased";
+import Fanap from "./pages/Fanap";
 
 const AppRoutes = () => {
   const protectedPage = (page: ReactNode, verify: boolean = false) => (
@@ -55,6 +56,7 @@ const AppRoutes = () => {
           />
           <Route path="conditions" element={<Conditions />} />
           <Route path="questions" element={protectedPage(<QuestionsPage />)} />
+          <Route path="fnp" element={<Fanap />} />
           <Route path="*" element={<NotFound />} />
         </Route>
       </Routes>
