@@ -324,10 +324,11 @@ const QuestionsPage = () => {
     { id: "15", name: "AGCC", x: 0, y: 500 },
     { id: "16", name: "کارآگاه", x: 125, y: 500 },
     { id: "17", name: "MimiDogs", x: 250, y: 500 },
-    { id: "18", name: "چالش مهندسی معکوس", x: -225, y: 600 },
-    { id: "19", name: "دامبلدور، کنترل‌کننده‌ی زمان", x: -75, y: 600 },
-    { id: "20", name: "UART", x: 75, y: 600 },
-    { id: "21", name: "	یه ماینمون نشه؟", x: 225, y: 600 },
+    { id: "18", name: "چالش مهندسی معکوس", x: -250, y: 600 },
+    { id: "19", name: "دامبلدور، کنترل‌کننده‌ی زمان", x: -125, y: 600 },
+    { id: "20", name: "UART", x: 0, y: 600 },
+    { id: "21", name: "یه ماینمون نشه؟", x: 125, y: 600 },
+    { id: "22", name: "چالش ربات هزارتو", x: 250, y: 600 },
   ];
 
   const initialViewport = { x: 0, y: 400, zoom: 3 };
@@ -345,6 +346,7 @@ const QuestionsPage = () => {
     { id: "3-6", source: "3", target: "6", style: { stroke: "#991919" } },
     { id: "3-7", source: "3", target: "7", style: { stroke: "#991919" } },
     { id: "3-8", source: "3", target: "8", style: { stroke: "#991919" } },
+    { id: "13-22", source: "13", target: "22", style: { stroke: "#991919" } },
   ];
 
   const { data, isLoading } = useGetQuestions();
