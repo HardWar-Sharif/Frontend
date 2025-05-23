@@ -5,6 +5,7 @@ import {
   CardFooter,
   CardHeader,
   Center,
+  Flex,
   Image,
   SimpleGrid,
   Skeleton,
@@ -19,6 +20,7 @@ import { useTranslate } from "@tolgee/react";
 import { useState } from "react";
 import { formatNumber } from "@/utils/number-locale";
 import { useLanguageStore } from "@/stores/language";
+import { useGetMyTeam } from "@/hooks/my-team";
 
 const Shop = () => {
   const {
@@ -27,6 +29,7 @@ const Shop = () => {
     isLoading: componentsLoading,
   } = useGetComponents();
   const { mutate, isPending } = usePurchaseComponent();
+  const { data: team, isLoading } = useGetMyTeam();
   const [currentComponent, setCurrentComponent] = useState<number>(-1);
   const language = useLanguageStore((state) => state.language);
   const { t } = useTranslate();
@@ -77,9 +80,11 @@ const Shop = () => {
             borderColor="red.muted"
           >
             <CardHeader>
-              <Text fontSize="xl" fontWeight="bold" textAlign="center">
-                {component.name}
-              </Text>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Text fontSize="xl" fontWeight="bold" textAlign="center">
+                  {component.name}
+                </Text>
+              </Flex>
             </CardHeader>
             <CardBody
               display="flex"
@@ -104,7 +109,8 @@ const Shop = () => {
                 {t("label.count")}: {formatNumber(component.count, language)}
               </Text>
               <Text fontSize="md">
-                {t("label.cost")}: {formatNumber(component.credit_cost, language)}
+                {t("label.cost")}:{" "}
+                {formatNumber(component.credit_cost, language)}
               </Text>
               <Button
                 colorScheme="red"
@@ -140,14 +146,25 @@ const Shop = () => {
       borderWidth={2}
     >
       <Center>
-        <Card.Header>
+        <Card.Header w="full" px={12}>
           <Card.Title
             fontSize={36}
             color="red.solid"
             textShadow="0 0 20px var(--shadow-color)"
             shadowColor="red.solid"
+            w="full"
           >
-            {t("label.shop")}
+            <Flex justifyContent="space-between" alignItems="center" w="full">
+              <Text>{t("label.shop")}</Text>
+              {team?.data ? (
+                <Text fontSize={20}>
+                  {t("label.current_credit")}:{" "}
+                  {formatNumber(team.data.credit, language)}
+                </Text>
+              ) : (
+                <Skeleton height="20px" />
+              )}
+            </Flex>
           </Card.Title>
         </Card.Header>
       </Center>
