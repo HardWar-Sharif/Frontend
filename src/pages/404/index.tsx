@@ -1,8 +1,18 @@
-import { Box, BoxProps, Button, Flex, Heading, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Button,
+  Flex,
+  Heading,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
+import { useTranslate } from "@tolgee/react";
 import { useNavigate } from "react-router";
 
 const NotFound = () => {
   const navigate = useNavigate();
+  const { t } = useTranslate();
 
   return (
     <Box
@@ -15,44 +25,42 @@ const NotFound = () => {
     >
       <Stack justify="center" align="center" m="15vh 5vw 5vh 5vw" gap={10}>
         <SevenSegmentText text="404" />
-        <Heading fontSize="4xl" mt={-20}>Page Not Found</Heading>
-        <Text fontSize="lg">The page you're looking for cannot be found.</Text>
+        <Heading fontSize="4xl" mt={-20}>
+          {t("title.not_found")}
+        </Heading>
+        <Text fontSize="lg">{t("message.not_found")}</Text>
         <Flex justify="space-between" gap={5}>
           {/* This button should go to profile when already logged in */}
           <Button
-            rounded="full" 
-            height="64px" 
-            width="194px" 
-            fontSize="lg" 
-            fontWeight="bold" 
+            rounded="full"
+            height="64px"
+            width="194px"
+            fontSize="lg"
+            fontWeight="bold"
             borderWidth="2px"
             color="white"
             onClick={() => navigate("/login")}
-            variant='outline' borderColor="colorPalette.600"
+            variant="outline"
+            borderColor="colorPalette.600"
           >
-            SIGN IN
+            {t("label.signup")}
           </Button>
           <Button
-            rounded="full" 
-            height="64px" 
-            width="194px" 
-            fontSize="lg" 
-            fontWeight="bold" 
+            rounded="full"
+            height="64px"
+            width="194px"
+            fontSize="lg"
+            fontWeight="bold"
             borderWidth="2px"
             color="white"
             onClick={() => navigate("/")}
           >
-            HOME PAGE
+            {t("label.home_page")}
           </Button>
         </Flex>
       </Stack>
 
-      <Splash
-        top="40vh"
-        right="20vw"
-        width="55vw"
-        height="80vh"
-      />
+      <Splash top="40vh" right="20vw" width="55vw" height="80vh" />
     </Box>
   );
 };
@@ -70,7 +78,7 @@ const SevenSegmentText = ({ text }: { text: string }) => {
       >
         <MonospaceSevenSegmentText text="888" />
       </Box>
-      <Box 
+      <Box
         fontFamily="SevenSegment, monospace"
         fontSize="9xl"
         zIndex={2}
@@ -80,20 +88,17 @@ const SevenSegmentText = ({ text }: { text: string }) => {
       </Box>
     </Stack>
   );
-}
+};
 
 const MonospaceSevenSegmentText = ({ text }: { text: string }) => {
   return (
-    <Box
-      fontSize="1.5em"
-      whiteSpace="pre"
-    >
+    <Box fontSize="1.5em" whiteSpace="pre">
       {text.split("").map((char, index) => (
         <MonospaceCharacter key={index}>{char}</MonospaceCharacter>
       ))}
     </Box>
   );
-}
+};
 
 const MonospaceCharacter = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -107,7 +112,7 @@ const MonospaceCharacter = ({ children }: { children: React.ReactNode }) => {
       {children}
     </Box>
   );
-}
+};
 
 const Splash: React.FC<BoxProps> = (props) => {
   return (
