@@ -156,10 +156,10 @@ const Shop = () => {
           >
             <Flex justifyContent="space-between" alignItems="center" w="full">
               <Text>{t("label.shop")}</Text>
-              {team?.data ? (
+              {!isLoading ? (
                 <Text fontSize={20}>
                   {t("label.current_credit")}:{" "}
-                  {formatNumber(team.data.credit, language)}
+                  {formatNumber(team?.data.credit, language)}
                 </Text>
               ) : (
                 <Skeleton height="20px" />
