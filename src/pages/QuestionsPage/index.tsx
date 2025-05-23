@@ -315,12 +315,15 @@ const QuestionsPage = () => {
     { id: "6", name: "بازی عبور مرغ", x: 0, y: 300 },
     { id: "7", name: "بازی هواپیمای آتاری", x: 125, y: 300 },
     { id: "8", name: "بازی چندنفره", x: 250, y: 300 },
-    // { id: "9", name: "بازی هواپیمای آتاری", x: -350, y: 400 },
-    // { id: "10", name: "بازی چندنفره", x: -210, y: 400 },
     { id: "9", name: "کلاغ سیاه", x: -225, y: 400 },
     { id: "10", name: "دسته‌ی بازی", x: -75, y: 400 },
     { id: "11", name: "حمله‌ی بدون دست", x: 75, y: 400 },
     { id: "12", name: "مأموریت حاکم نامرئی - Wi-fiction", x: 225, y: 400 },
+    { id: "13", name: "سلام WALL-E", x: -250, y: 500 },
+    { id: "14", name: "چالش OTA Update", x: -125, y: 500 },
+    { id: "15", name: "AGCC", x: 0, y: 500 },
+    { id: "16", name: "کارآگاه", x: 125, y: 500 },
+    { id: "17", name: "MimiDogs", x: 250, y: 500 },
   ];
 
   const initialViewport = { x: 0, y: 400, zoom: 3 };
@@ -338,6 +341,7 @@ const QuestionsPage = () => {
     { id: "3-6", source: "3", target: "6", style: { stroke: "#991919" } },
     { id: "3-7", source: "3", target: "7", style: { stroke: "#991919" } },
     { id: "3-8", source: "3", target: "8", style: { stroke: "#991919" } },
+    { id: "11-16", source: "11", target: "16", style: { stroke: "#991919" } },
   ];
 
   const { data, isLoading } = useGetQuestions();
