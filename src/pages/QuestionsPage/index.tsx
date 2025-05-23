@@ -315,7 +315,15 @@ const QuestionsPage = () => {
     { id: "6", name: "بازی عبور مرغ", x: 0, y: 300 },
     { id: "7", name: "بازی هواپیمای آتاری", x: 125, y: 300 },
     { id: "8", name: "بازی چندنفره", x: 250, y: 300 },
+    { id: "9", name: "بازی هواپیمای آتاری", x: -350, y: 400 },
+    { id: "10", name: "بازی چندنفره", x: -210, y: 400 },
+    { id: "11", name: "کلاغ سیاه", x: -70, y: 400 },
+    { id: "12", name: "دسته‌ی بازی", x: 70, y: 400 },
+    { id: "13", name: "حمله‌ی بدون دست", x: 210, y: 400 },
+    { id: "14", name: "مأموریت حاکم نامرئی - Wi-fiction", x: 350, y: 400 },
   ];
+
+  const initialViewport = { x: 0, y: 400, zoom: 1 };
 
   // const graphExtent: [[number, number], [number, number]] = [
   //   [-100, -100],           // Top-left corner (min x, min y)
@@ -378,6 +386,7 @@ const QuestionsPage = () => {
           margin="2%"
         >
           <ReactFlow
+            defaultViewport={initialViewport}
             colorMode="dark"
             nodes={nodes}
             edges={edges}
