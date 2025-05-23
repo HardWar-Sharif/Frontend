@@ -341,7 +341,7 @@ const QuestionsPage = () => {
     { id: "3-6", source: "3", target: "6", style: { stroke: "#991919" } },
     { id: "3-7", source: "3", target: "7", style: { stroke: "#991919" } },
     { id: "3-8", source: "3", target: "8", style: { stroke: "#991919" } },
-    { id: "11-16", source: "11", target: "16", style: { stroke: "#991919" } },
+    // { id: "11-16", source: "11", target: "16", style: { stroke: "#991919" } },
   ];
 
   const { data, isLoading } = useGetQuestions();
