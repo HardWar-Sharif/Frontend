@@ -62,5 +62,5 @@ Notes:
 ## Codebase notes
 
 - Path alias: `@/` maps to `src/` (see `tsconfig.app.json` and `vite-tsconfig-paths`).
-- Localization: translation files live in [src/locales](src/locales) and are wired via Tolgee in [src/main.tsx](src/main.tsx).
+- Localization: translation files live in [src/locales](src/locales) and are wired via Tolgee in [src/main.tsx](src/main.tsx). Tolgee credentials could be added to .env just like the .env.example.
 
